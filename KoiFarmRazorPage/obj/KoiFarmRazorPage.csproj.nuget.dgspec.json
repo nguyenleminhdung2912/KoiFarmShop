@@ -4,14 +4,14 @@
     "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {}
   },
   "projects": {
-    "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
-        "projectName": "KoiFarmRazorPage",
-        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "projectName": "BusinessObject",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\obj\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,6 +45,156 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+        "projectName": "DataAccessObject",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+        "projectName": "KoiFarmRazorPage",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -60,6 +210,74 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj",
+        "projectName": "Repository",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
+              },
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
