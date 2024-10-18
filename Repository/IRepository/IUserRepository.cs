@@ -9,7 +9,7 @@ namespace Repository.IRepository
 {
     public interface IUserRepository
     {
-        User GetUserById(short UserId);
+        User GetUserById(long? UserId);
         User GetUserByEmail(string UserEmail);
         User CheckLogin(string email, string password);
         List<User> GetUsers();

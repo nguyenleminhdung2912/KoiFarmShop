@@ -9,7 +9,7 @@ namespace DataAccessObject
 {
     public class UserDAO
     {
-        public static User GetUserById(short UserId)
+        public static User GetUserById(long? UserId)
         {
             using var db = new KoiFarmShopDatabaseContext();
             User returnuser

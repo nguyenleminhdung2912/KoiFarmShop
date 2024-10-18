@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using BusinessObject;
 
-namespace BusinessObject;
+namespace DataAccessObject;
 
 public partial class KoiFarmShopDatabaseContext : DbContext
 {

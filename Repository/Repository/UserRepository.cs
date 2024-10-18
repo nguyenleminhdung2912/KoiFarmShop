@@ -15,7 +15,7 @@ namespace Repository.Repository
         public User GetUserByEmail(string UserEmail)
             => UserDAO.GetUserByEmail(UserEmail);
 
-        public User GetUserById(short UserId)
+        public User GetUserById(long? UserId)
             => UserDAO.GetUserById(UserId);
 
         public List<User> GetUsers()
