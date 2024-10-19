@@ -23,5 +23,6 @@ public partial class Consignment
 
     public bool? IsDeleted { get; set; }
 
+
     public virtual User? User { get; set; }
 }
