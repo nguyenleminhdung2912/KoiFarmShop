@@ -100,5 +100,21 @@ namespace DataAccessObject
             User returnUser = db.Users.FirstOrDefault(c => c.Email.Equals(userEmail));
             return returnUser;
         }
+
+        public static void Register(User user)
+        {
+            try
+            {
+                using var context = new KoiFarmShopDatabaseContext();
+                var maxId = context.Users.Max(a => (int?)a.UserId) ?? 0;
+                user.UserId = (short)(maxId + 1);
+                context.Users.Add(user);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

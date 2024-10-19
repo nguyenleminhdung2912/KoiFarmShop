@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
-using DataAccessObject;
+using Repository.IRepository;
+using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
     public class EditModel : PageModel
     {
-        private readonly KoiFarmShopDatabaseContext _context;
+        private readonly IUserRepository userRepository;
 
-        public EditModel(KoiFarmShopDatabaseContext context)
+        public EditModel()
         {
-            _context = context;
+            userRepository = new UserRepository();
         }
 
         [BindProperty]
@@ -30,7 +28,7 @@ namespace KoiFarmRazorPage.Pages.Admin
                 return NotFound();
             }
 
-            var user =  await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
+            var user = userRepository.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -48,11 +46,13 @@ namespace KoiFarmRazorPage.Pages.Admin
                 return Page();
             }
 
-            _context.Attach(User).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                User user = userRepository.GetUserById(User.UserId);
+                User.UpdateAt = DateTime.Now;
+                User.CreateAt = user.CreateAt;
+                User.IsDeleted = user.IsDeleted;
+                userRepository.UpdateUser(User);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -66,12 +66,12 @@ namespace KoiFarmRazorPage.Pages.Admin
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./ViewAllUser");
         }
 
         private bool UserExists(long id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return userRepository.GetUserById(id) != null;
         }
     }
 }

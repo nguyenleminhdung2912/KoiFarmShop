@@ -42,7 +42,7 @@ namespace KoiFarmRazorPage.Pages.Admin
 
             userRepository.SaveUser(User);
 
-            return RedirectToPage("/Admin/Index");
+            return RedirectToPage("/Admin/ViewAllUser");
         }
     }
 }

@@ -1,0 +1,78 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Admin.OrderManagement.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Order.OrderId" class="control-label"></label>
+                <input asp-for="Order.OrderId" class="form-control" />
+                <span asp-validation-for="Order.OrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.UserId" class="control-label"></label>
+                <select asp-for="Order.UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.KoiFishId" class="control-label"></label>
+                <input asp-for="Order.KoiFishId" class="form-control" />
+                <span asp-validation-for="Order.KoiFishId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.ProductId" class="control-label"></label>
+                <input asp-for="Order.ProductId" class="form-control" />
+                <span asp-validation-for="Order.ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Quantity" class="control-label"></label>
+                <input asp-for="Order.Quantity" class="form-control" />
+                <span asp-validation-for="Order.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.TotalPrice" class="control-label"></label>
+                <input asp-for="Order.TotalPrice" class="form-control" />
+                <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Status" class="control-label"></label>
+                <input asp-for="Order.Status" class="form-control" />
+                <span asp-validation-for="Order.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.CreateAt" class="control-label"></label>
+                <input asp-for="Order.CreateAt" class="form-control" />
+                <span asp-validation-for="Order.CreateAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.UpdateAt" class="control-label"></label>
+                <input asp-for="Order.UpdateAt" class="form-control" />
+                <span asp-validation-for="Order.UpdateAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.IsDeleted" class="control-label"></label>
+                <input asp-for="Order.IsDeleted" class="form-control" />
+                <span asp-validation-for="Order.IsDeleted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -52,15 +52,11 @@ namespace KoiFarmRazorPage.Pages.Admin
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                User = user;
-                _context.Users.Remove(User);
-                await _context.SaveChangesAsync();
-            }
+            var user = userRepository.GetUserById(id);
+            user.IsDeleted = true;
+            userRepository.UpdateUser(user);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./ViewAllUser");
         }
     }
 }

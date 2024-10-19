@@ -8,18 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using DataAccessObject;
 
-namespace KoiFarmRazorPage.Pages.Admin
+namespace KoiFarmRazorPage.Pages.Admin.OrderManagement
 {
     public class DetailsModel : PageModel
     {
-        private readonly KoiFarmShopDatabaseContext _context;
+        private readonly DataAccessObject.KoiFarmShopDatabaseContext _context;
 
-        public DetailsModel(KoiFarmShopDatabaseContext context)
+        public DetailsModel(DataAccessObject.KoiFarmShopDatabaseContext context)
         {
             _context = context;
         }
 
-        public User User { get; set; } = default!;
+        public Order Order { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -28,14 +28,14 @@ namespace KoiFarmRazorPage.Pages.Admin
                 return NotFound();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var order = await _context.Orders.FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
             else
             {
-                User = user;
+                Order = order;
             }
             return Page();
         }

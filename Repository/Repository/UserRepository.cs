@@ -21,6 +21,9 @@ namespace Repository.Repository
         public List<User> GetUsers()
             => UserDAO.GetUsers();
 
+        public void Register(User user)
+            => UserDAO.Register(user);
+
         public void SaveUser(User User)
             => UserDAO.SaveUser(User);
 

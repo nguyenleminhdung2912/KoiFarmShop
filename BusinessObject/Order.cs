@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObject;
 
@@ -26,4 +27,10 @@ public partial class Order
     public bool? IsDeleted { get; set; }
 
     public virtual User? User { get; set; }
+
+    [NotMapped]
+    public List<KoiFish> KoiFishList { get; set; } = new List<KoiFish>();
+
+    [NotMapped]
+    public List<Product> ProductList { get; set; } = new List<Product>();
 }

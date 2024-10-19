@@ -1,4 +1,104 @@
 ﻿@page
 @model KoiFarmRazorPage.Pages.Auth.RegisterModel
 @{
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .register-container h2 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .btn-register {
+            background-color: #3498db;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .btn-register:hover {
+            background-color: #2980b9;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        <form method="post">
+            <input type="text" asp-for="Input.Name" class="form-control" placeholder="Name" required />
+            <span asp-validation-for="Input.Name" class="text-danger"></span>
+
+            <input type="text" asp-for="Input.Email" class="form-control" placeholder="Email" required />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+            <input type="password" asp-for="Input.Password" class="form-control" placeholder="Password" required />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <input type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" required />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <select asp-for="Input.Role" class="form-control" required>
+                <option value="Customer">Customer</option>
+                <option value="Staff">Staff</option>
+            </select>
+            <span asp-validation-for="Input.Role" class="text-danger"></span>
+
+            <button type="submit" class="btn-register">Register</button>
+        </form>
+        <div class="links">
+            <a href="/Auth/Login">Already have an account? Login</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
