@@ -21,6 +21,8 @@ public partial class KoiFish
 
     public double? FilterRatio { get; set; }
 
+    public byte[]? ImageData { get; set; }
+
     public double? Price { get; set; }
 
     public string? Status { get; set; }

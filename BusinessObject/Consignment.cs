@@ -18,6 +18,8 @@ public partial class Consignment
 
     public DateTime? ToTime { get; set; }
 
+    public byte[]? ImageData { get; set; }
+
     public string? Status { get; set; }
     //  PENDING là khi người dùng vừa đăng chờ duyệt
     //  REJECTED là khi staff từ chối yêu cầu này

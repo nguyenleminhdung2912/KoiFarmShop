@@ -99,6 +99,9 @@ public partial class KoiFarmShopDatabaseContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__Consignme__UserI__4AB81AF0");
             entity.Property(e => e.Status).HasMaxLength(50).HasColumnName("Status");
+            entity.Property(e => e.ImageData)
+              .HasColumnType("varbinary(max)")
+              .HasColumnName("ImageData");
         });
 
         modelBuilder.Entity<KoiFish>(entity =>
@@ -123,6 +126,9 @@ public partial class KoiFarmShopDatabaseContext : DbContext
             entity.Property(e => e.UpdateAt)
                 .HasColumnType("datetime")
                 .HasColumnName("Update_At");
+            entity.Property(e => e.ImageData)
+              .HasColumnType("varbinary(max)")
+              .HasColumnName("ImageData");
         });
 
         modelBuilder.Entity<KoiFishRating>(entity =>
@@ -203,6 +209,9 @@ public partial class KoiFarmShopDatabaseContext : DbContext
             entity.Property(e => e.UpdateAt)
                 .HasColumnType("datetime")
                 .HasColumnName("Update_At");
+            entity.Property(e => e.ImageData)
+              .HasColumnType("varbinary(max)")
+              .HasColumnName("ImageData");
         });
 
         modelBuilder.Entity<ProductRating>(entity =>
