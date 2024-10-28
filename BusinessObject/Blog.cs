@@ -13,7 +13,10 @@ public partial class Blog
 
     public string? Description { get; set; }
 
-    public DateTime? CreateAt { get; set; }
+	public byte[]? ImageData { get; set; }
+
+
+	public DateTime? CreateAt { get; set; }
 
     public DateTime? UpdateAt { get; set; }
 
