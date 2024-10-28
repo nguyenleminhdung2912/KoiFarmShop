@@ -212,6 +212,7 @@ public partial class KoiFarmShopDatabaseContext : DbContext
             entity.Property(e => e.ImageData)
               .HasColumnType("varbinary(max)")
               .HasColumnName("ImageData");
+            entity.Property(e => e.Quantity).HasColumnName("Quantity");
         });
 
         modelBuilder.Entity<ProductRating>(entity =>
