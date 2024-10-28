@@ -1,6 +1,7 @@
 using DataAccessObject;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Repository.IRepository;
 using Repository.Repository;
 using System.Configuration;
 
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<KoiFarmShopDatabaseContext>(options =>
 
 
 builder.Services.AddScoped<UserRepository>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

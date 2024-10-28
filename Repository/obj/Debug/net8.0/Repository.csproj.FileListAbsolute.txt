@@ -16,3 +16,21 @@ D:\Kì 7\PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.dll
 D:\Kì 7\PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\refint\Repository.dll
 D:\Kì 7\PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.pdb
 D:\Kì 7\PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\ref\Repository.dll
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\Repository.deps.json
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\Repository.dll
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\Repository.pdb
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\BusinessObject.dll
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\DataAccessObject.dll
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\BusinessObject.pdb
+D:\Project_PRN221\KoiFarmShop\Repository\bin\Debug\net8.0\DataAccessObject.pdb
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.csproj.AssemblyReference.cache
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.AssemblyInfoInputs.cache
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.AssemblyInfo.cs
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.csproj.CoreCompileInputs.cache
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.sourcelink.json
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.csproj.Up2Date
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.dll
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\refint\Repository.dll
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\Repository.pdb
+D:\Project_PRN221\KoiFarmShop\Repository\obj\Debug\net8.0\ref\Repository.dll

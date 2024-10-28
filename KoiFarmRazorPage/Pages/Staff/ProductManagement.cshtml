@@ -1,0 +1,174 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Staff.ProductManagementModel
+@{
+	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+	ViewData["Title"] = "Product Management";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Manage Product here.</p>
+
+
+<div class="search-form" style="margin-bottom: 20px;">
+	<form method="post">
+		@Html.AntiForgeryToken()
+		<input type="text" name="productName" placeholder="Search" style="padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; width: 200px; margin-right: 10px; outline: none; transition: border-color 0.3s;">
+		<button type="submit" name="handler" value="Search" style="padding: 10px 15px; background-color: #4267B2; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">Search</button>
+	</form>
+</div>
+
+
+@if (!ViewData.ModelState.IsValid)
+{
+	foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+	{
+		<div class="alert alert-danger">
+			@error.ErrorMessage
+		</div>
+	}
+}
+
+@if(Model.Message != null)
+{
+	@Model.Message
+}
+
+
+<form method="post">
+	@Html.AntiForgeryToken()
+	<table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 5px; overflow: hidden;">
+		<thead>
+			<tr>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Select</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Product Name</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Image</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Product Type</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Product Price</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Create At</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Update At</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var product in Model.Products)
+			{
+				<tr>
+					<td style="padding: 10px; border: 1px solid #ddd;">
+						<input type="radio" name="selectedProductId" value="@product.ProductId" />
+					</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.Name</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">
+						@if (product.ImageData != null)
+						{
+							<img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ImageData)"
+								 style="width: 100px; height: 100px; object-fit: cover;" />
+						}
+						else
+						{
+							<span>No Image</span>
+						}
+					</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.Type</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.Price</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.CreateAt?.ToString("yyyy-MM-dd")</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.UpdateAt?.ToString("yyyy-MM-dd")</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.Status</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<div class="button-group" style="margin-top: 20px;">
+		<button type="submit" name="handler" value="Create" style="padding: 10px 15px; margin-right: 10px; background-color: #1877F2; color: white; border: none; border-radius: 5px; cursor: pointer;">Create</button>
+		<button type="submit" name="handler" value="Update" style="padding: 10px 15px; margin-right: 10px; background-color: #1877F2; color: white; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+		<button type="submit" name="handler" value="Delete" style="padding: 10px 15px; margin-right: 10px; background-color: #1877F2; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+	</div>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+
+
+<style>
+	.content-cell {
+		max-width: 100px;
+	}
+
+	.content-scroll {
+		max-height: 100px;
+		overflow: auto;
+		white-space: pre-wrap;
+		word-break: break-word;
+		padding: 4px;
+		background-color: #f8f9fa;
+		border-radius: 4px;
+	}
+
+
+		.content-scroll:hover {
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		}
+</style>
+
+<style>
+	.table {
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	tbody tr:hover {
+		background-color: #e9ecef;
+		transition: background-color 0.3s ease-in-out;
+	}
+
+	.custom-badge {
+		background-color: #007bff;
+		color: white;
+		padding: 6px 12px;
+		border-radius: 12px;
+		font-size: 0.85rem;
+		margin-bottom: 4px;
+	}
+
+	.align-middle {
+		vertical-align: middle !important;
+	}
+
+	thead th {
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	.d-flex {
+		display: flex;
+	}
+
+	.flex-wrap {
+		flex-wrap: wrap;
+	}
+
+	.gap-1 {
+		gap: 0.25rem;
+	}
+
+	h1 {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-weight: 700;
+		color: #495057;
+	}
+
+
+	.text-truncate {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.content-cell {
+		max-width: 200px;
+		cursor: pointer;
+	}
+</style>
+
