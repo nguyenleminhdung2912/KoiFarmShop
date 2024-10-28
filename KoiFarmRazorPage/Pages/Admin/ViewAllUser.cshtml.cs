@@ -9,6 +9,7 @@ using BusinessObject;
 using DataAccessObject;
 using Repository.IRepository;
 using Repository.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {

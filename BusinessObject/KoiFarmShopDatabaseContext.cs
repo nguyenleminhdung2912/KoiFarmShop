@@ -37,7 +37,7 @@ public partial class KoiFarmShopDatabaseContext : DbContext
 
     public virtual DbSet<WalletLog> WalletLogs { get; set; }
 
-    private string GetConnectionString()
+    public string GetConnectionString()
     {
         IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -98,6 +98,7 @@ public partial class KoiFarmShopDatabaseContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Consignments)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__Consignme__UserI__4AB81AF0");
+            entity.Property(e => e.Status).HasMaxLength(50).HasColumnName("Status");
         });
 
         modelBuilder.Entity<KoiFish>(entity =>

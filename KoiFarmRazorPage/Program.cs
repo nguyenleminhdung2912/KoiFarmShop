@@ -1,10 +1,21 @@
+using DataAccessObject;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using Repository.Repository;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var context = new KoiFarmShopDatabaseContext();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddSignalR();
+
+builder.Services.AddDbContext<KoiFarmShopDatabaseContext>(options =>
+    options.UseSqlServer(context.GetConnectionString()));
+
 
 builder.Services.AddScoped<UserRepository>();
 

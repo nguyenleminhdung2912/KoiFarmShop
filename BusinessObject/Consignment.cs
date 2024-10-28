@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace BusinessObject;
@@ -16,6 +17,13 @@ public partial class Consignment
     public DateTime? FromTime { get; set; }
 
     public DateTime? ToTime { get; set; }
+
+    public string? Status { get; set; }
+    //  PENDING là khi người dùng vừa đăng chờ duyệt
+    //  REJECTED là khi staff từ chối yêu cầu này
+    //  APPROVED là khi staff đồng ý yêu cầu, và cập nhật giá cho người dùng xem
+    //  CONFIRMED là khi người dùng đồng ý
+    //  CANCELLED là khi người dùng từ chối
 
     public DateTime? CreateAt { get; set; }
 

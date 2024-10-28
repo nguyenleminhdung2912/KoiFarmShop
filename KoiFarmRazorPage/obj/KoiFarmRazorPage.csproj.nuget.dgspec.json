@@ -48,21 +48,21 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             }
           },
           "imports": [
@@ -175,6 +175,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
+              },
               "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
                 "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj"
               }
