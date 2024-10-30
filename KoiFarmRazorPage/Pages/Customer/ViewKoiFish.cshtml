@@ -1,0 +1,38 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Customer.ViewKoiFishModel
+
+@{
+    ViewData["Title"] = "ViewKoiFish";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+
+<h2 class="mt-4">Danh Sách Cá Koi</h2>
+<div class="container mt-3">
+    @foreach (var koi in Model.KoiFishList)
+    {
+        <a href="/Customer/KoiFishDetail?id=@koi.KoiFishId" class="text-decoration-none text-dark">
+            <div class="card mb-3" style="border: 1px solid #ddd; border-radius: 8px;">
+                <div class="row g-0">
+                    <!-- Cột hình ảnh bên trái -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <img src="https://cafishvet.com/wp-content/uploads/2021/04/20150527-_DSC4345-Edit-scaled.jpg" class="img-fluid rounded-start" alt="Koi Fish Image" style="width: 100%; height: auto;">
+                    </div>
+                    <!-- Cột tên, xuất xứ, giống bên phải ảnh -->
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">@koi.Name</h5>
+                            <p class="card-text mb-1"><strong>Xuất xứ:</strong> @koi.Origin</p>
+                            <p class="card-text mb-1"><strong>Giống:</strong> @koi.Breed</p>
+                        </div>
+                    </div>
+                    <!-- Cột giá và trạng thái bên phải -->
+                    <div class="col-md-3 d-flex flex-column justify-content-center align-items-end pe-4">
+                        <p class="mb-1"><strong>Giá:</strong> @koi.Price?.ToString("C0")</p>
+                        <p><strong>Trạng thái:</strong> @koi.Status</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+</div>
