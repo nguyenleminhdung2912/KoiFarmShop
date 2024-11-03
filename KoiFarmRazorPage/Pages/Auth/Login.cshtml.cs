@@ -76,7 +76,7 @@ namespace KoiFarmRazorPage.Pages.Auth
                 {
                     return RedirectToPage("/Staff/Index");
                 }
-                else if (user.Role == "Customer")
+                else if (user.Role == "User")
                 {
                     return RedirectToPage("/Customer/Index");
                 }

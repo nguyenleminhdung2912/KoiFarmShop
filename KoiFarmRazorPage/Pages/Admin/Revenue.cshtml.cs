@@ -1,26 +1,25 @@
 ﻿using BusinessObject;
 using BusinessObject.DTO;
+using DataAccessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 using Repository.Repository;
-using static KoiFarmRazorPage.Pages.Admin.RevenueModel;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
-    public class IndexModel : PageModel
+    public class RevenueModel : PageModel
     {
-        // Properties to hold data
 
-        private readonly IUserRepository userRepository;
         private readonly IOrderRepository orderRepository;
-        private readonly IKoiFishRepository koiFishRepository;
-        private readonly IProductRepository productRepository;
         private readonly IAdminRepository adminRepository;
-        public IList<User> User { get; set; } = new List<User>()!;
-        public IList<Order> Order { get; set; } = new List<Order>()!;
-        public List<string> Transactions { get; set; } = new List<string>();
 
+        public RevenueModel()
+        {
+            orderRepository = new OrderRepository();
+            adminRepository = new AdminRepository();
+        }
         // Tổng doanh thu
         public double? TodayRevenue { get; set; } = default!;
         public double? MonthRevenue { get; set; } = default!;
@@ -31,56 +30,13 @@ namespace KoiFarmRazorPage.Pages.Admin
         public ChartData MonthlyRevenueData { get; set; } = new ChartData();
         public ChartData YearlyRevenueData { get; set; } = new ChartData();
 
-        public IndexModel()
-        {
-            userRepository = new UserRepository();
-            orderRepository = new OrderRepository();
-            koiFishRepository = new KoiFishRepository();
-            productRepository = new ProductRepository();
-            adminRepository = new AdminRepository();
-        }
-
         public async Task OnGet()
-        {
-            // Initial data load (could be empty)
-            LoadUsers();
-            LoadBookings();
-            await LoadRevenueChart();
-        }
-
-        // ** USER ** //
-        private void LoadUsers()
-        {
-            User = userRepository.GetUsers();
-        }
-
-        // ** BOOKING ** //
-        private void LoadBookings()
-        {
-            Order = orderRepository.GetAllOrders();
-            foreach (var order in Order)
-            {
-                List<Product> products = productRepository.GetProductsByListString(order.ProductId);
-                List<KoiFish> koiFishs = koiFishRepository.GetKoiFishsByListString(order.KoiFishId);
-                order.KoiFishList = koiFishs;
-                order.ProductList = products;
-            }
-        }
-
-        // ** TRANSACTION ** //
-        private void LoadTransactions()
-        {
-            Transactions = new List<string> { "Transaction 1", "Transaction 2", "Transaction 3" };
-        }
-
-        // ** REVENUE ** //
-        private async Task LoadRevenueChart()
         {
             RevenueDTO revenueDTO = await adminRepository.GetRevenueDataAsync();
             // Gán dữ liệu mẫu cho tổng doanh thu
-            TodayRevenue = revenueDTO.TodayRevenue;
-            MonthRevenue = revenueDTO.MonthRevenue;
-            YearRevenue = revenueDTO.YearRevenue;
+            TodayRevenue = revenueDTO.TodayRevenue;    
+            MonthRevenue = revenueDTO.MonthRevenue;   
+            YearRevenue = revenueDTO.YearRevenue;   
 
             // Gán dữ liệu mẫu cho biểu đồ doanh thu
             DailyRevenueData = await GetDailyRevenueDataAsync();
@@ -89,6 +45,7 @@ namespace KoiFarmRazorPage.Pages.Admin
 
             YearlyRevenueData = await GetYearlyRevenueDataAsync();
         }
+
         // Lớp giúp truyền dữ liệu vào biểu đồ
         public class ChartData
         {
@@ -216,3 +173,4 @@ namespace KoiFarmRazorPage.Pages.Admin
         }
     }
 }
+

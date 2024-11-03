@@ -10,5 +10,7 @@ namespace Repository.IRepository
     public interface IKoiFishRepository
     {
         List<KoiFish> GetKoiFishsByListString(string listString);
+        Task<List<KoiFish>> GetAllKoiFishNotDeleted();
+        Task<KoiFish?> GetKoiFishById(long id);
     }
 }

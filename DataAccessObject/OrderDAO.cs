@@ -1,11 +1,6 @@
 ﻿using BusinessObject;
+using BusinessObject.DTO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessObject
 {
@@ -96,6 +91,163 @@ namespace DataAccessObject
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        // ** ADMIN FLOW ** //
+
+        // 1. Lấy danh sách Orders từ ngày A tới ngày B
+        public static async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                using var _context = new KoiFarmShopDatabaseContext();
+                return await _context.Orders
+                    .Where(o => o.CreateAt >= startDate && o.CreateAt <= endDate)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Order>();
+            }
+        }
+
+        // 2. Lấy danh sách Orders trong tháng này
+        public static async Task<List<Order>> GetOrdersThisMonthAsync()
+        {
+            try
+            {
+                using var _context = new KoiFarmShopDatabaseContext();
+                DateTime now = DateTime.Now;
+                DateTime startOfMonth = new DateTime(now.Year, now.Month, 1);
+                DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+                return await _context.Orders
+                    .Where(o => o.CreateAt >= startOfMonth && o.CreateAt <= endOfMonth)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Order>();
+            }
+        }
+
+        // 3. Lấy danh sách Orders trong tuần này
+        public static async Task<List<Order>> GetOrdersThisWeekAsync()
+        {
+            try
+            {
+                using var _context = new KoiFarmShopDatabaseContext();
+                DateTime startOfWeek = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek);
+                DateTime endOfWeek = startOfWeek.AddDays(7).AddTicks(-1);
+
+                return await _context.Orders
+                    .Where(o => o.CreateAt >= startOfWeek && o.CreateAt <= endOfWeek)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Order>();
+            }
+        }
+
+        // 4. Lấy danh sách Orders trong năm nay
+        public static async Task<List<Order>> GetOrdersThisYearAsync()
+        {
+            try
+            {
+                using var _context = new KoiFarmShopDatabaseContext();
+                DateTime now = DateTime.Now;
+                DateTime startOfYear = new DateTime(now.Year, 1, 1);
+                DateTime endOfYear = startOfYear.AddYears(1).AddTicks(-1);
+
+                return await _context.Orders
+                    .Where(o => o.CreateAt >= startOfYear && o.CreateAt <= endOfYear)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Order>();
+            }
+        }
+
+        // 5. Lấy danh sách Orders trong năm nay
+        public static async Task<List<Order>> GetOrdersNearest4Years()
+        {
+            try
+            {
+                var now = DateTime.Now;
+                var startYear = now.Year - 3; // Lấy dữ liệu từ 4 năm gần nhất, bao gồm năm hiện tại
+
+                using var _context = new KoiFarmShopDatabaseContext();
+
+                return await _context.Orders
+                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Order>();
+            }
+        }
+
+        // 6. Lấy danh sách Orders trong hôm nay
+        public static async Task<List<Order>> GetOrdersToday()
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+                DateTime tomorrow = today.AddDays(1);
+
+                using var _context = new KoiFarmShopDatabaseContext();
+
+                return await _context.Orders
+                    .Where(o => o.CreateAt >= today && o.CreateAt < tomorrow)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log exception or handle as needed
+                Console.WriteLine(ex.Message);
+                return new List<Order>(); // Return an empty list in case of error
+            }
+        }
+
+        // 7. Lấy tổng doanh thu cho ngày / tháng / năm
+        public static async Task<RevenueDTO> GetRevenueDataAsync()
+        {
+            using var _context = new KoiFarmShopDatabaseContext();
+            DateTime today = DateTime.Today;
+            DateTime now = DateTime.Now;
+            DateTime startOfMonth = new DateTime(now.Year, now.Month, 1);
+            DateTime startOfYear = new DateTime(now.Year, 1, 1);
+
+            var revenueData = await _context.Orders
+                .Where(o => o.CreateAt.HasValue)
+                .GroupBy(o => new
+                {
+                    Today = o.CreateAt.Value.Date,
+                    Month = new DateTime(o.CreateAt.Value.Year, o.CreateAt.Value.Month, 1),
+                    Year = o.CreateAt.Value.Year
+                })
+                .Select(g => new
+                {
+                    TodayRevenue = g.Key.Today == today ? g.Sum(o => o.TotalPrice) : 0,
+                    MonthRevenue = g.Key.Month == startOfMonth ? g.Sum(o => o.TotalPrice) : 0,
+                    YearRevenue = g.Key.Year == now.Year ? g.Sum(o => o.TotalPrice) : 0
+                })
+            .ToListAsync();
+
+            return new RevenueDTO
+            {
+                TodayRevenue = revenueData.Sum(r => r.TodayRevenue),
+                MonthRevenue = revenueData.Sum(r => r.MonthRevenue),
+                YearRevenue = revenueData.Sum(r => r.YearRevenue)
+            };
         }
     }
 }

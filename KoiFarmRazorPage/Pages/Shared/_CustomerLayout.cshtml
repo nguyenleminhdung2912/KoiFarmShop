@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Trang mua cá Koi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/KoiFarmRazorPage.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Navbar Customization */
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #f3a683 !important;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: #555 !important;
+            transition: color 0.3s ease;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: #f3a683 !important;
+            }
+
+        .login-btn {
+            color: #fff;
+            background-color: #f3a683;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+            .login-btn:hover {
+                background-color: #e77f67;
+            }
+
+        /* Footer Style */
+        footer {
+            background-color: #343a40;
+            color: #f8f9fa;
+            padding: 20px 0;
+        }
+
+            footer p {
+                margin: 0;
+            }
+    </style>
+
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">KoiFish Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Customer/ViewKoiFish">Xem Cá Koi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Products">Sản Phẩm Cho Cá Koi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Services">Dịch Vụ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Contact">Liên Hệ</a>
+                    </li>
+                    <!-- Kiểm tra trạng thái đăng nhập và hiển thị nút Đăng nhập hoặc Tài khoản -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Customer/ViewProfile">Tài Khoản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/Auth/Logout">Đăng Xuất</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn login-btn ms-2" href="/Auth/Login">Đăng Nhập</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5 pt-5">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2024 KoiFish Shop - Trang mua bán cá koi và phụ kiện. Mọi quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

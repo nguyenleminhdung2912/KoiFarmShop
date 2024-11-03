@@ -11,6 +11,12 @@ namespace Repository.Repository
 {
     public class KoiFishRepository : IKoiFishRepository
     {
+        public Task<List<KoiFish>> GetAllKoiFishNotDeleted()
+        => KoiFishDAO.GetAllKoiFishNotDeleted();
+
+        public Task<KoiFish?> GetKoiFishById(long id)
+        => KoiFishDAO.GetKoiFishById(id);
+
         public List<KoiFish> GetKoiFishsByListString(string listString)
         => KoiFishDAO.GetKoiFishsByListString(listString);
     }
