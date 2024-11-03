@@ -1,4 +1,5 @@
-﻿using BusinessObject.DTO;
+﻿using BusinessObject;
+using BusinessObject.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,12 @@ namespace Repository.IRepository
 {
     public interface IAdminRepository
     {
-        public RevenueDTO ViewRevenueByDay();
-        public RevenueDTO ViewRevenueByMonth();
-        public RevenueDTO ViewRevenueByYear();
+        public Task<List<Order>> GetOrdersByDateRange(DateTime startDate, DateTime endDate);
+        public Task<List<Order>> GetOrdersThisMonth();
+        public Task<List<Order>> GetOrdersThisWeek();
+        public Task<List<Order>> GetOrdersThisYear();
+        public Task<List<Order>> GetOrdersNearest4Years();
+        public Task<List<Order>> GetOrdersToday();
+        public Task<RevenueDTO> GetRevenueDataAsync();
     }
 }

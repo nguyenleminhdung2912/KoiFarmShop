@@ -8,8 +8,8 @@ namespace BusinessObject.DTO
 {
     public class RevenueDTO
     {
-        double totalMoney;
-        int totalKoiFishsSold;
-        int totalProductsSold;
+        public double? TodayRevenue { get; set; }
+        public double? MonthRevenue { get; set; }
+        public double? YearRevenue { get; set; }
     }
 }
