@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {}
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {}
   },
   "projects": {
-    "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
         "projectName": "BusinessObject",
-        "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -85,25 +81,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
         "projectName": "DataAccessObject",
-        "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\obj\\",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -118,8 +110,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
-                "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
               }
             }
           }
@@ -154,25 +146,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
         "projectName": "KoiFarmRazorPage",
-        "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\obj\\",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -187,11 +175,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
-                "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
               },
-              "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
-                "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj"
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj"
               }
             }
           }
@@ -241,25 +229,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj",
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\Repository\\obj\\",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -274,11 +258,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
-                "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
               },
-              "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
-                "projectPath": "D:\\BuiGiaBaoCE170974\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
+              "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
               }
             }
           }
@@ -313,7 +297,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
