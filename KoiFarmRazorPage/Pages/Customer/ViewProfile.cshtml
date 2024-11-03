@@ -12,14 +12,12 @@
         <div class="card-header">
             <h3>User Information</h3>
         </div>
-        <div class="col-md-6">
-            <h4>Profile Picture</h4>
-            @*@<img src="@Model.User.ProfileImage" alt="Profile Picture" class="img-fluid rounded-circle" />*@
-        </div>
+        
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <p><strong>Name:</strong> @Model.UserProfile.Name  </p>
+                   
                     <p><strong>Email:</strong>  @Model.UserProfile.Email  </p>
                     <p><strong>Phone:</strong>  @Model.UserProfile.Phone  </p>
                     <p><strong>Role:</strong> @Model.UserProfile.Role </p>
@@ -30,13 +28,13 @@
         </div>
     </div>
 
-    <div class="card mt-4">
+    @*<div class="card mt-4">
         <div class="card-header">
             <h3>Blogs</h3>
         </div>
         <div class="card-body">
             <ul class="list-group">
-               @*@ @if (Model.User.Blogs.Any())
+                @if (Model.User.Blogs.Any())
                 {
                     foreach (var blog in Model.User.Blogs)
                     {
@@ -46,7 +44,7 @@
                 else
                 {
                     <li class="list-group-item">No blogs available.</li>
-                }*@
+                }
             </ul>
         </div>
     </div>
@@ -57,7 +55,7 @@
         </div>
         <div class="card-body">
             <ul class="list-group">
-             @* @if (Model.User.Orders.Any())
+              @if (Model.User.Orders.Any())
                 {
                     foreach (var order in Model.User.Orders)
                     {
@@ -67,14 +65,14 @@
                 else
                 {
                     <li class="list-group-item">No orders available.</li>
-                }*@
+                }
             </ul>
         </div>
-    </div>
+    </div> *@
 
     <!-- Thêm các phần khác cho Consignments, KoiFishRatings, ProductRatings, Wallets nếu cần -->
 
-    <div class="mt-4">
-        <a asp-page="/Auth/EditProfile" class="btn btn-primary">Edit Profile</a>
+    <div class="card-footer text-center">
+        <a asp-page="/Customer/UpdateProfile" class="btn btn-primary">Edit Profile</a>
     </div>
 </div>

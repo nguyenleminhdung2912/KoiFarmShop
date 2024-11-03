@@ -1,0 +1,67 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Customer.UpdateProfileModel
+@{
+    ViewData["Title"] = "Update Profile";
+}
+
+<h2 class="text-center">Update Your Profile</h2>
+
+<div class="container mt-4">
+    <form method="post">
+        <div class="card">
+            
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="UserProfile.Name"></label>
+                    <input asp-for="UserProfile.Name" class="form-control" />
+                    <span asp-validation-for="UserProfile.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.Password"> Password</label>
+                    <div class="input-group">
+                        <input asp-for="UserProfile.Password" id="passwordField" type="password" class="form-control"  />
+                        <span class="input-group-text" onclick="togglePasswordVisibility()">
+                            <i id="eyeIcon" class="fa fa-eye"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="UserProfile.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.Email"></label>
+                    <input asp-for="UserProfile.Email" class="form-control" readonly />
+                    <span asp-validation-for="UserProfile.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.Phone"></label>
+                    <input asp-for="UserProfile.Phone" class="form-control"  />
+                    <span asp-validation-for="UserProfile.Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.Role"></label>
+                    <input asp-for="UserProfile.Role" class="form-control" readonly />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="/Customer/ViewProfile" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById("passwordField");
+            const eyeIcon = document.getElementById("eyeIcon");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+}
