@@ -799,3 +799,15 @@ D:\BuiGiaBaoCE170974\PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\refint
 D:\BuiGiaBaoCE170974\PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.pdb
 D:\BuiGiaBaoCE170974\PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.genruntimeconfig.cache
 D:\BuiGiaBaoCE170974\PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\ref\KoiFarmRazorPage.dll
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.csproj.AssemblyReference.cache
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.GeneratedMSBuildEditorConfig.editorconfig
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.AssemblyInfoInputs.cache
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.AssemblyInfo.cs
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.csproj.CoreCompileInputs.cache
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.MvcApplicationPartsAssemblyInfo.cache
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.RazorAssemblyInfo.cache
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.RazorAssemblyInfo.cs
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.sourcelink.json
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.dll
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\refint\KoiFarmRazorPage.dll
+D:\git\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.pdb

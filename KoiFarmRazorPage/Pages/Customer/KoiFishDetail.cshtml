@@ -9,25 +9,23 @@
 <div class="container mt-3">
     <div class="card shadow-sm" style="border-radius: 8px;">
         <div class="row g-0">
-            <!-- Cột hình ảnh bên trái -->
             <div class="col-md-4 d-flex align-items-center">
                 <img src="https://cafishvet.com/wp-content/uploads/2021/04/20150527-_DSC4345-Edit-scaled.jpg"
                      class="img-fluid rounded-start"
                      alt="Koi Fish Image"
                      style="width: 100%; height: auto;">
             </div>
-            <!-- Cột chi tiết cá koi bên phải -->
             <div class="col-md-8">
                 <div class="card-body">
                     <h3 class="card-title text-center">@Model.KoiFish.Name</h3>
                     <div class="d-flex justify-content-center mt-4">
-                        <div style="margin-right : 20px">
+                        <div style="margin-right: 20px">
                             <p class="text-muted"><strong>Xuất xứ:</strong> @Model.KoiFish.Origin</p>
                             <p class="text-muted"><strong>Giống:</strong> @Model.KoiFish.Breed</p>
                             <p class="text-muted"><strong>Giới tính:</strong> @Model.KoiFish.Gender</p>
                             <p class="text-muted"><strong>Tuổi:</strong> @Model.KoiFish.Age năm</p>
                         </div>
-                        <div class="text-end" style="margin-left : 20px">
+                        <div class="text-end" style="margin-left: 20px">
                             <p class="text-muted"><strong>Tỉ lệ lọc:</strong> @Model.KoiFish.FilterRatio %</p>
                             <p class="text-danger"><strong>Giá:</strong> @Model.KoiFish.Price?.ToString("C0")</p>
                             <p class="text-muted"><strong>Kích thước:</strong> @Model.KoiFish.Size cm</p>
@@ -35,14 +33,16 @@
                         </div>
                     </div>
                     <div class="mt-5" style="position: relative; height: 100%;">
-                        <a href="/path/to/purchase/page/@Model.KoiFish.KoiFishId" class="btn btn-primary position-absolute bottom-0 end-0">Mua</a>
+                        <form method="post" asp-page-handler="AddToCart">
+                            <input type="hidden" name="KoiFishId" value="@Model.KoiFish.KoiFishId" />
+                            <button type="submit" class="btn btn-success position-absolute bottom-0 end-0">Thêm vào giỏ hàng</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Hiển thị Đánh Giá -->
     <h4 class="mt-5">Đánh Giá</h4>
     @if (Model.KoiFish.KoiFishRatings.Any())
     {
@@ -52,13 +52,11 @@
                 <div class="card mb-3 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex align-items-start">
-                            @* Hiển thị avatar nếu có *@
                             <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/cd1f017c-ae6c-4e4b-b72c-af0c0cfce31a.jpg?alt=media" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
                             <div class="flex-grow-1">
-                                @* Kiểm tra xem tên người đánh giá có null không *@
                                 @if (!string.IsNullOrEmpty(rating.User?.Name))
                                 {
-                                    <strong>@rating.User.Name</strong> @* Tên người đánh giá *@
+                                    <strong>@rating.User.Name</strong>
                                 }
                                 else
                                 {
@@ -66,16 +64,15 @@
                                 }
 
                                 <div class="mt-2">
-                                    @* Hiển thị số sao dựa trên điểm đánh giá *@
                                     @for (int i = 1; i <= 5; i++)
                                     {
                                         if (i <= rating.Rating)
                                         {
-                                            <span class="text-warning">&#9733;</span> @* Sao đầy *@
+                                            <span class="text-warning">&#9733;</span>
                                         }
                                         else
                                         {
-                                            <span class="text-muted">&#9734;</span> @* Sao rỗng *@
+                                            <span class="text-muted">&#9734;</span>
                                         }
                                     }
                                 </div>
@@ -96,7 +93,6 @@
     {
         <p class="text-muted">Không có đánh giá nào cho cá koi này.</p>
     }
-
 </div>
 
 <style>
@@ -109,6 +105,6 @@
         }
 
     .btn-primary {
-        margin: 15px; /* Thêm khoảng cách giữa nút và các cạnh */
+        margin: 15px;
     }
 </style>

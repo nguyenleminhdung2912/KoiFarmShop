@@ -8073,19 +8073,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nguye\\.nuget\\packages\\": {}
+    "C:\\Users\\Hi\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+      "projectUniqueName": "D:\\git\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
       "projectName": "KoiFarmRazorPage",
-      "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
-      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\KoiFarmRazorPage\\obj\\",
+      "projectPath": "D:\\git\\KoiFarmShop\\KoiFarmRazorPage\\KoiFarmRazorPage.csproj",
+      "packagesPath": "C:\\Users\\Hi\\.nuget\\packages\\",
+      "outputPath": "D:\\git\\KoiFarmShop\\KoiFarmRazorPage\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Hi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8100,11 +8105,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
-              "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
+            "D:\\git\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+              "projectPath": "D:\\git\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj"
             },
-            "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj": {
-              "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\Repository\\Repository.csproj"
+            "D:\\git\\KoiFarmShop\\Repository\\Repository.csproj": {
+              "projectPath": "D:\\git\\KoiFarmShop\\Repository\\Repository.csproj"
             }
           }
         }
@@ -8157,5 +8162,27 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "System.Security.AccessControl 4.5.0 depends on Microsoft.NETCore.Platforms (>= 2.0.0) but Microsoft.NETCore.Platforms 2.0.0 was not found. An approximate best match of Microsoft.NETCore.Platforms 3.1.0 was resolved.",
+      "libraryId": "Microsoft.NETCore.Platforms",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "System.Text.Encoding.CodePages 4.5.1 depends on Microsoft.NETCore.Platforms (>= 2.1.2) but Microsoft.NETCore.Platforms 2.1.2 was not found. An approximate best match of Microsoft.NETCore.Platforms 3.1.0 was resolved.",
+      "libraryId": "Microsoft.NETCore.Platforms",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
