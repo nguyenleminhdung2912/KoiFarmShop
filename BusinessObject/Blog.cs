@@ -15,7 +15,6 @@ public partial class Blog
 
 	public byte[]? ImageData { get; set; }
 
-
 	public DateTime? CreateAt { get; set; }
 
     public DateTime? UpdateAt { get; set; }

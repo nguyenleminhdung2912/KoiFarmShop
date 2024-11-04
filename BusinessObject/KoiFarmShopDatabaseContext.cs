@@ -133,6 +133,8 @@ public partial class KoiFarmShopDatabaseContext : DbContext
             entity.Property(e => e.ImageData)
               .HasColumnType("varbinary(max)")
               .HasColumnName("ImageData");
+            entity.Property(e => e.Color).HasMaxLength(50);
+            entity.Property(e => e.Quantity).HasColumnName("Quantity");
         });
 
         modelBuilder.Entity<KoiFishRating>(entity =>
@@ -188,6 +190,8 @@ public partial class KoiFarmShopDatabaseContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Update_At");
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Address).HasColumnName("Address").HasMaxLength(100);
+            entity.Property(e => e.ShipmentStatus).HasColumnName("ShipmentStatus").HasMaxLength(50);
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
