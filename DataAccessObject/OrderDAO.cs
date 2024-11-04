@@ -102,7 +102,7 @@ namespace DataAccessObject
             {
                 using var _context = new KoiFarmShopDatabaseContext();
                 return await _context.Orders
-                    .Where(o => o.CreateAt >= startDate && o.CreateAt <= endDate)
+                    .Where(o => o.CreateAt >= startDate && o.CreateAt <= endDate && o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -123,7 +123,7 @@ namespace DataAccessObject
                 DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt >= startOfMonth && o.CreateAt <= endOfMonth)
+                    .Where(o => o.CreateAt >= startOfMonth && o.CreateAt <= endOfMonth && o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -143,7 +143,7 @@ namespace DataAccessObject
                 DateTime endOfWeek = startOfWeek.AddDays(7).AddTicks(-1);
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt >= startOfWeek && o.CreateAt <= endOfWeek)
+                    .Where(o => o.CreateAt >= startOfWeek && o.CreateAt <= endOfWeek && o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -164,7 +164,7 @@ namespace DataAccessObject
                 DateTime endOfYear = startOfYear.AddYears(1).AddTicks(-1);
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt >= startOfYear && o.CreateAt <= endOfYear)
+                    .Where(o => o.CreateAt >= startOfYear && o.CreateAt <= endOfYear && o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -174,7 +174,7 @@ namespace DataAccessObject
             }
         }
 
-        // 5. Lấy danh sách Orders trong năm nay
+        // 5. Lấy danh sách Orders trong 4 năm gần nhất
         public static async Task<List<Order>> GetOrdersNearest4Years()
         {
             try
@@ -185,7 +185,7 @@ namespace DataAccessObject
                 using var _context = new KoiFarmShopDatabaseContext();
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear)
+                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear && o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -206,7 +206,7 @@ namespace DataAccessObject
                 using var _context = new KoiFarmShopDatabaseContext();
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt >= today && o.CreateAt < tomorrow)
+                    .Where(o => o.CreateAt >= today && o.CreateAt < tomorrow && o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -227,7 +227,7 @@ namespace DataAccessObject
             DateTime startOfYear = new DateTime(now.Year, 1, 1);
 
             var revenueData = await _context.Orders
-                .Where(o => o.CreateAt.HasValue)
+                .Where(o => o.CreateAt.HasValue && o.Status.Equals("Completed"))
                 .GroupBy(o => new
                 {
                     Today = o.CreateAt.Value.Date,
