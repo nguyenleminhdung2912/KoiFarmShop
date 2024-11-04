@@ -9,10 +9,12 @@ public partial class Consignment
     public long ConsignmentId { get; set; }
 
     public long? UserId { get; set; }
-
+    
     public string? KoiName { get; set; }
+    
 
     public double? Price { get; set; }
+    // Sẽ do Staff điền
 
     public DateTime? FromTime { get; set; }
 
