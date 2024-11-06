@@ -1,0 +1,99 @@
+@page
+@model KoiFarmRazorPage.Pages.Customer.CreateConsignment
+
+@{
+    ViewData["Title"] = "Create Consignment";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Tạo Consignment</h2>
+<div class="content">
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+    <div class="alert alert-success">@Model.Message</div>
+    }
+    <form method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-group">
+            <label for="koiName" class="form-label">Koi Name</label>
+            <input type="text" name="KoiName" id="koiName" class="form-input" value="@Model.KoiName" />
+            @if (Model.ValidateErorrs.ContainsKey("KoiName"))
+            {
+            @Model.ValidateErorrs["KoiName"]
+            }
+        </div>
+        
+
+        <div class="form-group">
+            <label for="koiImage" class="form-label">Koi Image</label>
+            <input type="file" name="KoiImage" id="koiImage" class="form-input" value="@Model.KoiImage"/>
+            @if (Model.ValidateErorrs.ContainsKey("KoiImage"))
+            {
+                @Model.ValidateErorrs["KoiImage"]
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="fromTime" class="form-label">From Time</label>
+            <input type="date" name="FromTime" id="fromTime" class="form-input" value="@Model.FromTime" />
+            @if (Model.ValidateErorrs.ContainsKey("FromTime"))
+            {
+            @Model.ValidateErorrs["FromTime"]
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="toTime" class="form-label">To Time</label>
+            <input type="date" name="ToTime" id="toTime" class="form-input" value="@Model.ToTime"/>
+            @if (Model.ValidateErorrs.ContainsKey("ToTime"))
+            {
+            @Model.ValidateErorrs["ToTime"]
+            }
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+
+<!-- Optional: Your custom styles -->
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+

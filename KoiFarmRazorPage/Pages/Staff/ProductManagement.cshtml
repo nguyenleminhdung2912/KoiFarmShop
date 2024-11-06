@@ -3,7 +3,9 @@
 @{
 	Layout = "~/Pages/Shared/_StaffLayout.cshtml";
 	ViewData["Title"] = "Product Management";
+	var successMessage = TempData["SuccessMessage"] as string;
 }
+
 
 
 <h2>@ViewData["Title"]</h2>
@@ -19,6 +21,12 @@
 	</form>
 </div>
 
+@if (!string.IsNullOrEmpty(successMessage))
+{
+<div class="alert alert-success" role="alert">
+	@successMessage
+</div>
+}
 
 @if (!ViewData.ModelState.IsValid)
 {
@@ -49,6 +57,7 @@
 				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Create At</th>
 				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Update At</th>
 				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
+				<th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Quantity</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -75,6 +84,7 @@
 					<td style="padding: 10px; border: 1px solid #ddd;">@product.CreateAt?.ToString("yyyy-MM-dd")</td>
 					<td style="padding: 10px; border: 1px solid #ddd;">@product.UpdateAt?.ToString("yyyy-MM-dd")</td>
 					<td style="padding: 10px; border: 1px solid #ddd;">@product.Status</td>
+					<td style="padding: 10px; border: 1px solid #ddd;">@product.Quantity</td>
 				</tr>
 			}
 		</tbody>

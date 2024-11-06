@@ -23,7 +23,7 @@ namespace KoiFarmRazorPage.Pages.Staff
 			Product = productRepository.GetProductById(productId);
 		}
 
-		public void OnPost()
+		public IActionResult OnPost()
 		{
 			Product product = new Product();
 			var productImage = Request.Form.Files["productImage"];
@@ -47,6 +47,9 @@ namespace KoiFarmRazorPage.Pages.Staff
 			else if (string.IsNullOrEmpty(Request.Form["productStatus"]))
 			{
 				ValidateErrors["ProductStatus"] = "Product Status không được để trống";
+			}else if (string.IsNullOrEmpty(Request.Form["productQuantity"]))
+			{
+				ValidateErrors["ProductQuantity"] = "Product Quantity không được để trống";
 			}
 			else
 			{
@@ -77,14 +80,26 @@ namespace KoiFarmRazorPage.Pages.Staff
 				{
 					ValidateErrors["ProductPrice"] = "Product price phải là số";
 				}
+
+				try
+				{
+					product.Quantity = int.Parse(Request.Form["productQuantity"]);
+				}
+				catch (Exception ex)
+				{
+					ValidateErrors["ProductQuantity"] = "Product Quantity phải là số nguyên";
+				}
 				product.UpdateAt = DateTime.Now;
 				product.Status = Request.Form["productStatus"];
 				product.IsDeleted = false;
 				productRepository.UpdateProduct(product);
 				Message = "Cập nhật product thành công";
 				Product = productRepository.GetProductById(product.ProductId);
-
+				TempData["SuccessMessage"] = "Cap nhat product thành công!!!";
+				return RedirectToPage("/Staff/ProductManagement");
 			}
+
+			return Page();
 		}
 	}
 }

@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessObject
 {
 	public class ProductDAO
 	{
 		private static KoiFarmShopDatabaseContext _context = new KoiFarmShopDatabaseContext();
+
+		public static List<Product> GetProductsForCustomer()
+		{
+			return _context.Products.Where(c => c.Status == "Available" && c.IsDeleted == false ).ToList();
+		}
 		public static List<Product> GetProductsByListString(string listString)
 		{
 			var list = new List<Product>();
@@ -28,6 +34,10 @@ namespace DataAccessObject
 			return list;
 		}
 
+		public static Product GetProductById(int productId)
+		{
+			return _context.Products.Find(productId);
+		}
 
 		public static List<Product> GetProducts()
 		{
@@ -62,6 +72,7 @@ namespace DataAccessObject
 				existProduct.UpdateAt = DateTime.Now;
 				existProduct.Status = product.Status;
 				existProduct.IsDeleted = product.IsDeleted;
+				existProduct.Quantity = product.Quantity;
 				_context.Products.Update(existProduct);
 				_context.SaveChanges() ;
 			}
@@ -69,15 +80,28 @@ namespace DataAccessObject
 
 		public static bool DeleteProduct(long productId)
 		{
-			var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);	
+			var product = _context.Products.Include(p => p.ProductRatings).FirstOrDefault(p => p.ProductId == productId);	
 			if(product != null)
 			{
+				if (product.ProductRatings.Any())
+				{
+					product.ProductRatings.Clear();
+					_context.Products.Remove(product);
+					_context.SaveChanges();
+					return true;
+				}
 				_context.Products.Remove(product);
 				_context.SaveChanges();
 				return true;
 			}
 
 			return false;
+		}
+		public static long GetNextConsignmentId()
+		{
+			// Lấy ID lớn nhất hiện có trong bảng Product
+			var maxId = _context.Products.Max(p => (long?)p.ProductId) ?? 0;
+			return maxId + 1; // Trả về ID mới
 		}
 	}
 }
