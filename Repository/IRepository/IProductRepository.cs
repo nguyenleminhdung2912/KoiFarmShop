@@ -10,6 +10,12 @@ namespace Repository.IRepository
     public interface IProductRepository
     {
         List<Product> GetProductsByListString(string listString);
+
+        List<Product> GetProductForCustomer();
+        
+        Product GetProductById(int id);
+        
+        long GetNextProductId();
 		List<Product> GetProductList();
 
         bool CheckProductExistById(long productId);

@@ -4,6 +4,14 @@
 @{
     ViewData["Title"] = "ViewConsignment";
     Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+<div class="alert alert-success" role="alert">
+    @successMessage
+</div>
 }
 
 <h2 class="mt-4">Quản Lý Consignment</h2>
@@ -18,12 +26,12 @@
             <select name="statusConsignment" id="statusConsignment" class="form-select w-auto me-2">
                 @* Sử dụng các biến để xác định option nào được chọn *@
                 @{
-                bool isAllSelected = Model.SelectedStatus == "ALL";
-                bool isPendingSelected = Model.SelectedStatus == "PENDING";
-                bool isRejectedSelected = Model.SelectedStatus == "REJECTED";
-                bool isApprovedSelected = Model.SelectedStatus == "APPROVED";
-                bool isConfirmedSelected = Model.SelectedStatus == "CONFIRMED";
-                bool isCancelledSelected = Model.SelectedStatus == "CANCELLED";
+                    bool isAllSelected = Model.SelectedStatus == "ALL";
+                    bool isPendingSelected = Model.SelectedStatus == "PENDING";
+                    bool isRejectedSelected = Model.SelectedStatus == "REJECTED";
+                    bool isApprovedSelected = Model.SelectedStatus == "APPROVED";
+                    bool isConfirmedSelected = Model.SelectedStatus == "CONFIRMED";
+                    bool isCancelledSelected = Model.SelectedStatus == "CANCELLED";
                 }
                 <option value="ALL" selected="@(isAllSelected)">Tất cả</option>
                 <option value="PENDING" selected="@(isPendingSelected)">Pending</option>
@@ -32,7 +40,7 @@
                 <option value="CONFIRMED" selected="@(isConfirmedSelected)">Confirmed</option>
                 <option value="CANCELLED" selected="@(isCancelledSelected)">Cancelled</option>
             </select>
-            <button type="submit" class="btn btn-secondary">Lọc</button>
+            <button type="submit" class="btn btn-secondary">Search</button>
         </form>
     </div>
 </div>
@@ -60,12 +68,18 @@
                         <strong>Trạng thái:</strong> @consignment.Status
                     </p>
                     <a href="/Customer/ConsignmentDetail?id=@consignment.ConsignmentId" class="btn btn-info">Chi Tiết</a>
-                    <a href="/Customer/EditConsignment?id=@consignment.ConsignmentId" class="btn btn-warning">Cập Nhật</a>
-                    <button class="btn btn-danger" onclick="deleteConsignment(@consignment.ConsignmentId)">Xóa</button>
-                    @if (consignment.Status == "PENDING")
+                    @if (Model.SelectedStatus == "PENDING" && consignment.Status == "PENDING")
                     {
                         <a href="/Customer/EditConsignment?id=@consignment.ConsignmentId" class="btn btn-warning">Cập Nhật</a>
                         <button class="btn btn-danger" onclick="deleteConsignment(@consignment.ConsignmentId)">Xóa</button>
+                    }
+                    @if (Model.SelectedStatus == "APPROVED" && consignment.Status == "APPROVED")
+                    {
+                        <form method="post" class="d-inline">
+                            <input type="hidden" name="consignmentId" value="@consignment.ConsignmentId" />
+                            <button type="submit" name="handler" value="Confirm" class="btn btn-success">Confirm</button>
+                            <button type="submit" name="handler" value="Cancel" class="btn btn-danger">Cancel</button>
+                        </form>
                     }
                 </div>
             </div>
@@ -76,3 +90,29 @@
         <p>Không có consignment nào.</p>
     }
 </div>
+
+<script>
+    function deleteConsignment(consignmentId) {
+        if (confirm("Bạn có chắc chắn muốn xóa consignment này không?")) {
+            fetch(`/Customer/ViewConsignment?handler=Delete&id=${consignmentId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`consignment-${consignmentId}`).remove();
+                        alert("Consignment đã được xóa thành công!");
+                    } else {
+                        alert("Xóa consignment không thành công.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Đã xảy ra lỗi khi xóa consignment.");
+                });
+        }
+    }
+</script>

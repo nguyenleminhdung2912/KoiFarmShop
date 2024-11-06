@@ -8,7 +8,8 @@ namespace KoiFarmRazorPage.Pages.Customer;
 public class CreateConsignment : PageModel
 {
     private readonly IConsignmentRepository _consignmentRepository;
-    
+
+    public string Message { get; set; }
     [BindProperty] public string KoiName { get; set; }
     
     [BindProperty] public  IFormFile KoiImage { get; set; }
@@ -43,9 +44,9 @@ public class CreateConsignment : PageModel
         }else if (ToTime == null)
         {
             ValidateErorrs["ToTime"] = "ToTime không được để trống";
-        }else if (FromTime <= ToTime)
+        }else if (FromTime >= ToTime)
         {
-            ValidateErorrs["ToTime"] = "ToTime không được trùng";
+            ValidateErorrs["ToTime"] = "Thời gian to time kết thúc ký gửi phải lớn hơn thời gian bắt đầu";
         }else if ((ToTime - FromTime).Value.Days < 1)
         {
             ValidateErorrs["ToTime"] = "Thời gian ký gửi ít nhất là 1 ngày";
@@ -56,6 +57,7 @@ public class CreateConsignment : PageModel
         else
         {
             Consignment consignment = new Consignment();
+            consignment.ConsignmentId = GetNextConsignmentId();
             consignment.KoiName = KoiName;
             using (var memoryStream = new MemoryStream())
             {
@@ -65,12 +67,28 @@ public class CreateConsignment : PageModel
             consignment.ImageData = koiImage;
             consignment.FromTime = FromTime;
             consignment.ToTime = ToTime;
+            consignment.IsDeleted = false;
             // consignment.UserId = long.Parse(User.FindFirst("userId").Value);
             consignment.UserId = 2;
             consignment.CreateAt = DateTime.Now;
             consignment.Status = "PENDING";
+            if (_consignmentRepository.AddConsignment(consignment))
+            {
+                TempData["SuccessMessage"] = "Tạo request consignment thành công!!!";
+                return RedirectToPage("/Customer/ViewConsignment");
+            }
+            else
+            {
+                Message = "Tạo request consignment thất bại!!!";
+            }
         }
 
         return Page();
+    }
+    private long GetNextConsignmentId()
+    {
+        // Lấy ID lớn nhất hiện tại trong cơ sở dữ liệu
+        var maxId = _consignmentRepository.GetNextConsignmentId(); // Giả định bạn có phương thức này trong repository
+        return maxId + 1; // Trả về ID tiếp theo
     }
 }

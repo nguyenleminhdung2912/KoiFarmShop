@@ -14,7 +14,22 @@ namespace Repository.Repository
         public List<Product> GetProductsByListString(string listString)
         => ProductDAO.GetProductsByListString(listString);
 
-		public List<Product> GetProductList()
+        public List<Product> GetProductForCustomer()
+        {
+	        return ProductDAO.GetProductsForCustomer();
+        }
+
+        public Product GetProductById(int id)
+        {
+	        return ProductDAO.GetProductById(id);
+        }
+
+        public long GetNextProductId()
+        {
+	        return ProductDAO.GetNextConsignmentId();
+        }
+
+        public List<Product> GetProductList()
         {
             return ProductDAO.GetProducts();
         }

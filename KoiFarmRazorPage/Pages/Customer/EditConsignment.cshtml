@@ -1,12 +1,13 @@
 @page
-@model KoiFarmRazorPage.Pages.Customer.CreateConsignment
+@model KoiFarmRazorPage.Pages.Customer.EditConsignment
 
 @{
-    ViewData["Title"] = "Create Consignment";
+    ViewData["Title"] = "Edit Consignment";
     Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
 }
 
-<h2>Tạo Consignment</h2>
+
+<h2>Cập Nhat Consignment</h2>
 <div class="content">
     @if (!string.IsNullOrEmpty(Model.Message))
     {
@@ -15,41 +16,46 @@
     <form method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 
-
+        <input type="hidden" name="consignmentId" class="form-input" value="@Model.Consignment.ConsignmentId" />
         <div class="form-group">
             <label for="koiName" class="form-label">Koi Name</label>
-            <input type="text" name="KoiName" id="koiName" class="form-input" value="@Model.KoiName" />
-            @if (Model.ValidateErorrs.ContainsKey("KoiName"))
+            <input type="text" asp-for="Consignment.KoiName" id="koiName" class="form-input" value="@Model.Consignment.KoiName" />
+            @if (Model.ValidateErrors.ContainsKey("KoiName"))
             {
-            @Model.ValidateErorrs["KoiName"]
+            @Model.ValidateErrors["KoiName"]
             }
         </div>
         
 
         <div class="form-group">
             <label for="koiImage" class="form-label">Koi Image</label>
-            <input type="file" name="KoiImage" id="koiImage" class="form-input" value="@Model.KoiImage"/>
-            @if (Model.ValidateErorrs.ContainsKey("KoiImage"))
+            <input type="file" name="KoiImage" id="koiImage" class="form-control"/>
+            @if (Model.Consignment.ImageData != null && Model.Consignment.ImageData.Length > 0)
             {
-                @Model.ValidateErorrs["KoiImage"]
+            <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Consignment.ImageData))"
+                 alt="Current Koi Image" width="150" class="d-block mb-2" />
+            }
+            @if (Model.ValidateErrors.ContainsKey("KoiImage"))
+            {
+                @Model.ValidateErrors["KoiImage"]
             }
         </div>
-
+        <input type="hidden" name="consignmentCreateAt" class="form-input" value="@Model.Consignment.CreateAt" />
         <div class="form-group">
             <label for="fromTime" class="form-label">From Time</label>
-            <input type="date" name="FromTime" id="fromTime" class="form-input" value="@Model.FromTime" />
-            @if (Model.ValidateErorrs.ContainsKey("FromTime"))
+            <input type="date" asp-for="Consignment.FromTime" id="fromTime" class="form-input" value="@Model.Consignment.FromTime?.ToString("yyyy-MM-dd")" />
+            @if (Model.ValidateErrors.ContainsKey("FromTime"))
             {
-            @Model.ValidateErorrs["FromTime"]
+            @Model.ValidateErrors["FromTime"]
             }
         </div>
 
         <div class="form-group">
             <label for="toTime" class="form-label">To Time</label>
-            <input type="date" name="ToTime" id="toTime" class="form-input" value="@Model.ToTime"/>
-            @if (Model.ValidateErorrs.ContainsKey("ToTime"))
+            <input type="date" asp-for="Consignment.ToTime" id="toTime" class="form-input" value="@Model.Consignment.ToTime?.ToString("yyyy-MM-dd")" />
+            @if (Model.ValidateErrors.ContainsKey("ToTime"))
             {
-            @Model.ValidateErorrs["ToTime"]
+            @Model.ValidateErrors["ToTime"]
             }
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
@@ -96,4 +102,3 @@
         background-color: #0056b3;
     }
 </style>
-

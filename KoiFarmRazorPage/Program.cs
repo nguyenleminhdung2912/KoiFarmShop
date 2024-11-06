@@ -26,6 +26,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IConsignmentRepository, ConsignmentRepository>();
 
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

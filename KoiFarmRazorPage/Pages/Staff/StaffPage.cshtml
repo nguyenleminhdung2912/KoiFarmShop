@@ -7,4 +7,34 @@
 
 
 <h2>Welcome to Staff Page</h2>
-<p>Use the buttons on the left to navigate to different sections.</p>
+
+@if (Model.PendingConsignments.Any())
+{
+	<div class="alert alert-warning mt-3">
+		<h4 class="alert-heading">Pending Consignments</h4>
+        
+		<ul class="list-group">
+			@foreach (var consignment in Model.PendingConsignments)
+			{
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					<span>
+						<strong>Koi Name:</strong> @consignment.KoiName<br />
+						<strong>From:</strong> @consignment.FromTime.ToString()<br />
+						<strong>To:</strong> @consignment.ToTime.ToString()
+					</span>
+					<span class="badge bg-warning text-dark">Pending</span>
+				</li>
+			}
+		</ul>
+        
+		<div class="text-center mt-4">
+			<a href="/Staff/ConsignmentManagement" class="btn btn-lg btn-primary">Go to Consignment Management</a>
+		</div>
+	</div>
+}
+else
+{
+	<div class="alert alert-info mt-3">
+		<strong>No pending consignments at the moment.</strong>
+	</div>
+}

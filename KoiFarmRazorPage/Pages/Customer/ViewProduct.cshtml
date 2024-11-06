@@ -1,0 +1,78 @@
+@page
+@model KoiFarmRazorPage.Pages.Customer.ViewProduct
+
+@{
+    ViewData["Title"] = "ViewProduct";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+@* *@
+@* <h2 class="mt-4">Danh Sách San Pham</h2> *@
+@* <div class="container mt-3"> *@
+@*     @foreach (var product in Model.Products) *@
+@*     { *@
+@*         $1$ <a href="/Customer/ProductDetail?id=@product.ProductId" class="text-decoration-none text-dark"> #1# *@
+@*         <div class="card mb-3" style="border: 1px solid #ddd; border-radius: 8px;"> *@
+@*             <div class="row g-0"> *@
+@*                 <div class="col-md-6"> *@
+@*                     @if (product.ImageData != null) *@
+@*                     { *@
+@*                         <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ImageData)" class="img-fluid mb-3" alt="Product Image" style="max-width: 100%; height: auto; border-radius: 8px;" /> *@
+@*                     } *@
+@*                     else *@
+@*                     { *@
+@*                         <p>Hình ảnh không có sẵn.</p> *@
+@*                     } *@
+@*                 </div> *@
+@*                 <div class="col-md-6"> *@
+@*                     <div class="card-body"> *@
+@*                         <p class="card-text mb-1"><strong>Name:</strong>@product.Name</p> *@
+@*                         <p class="card-text mb-1"><strong>Type:</strong>@product.Type</p> *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <a href="/Customer/ProductDetail?id=@product.ProductId" class="btn btn-info">Chi Tiết</a> *@
+@*             </div> *@
+@*         </div> *@
+@*         // </a> *@
+@*     } *@
+@* </div> *@
+
+
+
+<h2 class="mt-4">Danh Sách San Pham</h2>
+<div class="container mt-3">
+    @foreach (var product in Model.Products)
+    {
+    <a href="/Customer/ProductDetail?id=@product.ProductId" class="text-decoration-none text-dark">
+        <div class="card mb-3" style="border: 1px solid #ddd; border-radius: 8px;">
+            <div class="row g-0">
+                <!-- Cột hình ảnh bên trái -->
+                <div class="col-md-3 d-flex align-items-center">
+                    @if (product.ImageData != null)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ImageData)" class="img-fluid rounded-start" alt="Koi Fish Image" style="width: 100%; height: auto;">
+                    }
+                    else
+                    {
+                        <p>Hình ảnh không có sẵn.</p>
+                    }
+                </div>
+                <!-- Cột tên, xuất xứ, giống bên phải ảnh -->
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">Ten: @product.Name</h5>
+                        <p class="card-text mb-1"><strong>Loai san pham:</strong> @product.Type</p>
+                        @* <p class="card-text mb-1"><strong>Gia:</strong> @product.Price</p> *@
+                    </div>
+                </div>
+                <!-- Cột giá và trạng thái bên phải -->
+                <div class="col-md-3 d-flex flex-column justify-content-center align-items-end pe-4">
+                    <p class="mb-1"><strong>Giá:</strong> @product.Price?.ToString("C0")</p>
+                    <p><strong>Trạng thái:</strong> @product.Status</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    }
+</div>
+
