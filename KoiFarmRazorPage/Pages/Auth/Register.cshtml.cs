@@ -11,10 +11,12 @@ namespace KoiFarmRazorPage.Pages.Auth
     public class RegisterModel : PageModel
     {
         private readonly IUserRepository userRepository;
+        private readonly IWalletRepository walletRepository;
 
         public RegisterModel()
         {
             userRepository = new UserRepository();
+            walletRepository = new WalletRepository();
         }
 
         [BindProperty]
@@ -28,6 +30,7 @@ namespace KoiFarmRazorPage.Pages.Auth
 
             [Required]
             [EmailAddress]
+            [RegularExpression(@"^[^@\s]+@gmail\.com$", ErrorMessage = "Email must end with @gmail.com.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -41,9 +44,6 @@ namespace KoiFarmRazorPage.Pages.Auth
             [Display(Name = "Confirm Password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-            public string Role { get; set; } // Thêm thuộc tính Role
         }
 
         public IActionResult OnGet()
@@ -74,14 +74,26 @@ namespace KoiFarmRazorPage.Pages.Auth
                 Email = Input.Email,
                 Password = Input.Password, // Mã hóa mật khẩu
                 CreateAt = DateTime.Now,
-                Role = Input.Role
+                UpdateAt = DateTime.Now,
+                Role = "Customer",
+                IsDeleted = false
             };
-
             // Lưu người dùng vào database
             userRepository.Register(user);
+            
+            Wallet wallet = new Wallet
+            {
+                UserId = user.UserId,
+                Total = 0,
+                LoyaltyPoint = 0,
+                CreateAt = DateTime.Now,
+                UpdateAt = DateTime.Now,
+                IsDeleted = false,
+            };
+            walletRepository.CreateWallet(wallet);
 
-            // Đăng nhập người dùng hoặc chuyển hướng đến trang đăng nhập
-            return RedirectToPage("/Auth/Login");
+            // Đăng nhập người dùng hoặc chuyển hướng đến trang đăng ký thành công
+            return RedirectToPage("/Auth/RegisterSuccess");
         }
     }
 }

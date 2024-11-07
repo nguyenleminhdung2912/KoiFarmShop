@@ -1,0 +1,60 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Auth.RegisterSuccess
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .success-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .success-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn-login {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .btn-login:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<div class="success-container">
+    <h2>Registration Successful!</h2>
+    <p>You have successfully registered.</p>
+    <a href="/Auth/Login" class="btn-login">Go to Login</a>
+</div>
+</body>
+</html>
