@@ -1,0 +1,60 @@
+﻿/* CSS cho trang PaymentResult */
+.topup-success-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    background-color: #f8f9fa;
+}
+.success-message {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    max-width: 500px;
+    animation: fadeIn 0.8s ease;
+}
+.icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.check-icon {
+    width: 70px;
+    height: 70px;
+    color: #28a745;
+    animation: bounce 1.2s ease infinite;
+}
+.success-message h1 {
+    color: #28a745;
+    font-weight: bold;
+}
+.thank-you-message {
+    font-size: 18px;
+    color: #6c757d;
+}
+.amount-info, .balance-info {
+    font-size: 20px;
+    margin: 15px 0;
+}
+.button-group {
+    margin-top: 30px;
+}
+.button-group .btn {
+    margin: 5px;
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Hiệu ứng bounce cho biểu tượng check */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Hiệu ứng fadeIn cho toàn bộ khung thành công */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

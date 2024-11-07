@@ -9,7 +9,7 @@ public partial class Wallet
 
     public long? UserId { get; set; }
 
-    public double? Total { get; set; }
+    public double Total { get; set; }
 
     public int? LoyaltyPoint { get; set; }
 

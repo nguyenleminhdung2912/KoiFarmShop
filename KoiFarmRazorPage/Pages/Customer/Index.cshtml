@@ -1,33 +1,103 @@
 ﻿@page
 @model KoiFarmRazorPage.Pages.Customer.IndexModel
 @{
-    Layout = "_CustomerLayout";
-    ViewData["Title"] = "Trang Chủ";
+Layout = "_CustomerLayout";
+ViewData["Title"] = "Trang Chủ";
 }
 
-<div class="jumbotron text-center bg-light">
-    <h1 class="display-4">Chào mừng đến với KoiFish Shop!</h1>
-    <p class="lead">Nơi bạn có thể tìm thấy những chú cá koi đẹp nhất, các sản phẩm và dịch vụ tốt nhất cho hồ cá của bạn.</p>
-    <a class="btn btn-primary btn-lg" href="/KoiFish" role="button">Khám phá ngay</a>
+<!-- Banner and Jumbotron Combined -->
+<div class="banner-jumbotron mb-4">
+    <a href="https://your-target-link-here.com">
+        <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/_07e4fdad-3687-43f8-b966-075868de8ff7.jpg?alt=media&token=23086d7c-4def-4b28-bf08-caaa91bb87b2" class="img-fluid w-100 rounded shadow" alt="Banner">
+    </a>
+    <div class="jumbotron text-center p-5 mb-4 rounded" style="background: rgba(0, 0, 0, 0.5); color: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%;">
+        <h1 class="display-4 text-white animate__animated animate__fadeInDown">Chào mừng đến với KoiFish Shop!</h1>
+        <p class="lead text-white animate__animated animate__fadeInUp">Nơi bạn có thể tìm thấy những chú cá koi đẹp nhất, các sản phẩm và dịch vụ tốt nhất cho hồ cá của bạn.</p>
+        <a class="btn btn-lg shadow text-white btn-cta animate__animated animate__zoomIn" href="/KoiFish" role="button">Khám phá ngay</a>
+    </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4 text-center">
-        <img src="path-to-koi-fish-image.jpg" class="img-fluid rounded" alt="Xem Cá Koi">
-        <h3>Xem Cá Koi</h3>
-        <p>Tham khảo các loại cá koi đẹp và chất lượng cho hồ cá của bạn.</p>
-        <a href="/KoiFish" class="btn btn-outline-primary">Xem thêm</a>
+    <div class="col-md-4 text-center mb-4 animate__animated animate__fadeInUp">
+        <div class="card shadow-sm border-0 hover-card">
+            <img src="https://img2.thuthuatphanmem.vn/uploads/2019/03/07/hinh-anh-ca-koi-buom-dep_111106426.png" class="card-img-top rounded img-fluid" alt="Xem Cá Koi">
+            <div class="card-body">
+                <h3 class="card-title">Xem Cá Koi</h3>
+                <p class="card-text">Tham khảo các loại cá koi đẹp và chất lượng cho hồ cá của bạn.</p>
+                <a href="/Customer/ViewKoiFish" class="btn btn-outline-primary btn-hover">Xem thêm</a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4 text-center">
-        <img src="path-to-products-image.jpg" class="img-fluid rounded" alt="Sản Phẩm Cho Cá Koi">
-        <h3>Sản Phẩm Cho Cá Koi</h3>
-        <p>Các phụ kiện, thức ăn và thiết bị chăm sóc cá koi chất lượng.</p>
-        <a href="/Products" class="btn btn-outline-primary">Xem thêm</a>
+    <div class="col-md-4 text-center mb-4 animate__animated animate__fadeInUp">
+        <div class="card shadow-sm border-0 hover-card">
+            <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/2.jpg?alt=media&token=7a76fb36-898c-458e-9af1-6fb66b66fde8" class="card-img-top rounded img-fluid" alt="Sản Phẩm Cho Cá Koi">
+            <div class="card-body">
+                <h3 class="card-title">Sản Phẩm Cho Cá Koi</h3>
+                <p class="card-text">Các phụ kiện, thức ăn và thiết bị chăm sóc cá koi chất lượng.</p>
+                <a href="/Customer/ViewProduct" class="btn btn-outline-primary btn-hover">Xem thêm</a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4 text-center">
-        <img src="path-to-services-image.jpg" class="img-fluid rounded" alt="Dịch Vụ">
-        <h3>Dịch Vụ</h3>
-        <p>Dịch vụ chăm sóc, vệ sinh và hỗ trợ kỹ thuật cho hồ cá koi.</p>
-        <a href="/Services" class="btn btn-outline-primary">Xem thêm</a>
+    <div class="col-md-4 text-center mb-4 animate__animated animate__fadeInUp">
+        <div class="card shadow-sm border-0 hover-card">
+            <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/cham-soc-ve-sinh-ho-ca-koi.jpg?alt=media&token=d58f4262-5b7d-476d-af1b-a2788a81566f" alt="Dịch Vụ">
+            <div class="card-body">
+                <h3 class="card-title">Dịch Vụ</h3>
+                <p class="card-text">Dịch vụ chăm sóc, vệ sinh và hỗ trợ kỹ thuật cho hồ cá koi.</p>
+                <a href="/Services" class="btn btn-outline-primary btn-hover">Xem thêm</a>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .banner-jumbotron {
+        position: relative;
+        margin-bottom: 20px;
+            max-width: 100%;
+            height: auto;
+            width: auto\9; /* ie8 */
+    }
+    .banner-jumbotron img {
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .jumbotron {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+    .btn-cta {
+        background-color: #ff6347;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+    .btn-cta:hover {
+        background-color: #ff4500;
+    }
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .btn-hover {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-hover:hover {
+        background-color: #007bff;
+        color: white;
+    }
+    .card img {
+        transition: transform 0.3s ease;
+    }
+    .card img:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DataAccessObject
 {
@@ -14,7 +16,7 @@ namespace DataAccessObject
             using var db = new KoiFarmShopDatabaseContext();
             User returnuser
                 = db.Users
-                .FirstOrDefault(c => c.UserId.Equals(UserId));
+                    .FirstOrDefault(c => c.UserId.Equals(UserId));
             return returnuser;
         }
 
@@ -59,7 +61,10 @@ namespace DataAccessObject
                 using var context = new KoiFarmShopDatabaseContext();
                 list = context.Users.ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
@@ -79,14 +84,26 @@ namespace DataAccessObject
             }
         }
 
-        public static void UpdateUser(User user)
+        public static bool UpdateUser(User user)
         {
             try
             {
                 using var context = new KoiFarmShopDatabaseContext();
-                context.Entry<User>(user).State
-                    = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
+                var currentUser = context.Users.FirstOrDefault(u => u.Email == user.Email);
+
+                if (currentUser != null)
+                {
+                    if (!user.Name.IsNullOrEmpty())
+                        currentUser.Name = user.Name;
+                    if (!user.Phone.IsNullOrEmpty())
+                        currentUser.Phone = user.Phone;
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -97,7 +114,8 @@ namespace DataAccessObject
         public static User GetUserByEmail(string userEmail)
         {
             using var db = new KoiFarmShopDatabaseContext();
-            User returnUser = db.Users.FirstOrDefault(c => c.Email.Equals(userEmail));
+            User returnUser = db.Users
+                .FirstOrDefault(c => c.Email.Equals(userEmail));
             return returnUser;
         }
 
