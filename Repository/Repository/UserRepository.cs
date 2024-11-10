@@ -27,6 +27,9 @@ namespace Repository.Repository
         public void SaveUser(User User)
             => UserDAO.SaveUser(User);
 
+        public Task<bool> ResetPasswordAsync(string email, string newPassword)
+            => UserDAO.ResetPasswordAsync(email, newPassword);
+
         public void UpdateUser(User User)
             => UserDAO.UpdateUser(User);
     }

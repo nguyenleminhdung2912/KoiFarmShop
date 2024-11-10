@@ -31,6 +31,8 @@ builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 
 builder.Services.AddSingleton<IVnPayService, VnPayService>();
 
+builder.Services.AddTransient<EmailService>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

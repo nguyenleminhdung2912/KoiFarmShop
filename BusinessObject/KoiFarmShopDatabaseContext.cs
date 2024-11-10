@@ -40,10 +40,11 @@ public partial class KoiFarmShopDatabaseContext : DbContext
     public string GetConnectionString()
     {
         IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true).Build();
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true).Build();
         return configuration["ConnectionStrings:DefaultConnectionString"];
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(GetConnectionString());
 
@@ -73,10 +74,9 @@ public partial class KoiFarmShopDatabaseContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__Blog__UserID__47DBAE45");
             entity.Property(e => e.ImageData)
-             .HasColumnType("varbinary(max)")
-             .HasColumnName("ImageData");
-
-	});
+                .HasColumnType("varbinary(max)")
+                .HasColumnName("ImageData");
+        });
 
         modelBuilder.Entity<Consignment>(entity =>
         {
@@ -104,8 +104,8 @@ public partial class KoiFarmShopDatabaseContext : DbContext
                 .HasConstraintName("FK__Consignme__UserI__4AB81AF0");
             entity.Property(e => e.Status).HasMaxLength(50).HasColumnName("Status");
             entity.Property(e => e.ImageData)
-              .HasColumnType("varbinary(max)")
-              .HasColumnName("ImageData");
+                .HasColumnType("varbinary(max)")
+                .HasColumnName("ImageData");
         });
 
         modelBuilder.Entity<KoiFish>(entity =>
@@ -131,8 +131,8 @@ public partial class KoiFarmShopDatabaseContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Update_At");
             entity.Property(e => e.ImageData)
-              .HasColumnType("varbinary(max)")
-              .HasColumnName("ImageData");
+                .HasColumnType("varbinary(max)")
+                .HasColumnName("ImageData");
             entity.Property(e => e.Color).HasMaxLength(50);
             entity.Property(e => e.Quantity).HasColumnName("Quantity");
         });
@@ -218,8 +218,8 @@ public partial class KoiFarmShopDatabaseContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Update_At");
             entity.Property(e => e.ImageData)
-              .HasColumnType("varbinary(max)")
-              .HasColumnName("ImageData");
+                .HasColumnType("varbinary(max)")
+                .HasColumnName("ImageData");
             entity.Property(e => e.Quantity).HasColumnName("Quantity");
         });
 

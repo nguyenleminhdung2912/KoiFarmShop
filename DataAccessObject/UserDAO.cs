@@ -134,5 +134,25 @@ namespace DataAccessObject
                 throw new Exception(ex.Message);
             }
         }
+
+        // Phương thức đặt lại mật khẩu
+        public static async Task<bool> ResetPasswordAsync(string email, string newPassword)
+        {
+            using var _context = new KoiFarmShopDatabaseContext();
+
+            // Tìm người dùng theo email
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                // Người dùng không tồn tại
+                return false;
+            }
+
+            // Cập nhật mật khẩu mới
+            user.Password = newPassword;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
