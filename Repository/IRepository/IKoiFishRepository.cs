@@ -12,5 +12,19 @@ namespace Repository.IRepository
         List<KoiFish> GetKoiFishsByListString(string listString);
         Task<List<KoiFish>> GetAllKoiFishNotDeleted();
         Task<KoiFish?> GetKoiFishById(long id);
+
+        List<KoiFish> GetkoiFishes();
+        
+        bool CreateKoiFish(KoiFish koiFish);
+
+        long GetKoiFishId();
+        
+        bool DeleteKoiFishById(long koiFishId);
+
+        List<KoiFish> GetKoiFishByCustomerOrGuest();
+        
+        KoiFish GetKoiFishByIdByStaff(long koiFishId);
+        
+        bool UpdateKoiFish(KoiFish koiFish);
     }
 }

@@ -42,7 +42,7 @@
 				<option value="Tank">Tank</option> *@
                 <option value="Food" selected="@(Model.Product.Type == "Food" ? "selected" : "")">Food</option>
                 <option value="Equipment" selected="@(Model.Product.Type == "Equipment" ? "selected" : "")">Equipment</option>
-                <option value="Tank" selected="@(Model.Product.Type == "Tank" ? "selected" : "")">Tank</option>
+                <option value="Service" selected="@(Model.Product.Type == "Service" ? "selected" : "")">Service</option>
 
             </select>
             @if (Model.ValidateErrors.ContainsKey("ProductType"))
