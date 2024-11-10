@@ -1,0 +1,55 @@
+@page
+@model KoiFarmRazorPage.Pages.Customer.ConsignmentDetail
+
+@{
+    ViewData["Title"] = "ViewConsignmentDetail";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+
+<h2>Chi tiết Consignment</h2>
+@if (Model.Message != null)
+{
+    @Model.Message
+}
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Koi Name: @Model.Consignment.KoiName</h5>
+            @if (Model.Consignment.ImageData != null && Model.Consignment.ImageData.Length > 0)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Consignment.ImageData)" class="img-fluid mb-3" alt="Koi Image" style="max-width: 100%; height: auto; border-radius: 8px;"/>
+            }
+            else
+            {
+                <p>Hình ảnh không có sẵn.</p>
+            }
+            <p>
+                <strong>Giá:</strong> @Model.Consignment.Price
+            </p>
+            <p>
+                <strong>User Name:</strong> @Model.Consignment.User.Name
+            </p>
+            <p>
+                <strong>Từ thời gian:</strong> @Model.Consignment.FromTime
+            </p>
+            <p>
+                <strong>Đến thời gian:</strong> @Model.Consignment.ToTime
+            </p>
+            <p>
+                <strong>Ngày tạo:</strong> @Model.Consignment.CreateAt
+            </p>
+            <p>
+                <strong>Ngày cập nhật:</strong> @Model.Consignment.UpdateAt
+            </p>
+            @if (Model.Consignment.Status == "APPROVED")
+            {
+                <form method="post" class="d-inline">
+                    <input type="hidden" name="consignmentId" value="@Model.Consignment.ConsignmentId"/>
+                    <button type="submit" name="handler" value="Confirm" class="btn btn-success">Confirm</button>
+                    <button type="submit" name="handler" value="Cancel" class="btn btn-danger">Cancel</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>

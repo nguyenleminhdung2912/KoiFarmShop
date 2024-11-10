@@ -11,6 +11,7 @@ public partial class Order
     public long? UserId { get; set; }
 
     public string? KoiFishId { get; set; }
+    //1, 2, 4
 
     public string? ProductId { get; set; }
 

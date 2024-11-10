@@ -10,7 +10,7 @@ namespace KoiFarmRazorPage.Pages.Customer
     {
         private readonly ICartRepository _cartRepository;
 
-        public CartModel(ICartRepository cartRepository)
+        public CartPageModel(ICartRepository cartRepository)
         {
             _cartRepository = cartRepository;
         }

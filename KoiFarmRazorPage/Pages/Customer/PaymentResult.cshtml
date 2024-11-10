@@ -1,0 +1,34 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Customer.PaymentResult
+
+@{
+    ViewData["Title"] = "Payment result";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+@if (Model.PaymentResponse != null)
+{
+    if (Model.PaymentResponse.Success == true)
+    {
+        <div class="topup-success-container">
+            <div class="success-message shadow-lg rounded">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="check-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h1>Nạp tiền thành công!</h1>
+                <p class="amount-info">Bạn đã nạp thành công <strong>@Model.PaymentResponse.VnPayAmount.ToString("N0")</strong> VNĐ vào tài khoản.</p>
+                @* <p class="balance-info">Số dư hiện tại của bạn là <strong>@Model.CurrentBalance.ToString("N0")</strong> VNĐ.</p> *@
+                <div class="button-group">
+                    <a class="btn btn-success btn-lg shadow-sm" href="/Customer/ViewProfile">Xem tài khoản</a>
+                    <a class="btn btn-outline-secondary btn-lg shadow-sm" href="/Customer/Index">Quay lại trang chủ</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>No payment response available.</p>
+}
+<link rel="stylesheet" href="~/css/PaymentResult.css" />

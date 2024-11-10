@@ -1,0 +1,101 @@
+@page
+@model KoiFarmRazorPage.Pages.Staff.UpdateBlog
+
+@{
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+    ViewData["Title"] = "Update Blog";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+<div class="content">
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+    <div class="alert alert-success">@Model.Message</div>
+    }
+    <form method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="blogId" value="@Model.Blog.BlogId"/>
+        <div class="form-group">
+            <label for="blogTitle" class="form-label">Title</label>
+            <input type="text" asp-for="Blog.Title" id="blogTitle" class="form-input" value="@Model.Blog.Title"/>
+            @if (Model.ValidateErrors.ContainsKey("BlogTitle"))
+            {
+            @Model.ValidateErrors["BlogTitle"]
+            }
+        </div>
+
+
+        <div class="form-group">
+            <label for="blogImage" class="form-label">Image</label>
+            <input type="file" asp-for="BlogImage" id="blogImage" class="form-input"/>
+            @if (Model.Blog.ImageData != null && Model.Blog.ImageData.Length > 0)
+            {
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Blog.ImageData)" class="img-fluid mb-3" alt="Product Image" style="max-width: 100%; height: auto; border-radius: 8px;" />
+            }
+            else
+            {
+            <p>Hình ảnh không có sẵn.</p>
+            }
+            @if (Model.ValidateErrors.ContainsKey("BlogImage"))
+            {
+            @Model.ValidateErrors["BlogImage"]
+            }
+        </div>
+        <div class="form-group">
+            <label for="blogDescription" class="form-label">Description</label>
+            <input type="text" asp-for="Blog.Description" id="blogDescription" class="form-input" value="@Model.Blog.Description"/>
+            @if (Model.ValidateErrors.ContainsKey("BlogDescription"))
+            {
+            @Model.ValidateErrors["BlogDescription"]
+            }
+        </div>
+
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+
+<!-- Optional: Your custom styles -->
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+

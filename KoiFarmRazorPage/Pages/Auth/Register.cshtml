@@ -71,6 +71,10 @@
 <body>
     <div class="register-container">
         <h2>Register</h2>
+        
+        <!-- Validation summary for displaying general errors -->
+        <div asp-validation-summary="All" class="text-danger"></div>
+
         <form method="post">
             <input type="text" asp-for="Input.Name" class="form-control" placeholder="Name" required />
             <span asp-validation-for="Input.Name" class="text-danger"></span>
@@ -83,12 +87,6 @@
 
             <input type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" required />
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-
-            <select asp-for="Input.Role" class="form-control" required>
-                <option value="Customer">Customer</option>
-                <option value="Staff">Staff</option>
-            </select>
-            <span asp-validation-for="Input.Role" class="text-danger"></span>
 
             <button type="submit" class="btn-register">Register</button>
         </form>

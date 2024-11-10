@@ -1,0 +1,199 @@
+@page
+@model KoiFarmRazorPage.Pages.Staff.ConsignmentManagement
+
+@{
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+    ViewData["Title"] = "Consignmment Management";
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+<div class="search-form" style="margin-bottom: 20px;">
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <label for="statusConsignment" class="form-label me-2 mb-0">Status:</label>
+
+        <select name="statusConsignment" id="statusConsignment" class="form-select w-auto me-2">
+            @{
+                bool isAllSelected = Model.SelectedStatus == "ALL";
+                bool isPendingSelected = Model.SelectedStatus == "PENDING";
+                bool isRejectedSelected = Model.SelectedStatus == "REJECTED";
+                bool isApprovedSelected = Model.SelectedStatus == "APPROVED";
+                bool isConfirmedSelected = Model.SelectedStatus == "CONFIRMED";
+                bool isCancelledSelected = Model.SelectedStatus == "CANCELLED";
+            }
+            <option value="ALL" selected="@(isAllSelected)">Tất cả</option>
+            <option value="PENDING" selected="@(isPendingSelected)">Pending</option>
+            <option value="REJECTED" selected="@(isRejectedSelected)">Rejected</option>
+            <option value="APPROVED" selected="@(isApprovedSelected)">Approved</option>
+            <option value="CONFIRMED" selected="@(isConfirmedSelected)">Confirmed</option>
+            <option value="CANCELLED" selected="@(isCancelledSelected)">Cancelled</option>
+        </select>
+
+        <button type="submit" name="handler" value="Search" style="padding: 10px 15px; background-color: #4267B2; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">Search</button>
+    </form>
+</div>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+    {
+        <div class="alert alert-danger">
+            @error.ErrorMessage
+        </div>
+    }
+}
+
+@if (Model.Message != null)
+{
+    @Model.Message
+}
+
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 5px; overflow: hidden;">
+	    <thead>
+	    <tr>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Select</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">User Name</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Koi Name</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Image</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">From Time</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">To Time</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Price</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Create At</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Update At</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    @foreach (var consignment in Model.Consignments)
+	    {
+		    <tr>
+			    <td style="padding: 10px; border: 1px solid #ddd;">
+				    <input type="radio" name="selectedConsignmentId" value="@consignment.ConsignmentId"/>
+			    </td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.User.Name</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.KoiName</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">
+				    @if (consignment.ImageData != null)
+				    {
+					    <img src="data:image/jpeg;base64,@Convert.ToBase64String(consignment.ImageData)"
+					         style="width: 100px; height: 100px; object-fit: cover;"/>
+				    }
+				    else
+				    {
+					    <span>No Image</span>
+				    }
+			    </td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.FromTime</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.ToTime</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.Price</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.CreateAt?.ToString("yyyy-MM-dd")</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.UpdateAt?.ToString("yyyy-MM-dd")</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@consignment.Status</td>
+		    </tr>
+	    }
+	    </tbody>
+    </table>
+    @if (Model.SelectedStatus == "PENDING")
+    {
+        <div class="pending-buttons" style="margin-top: 20px;">
+            <button type="submit" name="handler" value="Reject" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Reject</button>
+            <button type="submit" name="handler" value="Approve" style="padding: 10px 15px; margin-right: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Approve</button>
+        </div>
+    }
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+
+
+<style>
+	.content-cell {
+		max-width: 100px;
+	}
+
+	.content-scroll {
+		max-height: 100px;
+		overflow: auto;
+		white-space: pre-wrap;
+		word-break: break-word;
+		padding: 4px;
+		background-color: #f8f9fa;
+		border-radius: 4px;
+	}
+
+
+		.content-scroll:hover {
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		}
+</style>
+
+<style>
+	.table {
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	tbody tr:hover {
+		background-color: #e9ecef;
+		transition: background-color 0.3s ease-in-out;
+	}
+
+	.custom-badge {
+		background-color: #007bff;
+		color: white;
+		padding: 6px 12px;
+		border-radius: 12px;
+		font-size: 0.85rem;
+		margin-bottom: 4px;
+	}
+
+	.align-middle {
+		vertical-align: middle !important;
+	}
+
+	thead th {
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	.d-flex {
+		display: flex;
+	}
+
+	.flex-wrap {
+		flex-wrap: wrap;
+	}
+
+	.gap-1 {
+		gap: 0.25rem;
+	}
+
+	h1 {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-weight: 700;
+		color: #495057;
+	}
+
+
+	.text-truncate {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.content-cell {
+		max-width: 200px;
+		cursor: pointer;
+	}
+</style>

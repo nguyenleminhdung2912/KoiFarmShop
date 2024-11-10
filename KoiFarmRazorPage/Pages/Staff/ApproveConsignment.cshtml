@@ -1,0 +1,101 @@
+@page
+@using Microsoft.EntityFrameworkCore
+@model KoiFarmRazorPage.Pages.Staff.ApproveConsignment
+
+@{
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+    ViewData["Title"] = "Consignmment Management";
+}
+
+<h2>Cập Nhat Consignment</h2>
+<div class="content">
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+    <div class="alert alert-success">@Model.Message</div>
+    }
+    <form method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <input type="text" name="consignmentId" class="form-input" value="@Model.Consignment.ConsignmentId" readonly="readonly" />
+        <div class="form-group">
+            <label for="userName" class="form-label">User Name</label>
+            <input type="text" asp-for="@Model.Consignment.User.Name" id="userName" class="form-input" value="@Model.Consignment.User.Name" readonly="readonly" />
+        </div>
+        <div class="form-group">
+            <label for="koiName" class="form-label">Koi Name</label>
+            <input type="text" asp-for="@Model.Consignment.KoiName" id="koiName" class="form-input" value="@Model.Consignment.KoiName" readonly="readonly" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="koiImage" class="form-label">Koi Image</label>
+            <input type="hidden" name="KoiImage" id="koiImage" class="form-control" readonly="readonly"/>
+            @if (Model.Consignment.ImageData != null && Model.Consignment.ImageData.Length > 0)
+            {
+            <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Consignment.ImageData))"
+                 alt="Current Koi Image" width="150" class="d-block mb-2" />
+            }
+        </div>
+        <input type="text" name="consignmentCreateAt" class="form-input" value="@Model.Consignment.CreateAt" />
+        <div class="form-group">
+            <label for="fromTime" class="form-label">From Time</label>
+            <input type="date" asp-for="@Model.Consignment.FromTime" id="fromTime" class="form-input" value="@Model.Consignment.FromTime?.ToString("yyyy-MM-dd")" readonly="readonly" />
+            
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="form-label">Price</label>
+            <input type="text" asp-for="@Model.Consignment.Price" id="price" class="form-input" value="@Model.Consignment.Price"  />
+            @if (Model.ValidateErrors.ContainsKey("ConsignmentPrice"))
+            {
+               @Model.ValidateErrors["ConsignmentPrice"]
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="toTime" class="form-label">To Time</label>
+            <input type="date" asp-for="@Model.Consignment.ToTime" id="toTime" class="form-input" value="@Model.Consignment.ToTime?.ToString("yyyy-MM-dd")" readonly="readonly" />
+        </div>
+        <button type="submit" class="btn btn-primary">Approve</button>
+    </form>
+</div>
+
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>

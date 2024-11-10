@@ -58,6 +58,7 @@ namespace KoiFarmRazorPage.Pages.Auth
             {
                 var claims = new List<Claim>
                 {
+                    new Claim("userId", user.UserId.ToString()),
                     new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.Role, user.Role) // Lấy Role từ đối tượng User
                 };
@@ -74,9 +75,9 @@ namespace KoiFarmRazorPage.Pages.Auth
                 }
                 else if (user.Role == "Staff")
                 {
-                    return RedirectToPage("/Staff/Index");
+                    return RedirectToPage("/Staff/StaffPage");
                 }
-                else if (user.Role == "User")
+                else if (user.Role == "Customer")
                 {
                     return RedirectToPage("/Customer/Index");
                 }

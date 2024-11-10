@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 using Repository.Repository;
 using System.Configuration;
+using KoiFarmRazorPage.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +24,9 @@ builder.Services.AddDbContext<KoiFarmShopDatabaseContext>(options =>
 // Add session services
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout (optional)
-    options.Cookie.HttpOnly = true; // Make the session cookie HTTP only
-    options.Cookie.IsEssential = true; // Required for session to work
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 builder.Services.AddHttpContextAccessor();
 
@@ -35,6 +36,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession();
+
+builder.Services.AddScoped<IConsignmentRepository, ConsignmentRepository>();
+
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

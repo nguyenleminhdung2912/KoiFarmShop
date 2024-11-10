@@ -3,78 +3,162 @@
 
 @{
     ViewData["Title"] = "View Profile";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
 }
 
-<h2 class="text-center">Your Profile</h2>
-
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h3>User Information</h3>
-        </div>
-        <div class="col-md-6">
-            <h4>Profile Picture</h4>
-            @*@<img src="@Model.User.ProfileImage" alt="Profile Picture" class="img-fluid rounded-circle" />*@
+<div class="container mt-5">
+    <h2 class="text-center" style="color: #f3a683;">Your Profile</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessMessage"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+    <!-- User Information Card -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header" style="background-color: #f3a683; color: #fff;">
+            <h4 class="mb-0">User Information</h4>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Name:</strong> @Model.UserProfile.Name  </p>
-                    <p><strong>Email:</strong>  @Model.UserProfile.Email  </p>
-                    <p><strong>Phone:</strong>  @Model.UserProfile.Phone  </p>
-                    <p><strong>Role:</strong> @Model.UserProfile.Role </p>
-                    
+            <div class="row align-items-center">
+                <div style = "padding-left: 7vw" class="col-md-4 text-center">
+                    <!-- Profile Picture -->
+                    <div class="profile-picture mb-3">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/cd1f017c-ae6c-4e4b-b72c-af0c0cfce31a.jpg?alt=media" alt="Profile Picture" class="profile-img"/>
+                    </div>
                 </div>
-               
+                <div style = "padding-right: 100px" class="col-md-8">
+                    <!-- Edit Profile Form -->
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="Name" name="Name" value="@Model.UserProfile.Name" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="Email" name="Email" value="@Model.UserProfile.Email" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.UserProfile.Phone" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-lg" style="background-color: #f3a683; color: white;">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-header">
-            <h3>Blogs</h3>
+
+    <!-- Wallet Information Card -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header d-flex align-items-center" style="background-color: #f3a683; color: #fff;">
+            <img src="https://www.freeiconspng.com/uploads/wallet-icon-1.png" alt="Wallet Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+            <h4 class="mb-0">Your Wallet</h4>
         </div>
         <div class="card-body">
-            <ul class="list-group">
-               @*@ @if (Model.User.Blogs.Any())
-                {
-                    foreach (var blog in Model.User.Blogs)
-                    {
-                        <li class="list-group-item">@blog.Title</li>
-                    }
-                }
-                else
-                {
-                    <li class="list-group-item">No blogs available.</li>
-                }*@
-            </ul>
+            <p>
+                <strong>Total Balance:</strong> @Model.UserWallet.Total.ToString("N0") VNĐ
+            </p>
+            <p>
+                <strong>Loyalty Points:</strong> @Model.UserWallet.LoyaltyPoint Points
+            </p>
+            <button class="btn btn-primary mt-3" style="background-color: #f3a683; border-color: #f3a683;" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                Nạp Tiền
+            </button>
         </div>
     </div>
-
-    <div class="card mt-4">
-        <div class="card-header">
-            <h3>Orders</h3>
+    <!-- Modal nhập số tiền -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Nạp Tiền vào Ví</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="paymentForm" method="post" asp-page-handler="Payment">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Nhập số tiền (VNĐ)</label>
+                            <input type="number" class="form-control" id="amount" name="amount" required min="1000" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="submitPayment()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wallet Logs -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header" style="background-color: #f3a683; color: #fff;">
+            <h4 class="mb-0">Wallet Logs</h4>
         </div>
         <div class="card-body">
-            <ul class="list-group">
-             @* @if (Model.User.Orders.Any())
+            @if (Model.WalletLogs != null && Model.WalletLogs.Count > 0)
+            {
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Transaction Date</th>
+                    <th>Amount (VNĐ)</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var log in Model.WalletLogs)
                 {
-                    foreach (var order in Model.User.Orders)
-                    {
-                        <li class="list-group-item">Order ID: @order.OrderId</li>
-                    }
+                <tr>
+                    <td>@log.CreateAt?.ToString("dd-MM-yyyy HH:mm")</td>
+                    <td>@log.Amount?.ToString("N0")</td>
+                    <td>@log.Type.Split(' ')[0]</td>
+                </tr>
                 }
-                else
-                {
-                    <li class="list-group-item">No orders available.</li>
-                }*@
-            </ul>
+                </tbody>
+            </table>
+            }
+            else
+            {
+            <p>No transaction history available.</p>
+            }
         </div>
     </div>
 
-    <!-- Thêm các phần khác cho Consignments, KoiFishRatings, ProductRatings, Wallets nếu cần -->
-
-    <div class="mt-4">
-        <a asp-page="/Auth/EditProfile" class="btn btn-primary">Edit Profile</a>
-    </div>
+    <!-- Script để submit form khi bấm "OK" -->
+    <script>
+        function submitPayment() {
+            document.getElementById("paymentForm").submit();
+        }
+    </script>
 </div>
+
+<!-- Additional Styles -->
+<style>
+    .card {
+        border-radius: 10px;
+    }
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 3px solid #f3a683;
+    }
+
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
