@@ -1,0 +1,131 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Customer.CartPageModel
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+<div class="container">
+    <h1>Shopping Cart</h1>
+
+    @if (Model.Cart.TotalQuantity == 0)
+    {
+        <p>Your cart is empty.</p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <h2>Koi Fish</h2>
+                @if (Model.Cart.KoiFishItems.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Cart.KoiFishItems)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (item.Image != null)
+                                        {
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
+                                                 alt="@item.Name" style="max-width: 100px;" />
+                                        }
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Price.ToString("C")</td>
+                                    <td>
+                                        <form method="post" asp-page-handler="UpdateQuantity">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="itemType" value="KoiFish" />
+                                            <input type="number" name="quantity" value="@item.Quantity"
+                                                   min="1" style="width: 70px" onchange="this.form.submit()" />
+                                        </form>
+                                    </td>
+                                    <td>@((item.Price * item.Quantity).ToString("C"))</td>
+                                    <td>
+                                        <form method="post" asp-page-handler="RemoveItem">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="itemType" value="KoiFish" />
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No Koi Fish in cart.</p>
+                }
+
+                <h2>Products</h2>
+                @if (Model.Cart.ProductItems.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Cart.ProductItems)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (item.Image != null)
+                                        {
+                                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
+                                                 alt="@item.Name" style="max-width: 100px;" />
+                                        }
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Price.ToString("C")</td>
+                                    <td>
+                                        <form method="post" asp-page-handler="UpdateQuantity">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="itemType" value="Product" />
+                                            <input type="number" name="quantity" value="@item.Quantity"
+                                                   min="1" style="width: 70px" onchange="this.form.submit()" />
+                                        </form>
+                                    </td>
+                                    <td>@((item.Price * item.Quantity).ToString("C"))</td>
+                                    <td>
+                                        <form method="post" asp-page-handler="RemoveItem">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="itemType" value="Product" />
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No Products in cart.</p>
+                }
+
+                <div class="text-right">
+                    <h3>Total Items: @Model.Cart.TotalQuantity</h3>
+                    <h3>Total Price: @Model.Cart.TotalPrice.ToString("C")</h3>
+                    <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

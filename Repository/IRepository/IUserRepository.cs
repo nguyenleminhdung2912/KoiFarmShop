@@ -17,5 +17,7 @@ namespace Repository.IRepository
         void UpdateUser(User User);
         void DeleteUser(User User);
         void SaveUser(User User);
+        
+        Task<bool> ResetPasswordAsync(string email, string newPassword);
     }
 }
