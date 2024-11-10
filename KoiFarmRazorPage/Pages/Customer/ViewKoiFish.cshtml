@@ -2,70 +2,44 @@
 @model KoiFarmRazorPage.Pages.Customer.ViewKoiFishModel
 
 @{
-ViewData["Title"] = "ViewKoiFish";
-Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "ViewKoiFish";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
 }
 
-<h2 class="mt-4 text-center text-uppercase font-weight-bold" style="color: #1f618d;">Danh Sách Cá Koi</h2>
+
+<h2 class="mt-4">Danh Sách Cá Koi</h2>
 <div class="container mt-3">
-    <form method="get" action="/Customer/CompareKoiFishes">
-        @foreach (var koi in Model.KoiFishList)
-        {
+    @foreach (var koi in Model.KoiFishList)
+    {
         <a href="/Customer/KoiFishDetail?id=@koi.KoiFishId" class="text-decoration-none text-dark">
-            <div class="card mb-3 shadow-lg border-0" style="border-radius: 12px; transition: transform 0.3s ease;">
+            <div class="card mb-3" style="border: 1px solid #ddd; border-radius: 8px;">
                 <div class="row g-0">
                     <!-- Cột hình ảnh bên trái -->
-                    <div class="col-md-4 d-flex align-items-center">
-                        <img src="https://cafishvet.com/wp-content/uploads/2021/04/20150527-_DSC4345-Edit-scaled.jpg" class="img-fluid rounded-start" alt="Koi Fish Image" style="width: 100%; height: auto;">
+                    <div class="col-md-3 d-flex align-items-center">
+                        @if (koi.ImageData != null)
+                        {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(koi.ImageData)" class="img-fluid mb-3" alt="Koi Image" style="max-width: 100%; height: auto; border-radius: 8px;"/>
+                        }
+                        else
+                        {
+                        <p>Hình ảnh không có sẵn.</p>
+                        }
                     </div>
                     <!-- Cột tên, xuất xứ, giống bên phải ảnh -->
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <div class="card-body">
-                            <h5 class="card-title" style="color: #2c3e50; font-size: 1.2rem; font-weight: bold;">@koi.Name</h5>
+                            <h5 class="card-title">@koi.Name</h5>
                             <p class="card-text mb-1"><strong>Xuất xứ:</strong> @koi.Origin</p>
                             <p class="card-text mb-1"><strong>Giống:</strong> @koi.Breed</p>
                         </div>
                     </div>
                     <!-- Cột giá và trạng thái bên phải -->
                     <div class="col-md-3 d-flex flex-column justify-content-center align-items-end pe-4">
-                        <p class="mb-1" style="font-weight: bold; color: #e74c3c; font-size: 1.1rem;"><strong>Giá:</strong> @koi.Price?.ToString("C0")</p>
-                        <p class="mb-2" style="font-style: italic; font-size: 1rem;">@koi.Status</p>
-                        <!-- Nút checkbox chọn để so sánh -->
-                        <div class="form-check mt-3">
-                            <input type="checkbox" name="selectedKoiFishIds" value="@koi.KoiFishId" class="form-check-input" id="check-@koi.KoiFishId">
-                            <label class="form-check-label" for="check-@koi.KoiFishId">So sánh</label>
-                        </div>
+                        <p class="mb-1"><strong>Giá:</strong> @koi.Price?.ToString("C0")</p>
+                        <p><strong>Trạng thái:</strong> @koi.Status</p>
                     </div>
                 </div>
             </div>
         </a>
-        }
-
-        <!-- Nút chuyển đến trang so sánh -->
-        <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-primary px-5 py-3" style="background-color: #f3a683; border: none; color: white; border-radius: 8px; font-weight: bold;" onclick="return checkSelected()">Xem sự khác biệt</button>
-        </div>
-    </form>
-</div>
-
-<script>
-    // Kiểm tra ít nhất hai cá koi được chọn
-    function checkSelected() {
-        const checkboxes = document.querySelectorAll('input[name="selectedKoiFishIds"]:checked');
-        if (checkboxes.length !== 2) {
-            alert("Vui lòng chọn đúng 2 cá koi để so sánh.");
-            return false;
-        }
-        return true;
     }
-
-    // Hiệu ứng hover thẻ cá koi
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'scale(1.05)';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'scale(1)';
-        });
-    });
-</script>
+</div>
