@@ -67,7 +67,10 @@ namespace DataAccessObject
 			{
 				existProduct.Name = product.Name;
 				existProduct.Type = product.Type;
-				existProduct.ImageData = product.ImageData;
+				if (product.ImageData != null)
+				{
+					existProduct.ImageData = product.ImageData;
+				}
 				existProduct.Price = product.Price;
 				existProduct.UpdateAt = DateTime.Now;
 				existProduct.Status = product.Status;

@@ -1,36 +1,23 @@
 @page
-@model KoiFarmRazorPage.Pages.Staff.BlogManagement
+@model KoiFarmRazorPage.Pages.Staff.KoiFishManagement
 
 @{
     Layout = "~/Pages/Shared/_StaffLayout.cshtml";
-    ViewData["Title"] = "Blog Management";
-    var successMessage = TempData["SuccessMessage"] as string;
+    ViewData["Title"] = "Koi Fish Management";
 }
+
 <h2>@ViewData["Title"]</h2>
 
-<p>Manage Blog here.</p>
-
-@if (!string.IsNullOrEmpty(successMessage))
+<p>Manage Koi Fish here.</p>
+@if (TempData["KoiFishSuccess"] != null)
 {
-    <div class="alert alert-success" role="alert">
-        @successMessage
-    </div>
-}
-@if (!ViewData.ModelState.IsValid)
-{
-    foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-    {
-        <div class="alert alert-danger">
-            @error.ErrorMessage
-        </div>
-    }
+    @TempData["KoiFishSuccess"];
 }
 
 @if (Model.Message != null)
 {
     @Model.Message
 }
-
 <div class="search-form" style="margin-bottom: 20px;">
     <form method="post">
         @Html.AntiForgeryToken()
@@ -44,23 +31,32 @@
         <thead>
         <tr>
             <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Select</th>
-            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Title</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Koi Fish Name</th>
             <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Image</th>
-            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Description</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Origin</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Gender</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Age</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Size</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Breed</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Filter_Ratio</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Price</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Color</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Quantity</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var blog in Model.Blogs)
+        @foreach (var koiFish in Model.KoiFishes)
         {
             <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <input type="radio" name="blogId" value="@blog.BlogId"/>
+                    <input type="radio" name="selectedKoiFishId" value="@koiFish.KoiFishId"/>
                 </td>
-                <td style="padding: 10px; border: 1px solid #ddd;">@blog.Title</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Name</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    @if (blog.ImageData != null)
+                    @if (koiFish.ImageData != null)
                     {
-                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(blog.ImageData)"
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(koiFish.ImageData)"
                              style="width: 100px; height: 100px; object-fit: cover;"/>
                     }
                     else
@@ -68,7 +64,16 @@
                         <span>No Image</span>
                     }
                 </td>
-                <td style="padding: 10px; border: 1px solid #ddd;">@blog.Description</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Origin</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Gender</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Age</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Size</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Breed</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.FilterRatio</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Price</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Status</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Color</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@koiFish.Quantity</td>
             </tr>
         }
         </tbody>
