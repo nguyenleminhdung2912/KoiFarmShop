@@ -1,0 +1,36 @@
+@page
+@model KoiFarmRazorPage.Pages.Customer.ProductDetail
+
+@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Chi tiết Product</h2>
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Name: @Model.Product.Name</h5>
+            <h5 class="card-title">Type: @Model.Product.Type</h5>
+            @if (Model.Product.ImageData != null && Model.Product.ImageData.Length > 0)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Product.ImageData)" 
+                     class="img-fluid mb-3" alt="Product Image" 
+                     style="max-width: 300px; height: auto; border-radius: 8px;" />
+            }
+            else
+            {
+                <p>Hình ảnh không có sẵn.</p>
+            }
+            <p>
+                <strong>Giá:</strong> @Model.Product.Price
+            </p>
+            <p>
+                <strong>Kho:</strong> @Model.Product.Status
+            </p>
+            <p>
+                <strong>Số lượng:</strong> @Model.Product.Quantity
+            </p>
+        </div>
+    </div>
+</div>
