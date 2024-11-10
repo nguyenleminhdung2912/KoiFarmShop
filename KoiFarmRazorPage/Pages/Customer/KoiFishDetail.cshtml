@@ -10,10 +10,14 @@
     <div class="card shadow-sm" style="border-radius: 8px;">
         <div class="row g-0">
             <div class="col-md-4 d-flex align-items-center">
-                <img src="https://cafishvet.com/wp-content/uploads/2021/04/20150527-_DSC4345-Edit-scaled.jpg"
-                     class="img-fluid rounded-start"
-                     alt="Koi Fish Image"
-                     style="width: 100%; height: auto;">
+                @if (@Model.KoiFish.ImageData != null)
+                {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.KoiFish.ImageData)" class="img-fluid mb-3" alt="Koi Image" style="max-width: 100%; height: auto; border-radius: 8px;"/>
+                }
+                else
+                {
+                <p>Hình ảnh không có sẵn.</p>
+                }
             </div>
             <div class="col-md-8">
                 <div class="card-body">

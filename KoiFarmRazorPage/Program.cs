@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 using Repository.Repository;
 using System.Configuration;
+using BusinessObject;
 using KoiFarmRazorPage.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,8 @@ builder.Services.AddSession();
 builder.Services.AddScoped<IConsignmentRepository, ConsignmentRepository>();
 
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+
+builder.Services.AddScoped<IKoiFishRepository, KoiFishRepository>();
 
 builder.Services.AddSingleton<IVnPayService, VnPayService>();
 
