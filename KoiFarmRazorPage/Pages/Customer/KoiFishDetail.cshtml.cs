@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Repository.IRepository;
 using Repository.Repository;
 
@@ -12,14 +13,17 @@ namespace KoiFarmRazorPage.Pages.Customer
         private readonly IKoiFishRepository koiFishRepository;
         private readonly ICartRepository _cartRepository;
 
-        public KoiFishDetailModel()
+        public KoiFishDetailModel(ICartRepository cartRepository)
         {
             koiFishRepository = new KoiFishRepository();
+            _cartRepository = cartRepository;
         }
 
+        [BindProperty]
+        public string? Message { get; set; }
         public KoiFish KoiFish { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(long id)
+        public async Task<IActionResult> OnGetAsync(long id, string message)
         {
             // Lấy thông tin cá koi theo ID
             KoiFish = await koiFishRepository.GetKoiFishById(id);
@@ -32,16 +36,18 @@ namespace KoiFarmRazorPage.Pages.Customer
 
             return Page();
         }
-        public IActionResult OnPostAddToCart(long koiFishId)
+        public async Task<IActionResult> OnPostAddToCart(long KoiFishId)
         {
-            var koiFish = koiFishRepository.GetKoiFishById(koiFishId);
+            KoiFish koiFish = await koiFishRepository.GetKoiFishById(KoiFishId);
 
             if (koiFish != null)
             {
-                _cartRepository.AddKoiFish(koiFish, quantity: 1);
+                _cartRepository.AddKoiFish(koiFish, 1);
             }
+            
+            TempData["Message"] = "Add to Cart Successfully! Please check your cart!";
 
-            return Page();
+            return RedirectToPage("/Customer/KoiFishDetail", new {id = KoiFishId});
         }
     }
 }

@@ -5,18 +5,23 @@
     Layout = "_CustomerLayout";
 }
 <h2 class="mt-4 text-center">Chi Tiết Cá Koi</h2>
-
+@if (TempData["Message"] != null) 
+{
+    <div style="margin: 0 40vw 0 0.5vw" class="alert alert-success" role="alert">
+        @TempData["Message"]
+    </div>
+}
 <div class="container mt-3">
     <div class="card shadow-sm" style="border-radius: 8px;">
         <div class="row g-0">
             <div class="col-md-4 d-flex align-items-center">
-                @if (@Model.KoiFish.ImageData != null)
+                @if (Model.KoiFish.ImageData != null)
                 {
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.KoiFish.ImageData)" class="img-fluid mb-3" alt="Koi Image" style="max-width: 100%; height: auto; border-radius: 8px;"/>
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.KoiFish.ImageData)" class="img-fluid mb-3" alt="Koi Image" style="max-width: 100%; height: auto; border-radius: 8px;"/>
                 }
                 else
                 {
-                <p>Hình ảnh không có sẵn.</p>
+                    <p>Hình ảnh không có sẵn.</p>
                 }
             </div>
             <div class="col-md-8">
@@ -24,21 +29,31 @@
                     <h3 class="card-title text-center">@Model.KoiFish.Name</h3>
                     <div class="d-flex justify-content-center mt-4">
                         <div style="margin-right: 20px">
-                            <p class="text-muted"><strong>Xuất xứ:</strong> @Model.KoiFish.Origin</p>
-                            <p class="text-muted"><strong>Giống:</strong> @Model.KoiFish.Breed</p>
-                            <p class="text-muted"><strong>Giới tính:</strong> @Model.KoiFish.Gender</p>
+                            <p class="text-muted">
+                                <strong>Xuất xứ:</strong> @Model.KoiFish.Origin
+                            </p>
+                            <p class="text-muted">
+                                <strong>Giống:</strong> @Model.KoiFish.Breed
+                            </p>
+                            <p class="text-muted">
+                                <strong>Giới tính:</strong> @Model.KoiFish.Gender
+                            </p>
                             <p class="text-muted"><strong>Tuổi:</strong> @Model.KoiFish.Age năm</p>
                         </div>
                         <div class="text-end" style="margin-left: 20px">
                             <p class="text-muted"><strong>Tỉ lệ lọc:</strong> @Model.KoiFish.FilterRatio %</p>
-                            <p class="text-danger"><strong>Giá:</strong> @Model.KoiFish.Price?.ToString("C0")</p>
+                            <p class="text-danger">
+                                <strong>Giá:</strong> @Model.KoiFish.Price?.ToString("C0")
+                            </p>
                             <p class="text-muted"><strong>Kích thước:</strong> @Model.KoiFish.Size cm</p>
-                            <p class="badge bg-success"><strong>Trạng thái:</strong> @Model.KoiFish.Status</p>
+                            <p class="badge bg-success">
+                                <strong>Trạng thái:</strong> @Model.KoiFish.Status
+                            </p>
                         </div>
                     </div>
                     <div class="mt-5" style="position: relative; height: 100%;">
                         <form method="post" asp-page-handler="AddToCart">
-                            <input type="hidden" name="KoiFishId" value="@Model.KoiFish.KoiFishId" />
+                            <input type="hidden" name="KoiFishId" value="@Model.KoiFish.KoiFishId"/>
                             <button type="submit" class="btn btn-success position-absolute bottom-0 end-0">Thêm vào giỏ hàng</button>
                         </form>
                     </div>

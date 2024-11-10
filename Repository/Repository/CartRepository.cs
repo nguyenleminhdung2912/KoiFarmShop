@@ -52,7 +52,7 @@ namespace Repository.Repository
                 {
                     Id = koiFish.KoiFishId,
                     Name = koiFish.Name,
-                    Image = koiFish.ImageData,
+                    Image = koiFish.ImageData ?? null,
                     Price = (double)koiFish.Price,
                     Quantity = quantity,
                     ItemType = "KoiFish"
@@ -115,11 +115,6 @@ namespace Repository.Repository
                 cart.ProductItems.RemoveAll(p => p.Id == id);
             }
             SaveCart(cart);
-        }
-
-        public void AddKoiFish(Task<KoiFish?> koiFish, int quantity)
-        {
-            throw new NotImplementedException();
         }
     }
 }
