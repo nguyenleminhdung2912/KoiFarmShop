@@ -10,6 +10,15 @@
 
 <p>Manage Blog here.</p>
 
+
+<div class="search-form" style="margin-bottom: 20px;">
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <input type="text" name="productName" placeholder="Search" style="padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; width: 200px; margin-right: 10px; outline: none; transition: border-color 0.3s;">
+        <button type="submit" name="handler" value="Search" style="padding: 10px 15px; background-color: #4267B2; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">Search</button>
+    </form>
+</div>
+
 @if (!string.IsNullOrEmpty(successMessage))
 {
     <div class="alert alert-success" role="alert">

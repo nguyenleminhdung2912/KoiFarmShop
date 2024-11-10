@@ -18,18 +18,26 @@ namespace KoiFarmRazorPage.Pages.Auth
             userRepository = new UserRepository();
         }
 
-        [BindProperty]
-        public string Email { get; set; }
+        [BindProperty] public string Email { get; set; }
 
-        [BindProperty]
-        public string Password { get; set; }
+        [BindProperty] public string Password { get; set; }
+
+        [TempData] public string? Message { get; set; }
+
+        public void OnGet(string? message)
+        {
+            // Gán message từ query string vào TempData
+            if (!string.IsNullOrEmpty(message))
+            {
+                Message = message;
+            }
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
-
             var config = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = config.Build();
             var adminUser = Configuration["AdminAccount:Email"];
             var adminPassword = Configuration["AdminAccount:Password"];
@@ -38,15 +46,16 @@ namespace KoiFarmRazorPage.Pages.Auth
             if (Email == adminUser && Password == adminPassword)
             {
                 var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, Email),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
+                {
+                    new Claim(ClaimTypes.Name, Email),
+                    new Claim(ClaimTypes.Role, "Admin")
+                };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 // Xác thực và tạo cookie đăng nhập
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
                 // Chuyển hướng đến trang Index
                 return RedirectToPage("/Admin/Index");
@@ -66,7 +75,8 @@ namespace KoiFarmRazorPage.Pages.Auth
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 // Xác thực và tạo cookie đăng nhập
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
                 // Chuyển hướng dựa trên Role
                 if (user.Role == "Admin")
@@ -84,7 +94,7 @@ namespace KoiFarmRazorPage.Pages.Auth
             }
 
             // Nếu xác thực thất bại
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            Message = "Thông tin đăng nhập không chính xác. Vui lòng thử lại.";
             return Page();
         }
     }
