@@ -15,5 +15,6 @@ namespace Repository.IRepository
         void AddProduct(Product product, int quantity);
         void UpdateQuantity(long id, string itemType, int quantity);
         void RemoveItem(long id, string itemType); 
+        void ClearCart();
     }
 }

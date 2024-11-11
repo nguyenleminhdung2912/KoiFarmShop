@@ -27,10 +27,20 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<UserRepository>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession();
 
