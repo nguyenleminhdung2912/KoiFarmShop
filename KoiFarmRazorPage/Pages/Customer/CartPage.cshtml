@@ -123,7 +123,20 @@
                 <div class="text-right">
                     <h3>Total Items: @Model.Cart.TotalQuantity</h3>
                     <h3>Total Price: @Model.Cart.TotalPrice.ToString("C")</h3>
-                    <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                    }
+
+                    <form method="post" asp-page-handler="Checkout">
+                        <div class="form-group">
+                            <label for="shippingAddress">Shipping Address:</label>
+                            <textarea id="shippingAddress" name="shippingAddress"
+                                      class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Proceed to Checkout</button>
+                    </form>
                 </div>
             </div>
         </div>

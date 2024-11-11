@@ -116,5 +116,12 @@ namespace Repository.Repository
             }
             SaveCart(cart);
         }
+        
+        public void ClearCart()
+        {
+            var session = _httpContextAccessor.HttpContext.Session;
+            session.Remove(CartSessionKey);
+        }
+
     }
 }
