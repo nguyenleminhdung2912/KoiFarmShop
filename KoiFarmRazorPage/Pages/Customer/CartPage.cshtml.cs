@@ -84,11 +84,21 @@ namespace KoiFarmRazorPage.Pages.Customer
             try
             {
                 // Create order
+                // Get the KoiFish IDs with their quantities
+                var koiFishIds = Cart.KoiFishItems.SelectMany(item => 
+                    Enumerable.Repeat(item.Id.ToString(), item.Quantity)
+                ).ToList();
+
+                // Get the Product IDs with their quantities
+                var productIds = Cart.ProductItems.SelectMany(item => 
+                    Enumerable.Repeat(item.Id.ToString(), item.Quantity)
+                ).ToList();
+                
                 var order = new Order
                 {
                     UserId = wallet.UserId,
-                    KoiFishId = string.Join(",", Cart.KoiFishItems.Select(k => k.Id)),
-                    ProductId = string.Join(",", Cart.ProductItems.Select(p => p.Id)),
+                    KoiFishId = koiFishIds.Any() ? string.Join(",", koiFishIds) : null,
+                    ProductId = productIds.Any() ? string.Join(",", productIds) : null,
                     Quantity = Cart.TotalQuantity,
                     TotalPrice = Cart.TotalPrice,
                     Status = "PAID",
