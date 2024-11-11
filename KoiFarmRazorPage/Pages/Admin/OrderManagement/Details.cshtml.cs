@@ -34,7 +34,7 @@ namespace KoiFarmRazorPage.Pages.Admin.OrderManagement
                 return NotFound();
             }
 
-            var order = _orderRepository.GetOrderById(id);
+            var order = await _orderRepository.GetOrderById(id);
             if (order == null)
             {
                 return NotFound();

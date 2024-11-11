@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/KoiFarmRazorPage.styles.css" asp-append-version="true"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         /* Navbar Customization */
@@ -78,12 +79,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Customer/ViewProduct">Sản Phẩm Cho Cá Koi</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Services">Dịch Vụ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Contact">Liên Hệ</a>
                 </li>
                 <!-- Kiểm tra trạng thái đăng nhập và hiển thị nút Đăng nhập hoặc Tài khoản -->
                 @if (User.Identity.IsAuthenticated)
@@ -198,6 +193,8 @@
 
 <!-- Đừng quên thêm FontAwesome cho icon -->
 <script src="https://kit.fontawesome.com/0c7d29a07c.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <!-- Footer -->
 <footer class="text-center">

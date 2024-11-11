@@ -28,13 +28,13 @@ namespace DataAccessObject
             return list;
         }
 
-        public static Order GetOrderById(long? id)
+        public static async Task<Order> GetOrderById(long? id)
         {
             using var db = new KoiFarmShopDatabaseContext();
             Order returnOrder
-                = db.Orders
+                = await db.Orders
                     .Include(c => c.User)
-                    .FirstOrDefault(c => c.OrderId.Equals(id));
+                    .FirstOrDefaultAsync(c => c.OrderId == id);
             return returnOrder;
         }
 
@@ -87,14 +87,80 @@ namespace DataAccessObject
             }
         }
 
-        public static void UpdateOrder(Order order)
+        public static async Task<bool> UpdateOrder(Order order)
         {
             try
             {
                 using var context = new KoiFarmShopDatabaseContext();
-                context.Entry<Order>(order).State
-                    = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
+                context.Orders.Update(order);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<bool> CancelOrder(Order order, long userId)
+        {
+            try
+            {
+                using var context = new KoiFarmShopDatabaseContext();
+
+                var wallet = await context.Wallets
+                    .FirstOrDefaultAsync(w => w.UserId == userId);
+                if (wallet == null)
+                {
+                    return false;
+                }
+
+                // Kiểm tra TotalPrice và wallet.Total để tránh lỗi null
+                if (order.TotalPrice == null || wallet.Total == null)
+                {
+                    throw new InvalidOperationException("Order total price or wallet balance is null.");
+                }
+
+                // Tính tiền phải hoàn
+                double refundAmount = 0;
+
+                // Trạng thái "NOTYET" -> hoàn 100%
+                if (order.ShipmentStatus.Equals("NOTYET"))
+                {
+                    refundAmount = order.TotalPrice.Value; // hoàn 100%
+                }
+                // Trạng thái "PREPARING" -> hoàn 90%
+                else if (order.ShipmentStatus.Equals("PREPARING"))
+                {
+                    refundAmount = order.TotalPrice.Value * 0.9; // hoàn 90%
+                }
+                // Thêm xử lý nếu trạng thái không hợp lệ
+                else
+                {
+                    throw new InvalidOperationException("Invalid shipment status for cancellation.");
+                }
+
+                // Cập nhật số tiền trong ví
+                wallet.Total += refundAmount;
+                order.Status = "CANCELLED";
+                order.ShipmentStatus = "CANCELLED";
+                
+                // Tạo wallet log
+                var maxId = context.WalletLogs.Max(a => (int?)a.WalletLogId) ?? 0;
+                WalletLog walletLog = new WalletLog();
+                walletLog.WalletLogId = (short)(maxId + 1);
+                walletLog.WalletId = wallet.WalletId;
+                walletLog.Amount = refundAmount;
+                walletLog.Type = "Refund";
+                walletLog.CreateAt = DateTime.Now;
+                walletLog.IsDeleted = false;
+                
+                // Lưu thay đổi vào cơ sở dữ liệu
+                context.WalletLogs.Add(walletLog);
+                context.Orders.Update(order);
+                context.Wallets.Update(wallet);
+                await context.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {

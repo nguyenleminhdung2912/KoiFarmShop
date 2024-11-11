@@ -33,6 +33,7 @@ public partial class Order
     // PREPARING là khi đang soạn hàng
     // ONGOING là khi đang giao
     // SUCCESSFUL là khi hoàn thành
+    // CANCELLED là khi hoàn thành
     
     public string? Address { get; set; }
 

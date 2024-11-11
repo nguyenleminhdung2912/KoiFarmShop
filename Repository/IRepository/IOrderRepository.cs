@@ -9,14 +9,15 @@ namespace Repository.IRepository
 {
     public interface IOrderRepository
     {
-        Order GetOrderById(long? id);
+        Task<Order> GetOrderById(long? id);
 
         List<Order> GetAllOrders();
 
         List<Order> GetOrdersByAccount(long accountId);
 
         List<Order> GetOrdersByFromDateToDate(DateTime fromDate, DateTime toDate);
-        void UpdateOrder(Order order);
+        Task<bool> UpdateOrder(Order order);
+        Task<bool> CancelOrder(Order order, long userId);
         void DeleteOrder(Order order);
         void SaveOrder(Order order);
     }
