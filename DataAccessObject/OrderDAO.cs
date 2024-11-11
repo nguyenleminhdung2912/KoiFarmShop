@@ -21,7 +21,10 @@ namespace DataAccessObject
                     .Include(o => o.User)
                     .ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
@@ -30,7 +33,8 @@ namespace DataAccessObject
             using var db = new KoiFarmShopDatabaseContext();
             Order returnOrder
                 = db.Orders
-                .FirstOrDefault(c => c.OrderId.Equals(id));
+                    .Include(c => c.User)
+                    .FirstOrDefault(c => c.OrderId.Equals(id));
             return returnOrder;
         }
 
@@ -44,7 +48,10 @@ namespace DataAccessObject
                     .Where(o => o.UserId.Equals(accountId))
                     .ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
@@ -58,7 +65,10 @@ namespace DataAccessObject
                     .Where(o => o.CreateAt >= fromDate && o.CreateAt <= toDate)
                     .ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
@@ -74,7 +84,6 @@ namespace DataAccessObject
             }
             catch (Exception ex)
             {
-
             }
         }
 
@@ -185,7 +194,8 @@ namespace DataAccessObject
                 using var _context = new KoiFarmShopDatabaseContext();
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear && o.Status.Equals("Completed"))
+                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear &&
+                                o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -240,7 +250,7 @@ namespace DataAccessObject
                     MonthRevenue = g.Key.Month == startOfMonth ? g.Sum(o => o.TotalPrice) : 0,
                     YearRevenue = g.Key.Year == now.Year ? g.Sum(o => o.TotalPrice) : 0
                 })
-            .ToListAsync();
+                .ToListAsync();
 
             return new RevenueDTO
             {

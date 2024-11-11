@@ -56,7 +56,7 @@ namespace KoiFarmRazorPage.Pages.Admin
             user.IsDeleted = true;
             userRepository.UpdateUser(user);
 
-            return RedirectToPage("./ViewAllUser");
+            return RedirectToPage("./Index");
         }
     }
 }

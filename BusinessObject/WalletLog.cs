@@ -12,6 +12,8 @@ public partial class WalletLog
     public double? Amount { get; set; }
 
     public string? Type { get; set; }
+    // Deposit -> Nạp tiền vào ví
+    // Pay -> Dùng tiền trong ví để thanh toán
 
     public DateTime? CreateAt { get; set; }
 

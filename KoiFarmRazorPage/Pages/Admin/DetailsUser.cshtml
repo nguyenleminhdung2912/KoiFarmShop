@@ -2,66 +2,86 @@
 @model KoiFarmRazorPage.Pages.Admin.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+ViewData["Title"] = "Details";
+Layout = "Shared/_AdminLayout";
+
 }
 
-<h1>Details</h1>
+<div class="container mt-5">
+    <div class="card shadow-lg" style="border-radius: 12px;">
+        <div class="card-header text-white" style="background-color: #1f618d;">
+            <h2 class="text-center">Thông Tin Người Dùng</h2>
+        </div>
+        <div class="card-body p-4">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-user"></i> Tên
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.Name)
+                </dd>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Password)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Password)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Role)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Role)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.CreateAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.CreateAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.UpdateAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.UpdateAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.IsDeleted)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.IsDeleted)
-        </dd>
-    </dl>
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-envelope"></i> Email
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.Email)
+                </dd>
+
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-key"></i> Mật khẩu
+                </dt>
+                <dd class="col-sm-9">
+                    ***********
+                </dd>
+
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-phone"></i> Điện thoại
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.Phone)
+                </dd>
+
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-user-tag"></i> Vai trò
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.Role)
+                </dd>
+
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-calendar-plus"></i> Ngày Tạo
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.CreateAt)
+                </dd>
+
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-calendar-check"></i> Ngày Cập Nhật
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.UpdateAt)
+                </dd>
+
+                <dt class="col-sm-3 font-weight-bold text-secondary">
+                    <i class="fas fa-trash-alt"></i> Trạng thái xóa
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.IsDeleted)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-page="./EditUser" asp-route-id="@Model.User.UserId" class="btn btn-warning mx-2" style="font-weight: bold;">
+            <i class="fas fa-edit"></i> Chỉnh sửa
+        </a>
+        <a asp-page="./Index" class="btn btn-secondary mx-2" style="font-weight: bold;">
+            <i class="fas fa-arrow-left"></i> Trở về danh sách
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-page="./EditUser" asp-route-id="@Model.User.UserId">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
+<!-- Thêm Font Awesome cho các icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">

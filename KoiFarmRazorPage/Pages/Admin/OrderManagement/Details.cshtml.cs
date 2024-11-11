@@ -7,16 +7,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using DataAccessObject;
+using Repository.IRepository;
+using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin.OrderManagement
 {
     public class DetailsModel : PageModel
     {
-        private readonly DataAccessObject.KoiFarmShopDatabaseContext _context;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IKoiFishRepository koiFishRepository;
+        private readonly IProductRepository productRepository;
 
-        public DetailsModel(DataAccessObject.KoiFarmShopDatabaseContext context)
+        public DetailsModel()
         {
-            _context = context;
+            _orderRepository = new OrderRepository();
+            koiFishRepository = new KoiFishRepository();
+            productRepository = new ProductRepository();
         }
 
         public Order Order { get; set; } = default!;
@@ -28,13 +34,17 @@ namespace KoiFarmRazorPage.Pages.Admin.OrderManagement
                 return NotFound();
             }
 
-            var order = await _context.Orders.FirstOrDefaultAsync(m => m.OrderId == id);
+            var order = _orderRepository.GetOrderById(id);
             if (order == null)
             {
                 return NotFound();
             }
             else
             {
+                List<Product> products = productRepository.GetProductsByListString(order.ProductId);
+                List<KoiFish> koiFishs = koiFishRepository.GetKoiFishsByListString(order.KoiFishId);
+                order.KoiFishList = koiFishs;
+                order.ProductList = products;
                 Order = order;
             }
             return Page();
