@@ -8,70 +8,218 @@
 
 <div class="container mt-5">
     <h2 class="text-center" style="color: #f3a683;">Your Profile</h2>
-    @if (TempData["SuccessMessage"] != null)
-    {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>@TempData["SuccessMessage"]</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    }
-    <!-- User Information Card -->
-    <div class="card shadow-sm mt-4">
-        <div class="card-header" style="background-color: #f3a683; color: #fff;">
-            <h4 class="mb-0">User Information</h4>
-        </div>
-        <div class="card-body">
-            <div class="row align-items-center">
-                <div style = "padding-left: 7vw" class="col-md-4 text-center">
-                    <!-- Profile Picture -->
-                    <div class="profile-picture mb-3">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/cd1f017c-ae6c-4e4b-b72c-af0c0cfce31a.jpg?alt=media" alt="Profile Picture" class="profile-img"/>
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="order-history-tab" data-bs-toggle="tab" href="#order-history" role="tab" aria-controls="order-history" aria-selected="false">Order History</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="profileTabsContent">
+        <!-- Profile Tab -->
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@TempData["SuccessMessage"]</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <!-- User Information Card -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header" style="background-color: #f3a683; color: #fff;">
+                    <h4 class="mb-0">User Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div style="padding-left: 7vw" class="col-md-4 text-center">
+                            <!-- Profile Picture -->
+                            <div class="profile-picture mb-3">
+                                <img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" alt="Profile Picture" class="profile-img"/>
+                            </div>
+                            @* <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#changePictureModal"> *@
+                            @*     Change Profile Picture *@
+                            @* </button> *@
+                        </div>
+                        <div style="padding-right: 100px" class="col-md-8">
+                            <!-- Edit Profile Form -->
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label for="Name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="Name" name="Name" value="@Model.UserProfile.Name" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="Email" name="Email" value="@Model.UserProfile.Email" readonly/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Phone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.UserProfile.Phone" required/>
+                                </div>
+
+                                <button type="submit" class="btn btn-lg" style="background-color: #f3a683; color: white;">
+                                    Save Changes
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div style = "padding-right: 100px" class="col-md-8">
-                    <!-- Edit Profile Form -->
-                    <form method="post">
-                        <div class="mb-3">
-                            <label for="Name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="Name" name="Name" value="@Model.UserProfile.Name" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="Email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="Email" name="Email" value="@Model.UserProfile.Email" readonly />
-                        </div>
-                        <div class="mb-3">
-                            <label for="Phone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.UserProfile.Phone" required />
-                        </div>
+            </div>
 
-                        <button type="submit" class="btn btn-lg" style="background-color: #f3a683; color: white;">
-                            Save Changes
-                        </button>
-                    </form>
+            <!-- Wallet Information Card -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header d-flex align-items-center" style="background-color: #f3a683; color: #fff;">
+                    <img src="https://www.freeiconspng.com/uploads/wallet-icon-1.png" alt="Wallet Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+                    <h4 class="mb-0">Your Wallet</h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Total Balance:</strong> @Model.UserWallet.Total.ToString("N0") VNĐ
+                    </p>
+                    <p>
+                        <strong>Loyalty Points:</strong> @Model.UserWallet.LoyaltyPoint Points
+                    </p>
+                    <button class="btn btn-primary mt-3" style="background-color: #f3a683; border-color: #f3a683;" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                        Nạp Tiền
+                    </button>
+                </div>
+            </div>
+
+            <!-- Wallet Log Card -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header" style="background-color: #f3a683; color: #fff;">
+                    <h4 class="mb-0">Wallet Logs</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.WalletLogs != null && Model.WalletLogs.Count > 0)
+                    {
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Transaction Date</th>
+                                <th>Amount (VNĐ)</th>
+                                <th>Type</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var log in Model.WalletLogs)
+                            {
+                                <tr>
+                                    <td>@log.CreateAt?.ToString("dd-MM-yyyy HH:mm")</td>
+                                    <td>@log.Amount?.ToString("N0")</td>
+                                    <td>@log.Type.Split(' ')[0]</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <ul class="pagination">
+                            @for (var i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                                    <a class="page-link" asp-route-pageIndex="@i">@i</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No transaction history available.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Order History Tab -->
+        <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
+            <div class="card shadow-lg mt-4">
+                <div class="card-header" style="background-color: #f3a683; color: #fff;">
+                    <h4 class="mb-0">Order History</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Orders != null && Model.Orders.Count > 0)
+                    {
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Order Date</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th>Shipment Status</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var order in Model.Orders)
+                            {
+                                <tr>
+                                    <td>@order.CreateAt?.ToString("dd-MM-yyyy")</td>
+                                    <td>@order.TotalPrice</td>
+                                    <td>@order.Status</td>
+                                    <td>@order.ShipmentStatus</td>
+                                    <td>@order.Address</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm toggle-collapse" type="button" data-target="#orderDetails_@order.OrderId" aria-expanded="false" aria-controls="orderDetails_@order.OrderId">
+                                            <i class="fas fa-eye"></i> View Details
+                                        </button>
+                                        @if (
+                                            (order.Status == "PAID" && order.ShipmentStatus == "NOTYET") ||
+                                            (order.Status == "PAID" && order.ShipmentStatus == "PREPARING")
+                                        )
+                                        {
+                                            <form method="post" asp-page-handler="CancelOrder" asp-route-orderId="@order.OrderId" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-times"></i> Cancel
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr id="orderDetails_@order.OrderId" class="collapse">
+                                    <td colspan="6">
+                                        <div class="px-3 py-2 bg-light">
+                                            <h5 class="mb-3">Koi Fish List</h5>
+                                            <ul class="list-unstyled">
+                                                @foreach (var group in order.KoiFishList
+                                                              .GroupBy(k => new { k.Name, k.Price })
+                                                              .Select(g => new { Name = g.Key.Name, Price = g.Key.Price, Count = g.Count() }))
+                                                {
+                                                    <li>
+                                                        <strong>@group.Name</strong> - <span>@group.Price.ToString() VND</span> - <span>Quantity: @group.Count</span>
+                                                    </li>
+                                                }
+                                            </ul>
+                                            <h5 class="mb-3">Product List</h5>
+                                            <ul class="list-unstyled">
+                                                @foreach (var product in order.ProductList
+                                                              .GroupBy(p => new { p.Name, p.Price })
+                                                              .Select(g => new { Name = g.Key.Name, Price = g.Key.Price, Count = g.Count() }))
+                                                {
+                                                    <li>
+                                                        <strong>@product.Name</strong> - <span>@product.Price.ToString() VND</span> - <span>Quantity: @product.Count</span>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No orders found.</p>
+                    }
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Wallet Information Card -->
-    <div class="card shadow-sm mt-4">
-        <div class="card-header d-flex align-items-center" style="background-color: #f3a683; color: #fff;">
-            <img src="https://www.freeiconspng.com/uploads/wallet-icon-1.png" alt="Wallet Icon" style="width: 24px; height: 24px; margin-right: 8px;">
-            <h4 class="mb-0">Your Wallet</h4>
-        </div>
-        <div class="card-body">
-            <p>
-                <strong>Total Balance:</strong> @Model.UserWallet.Total.ToString("N0") VNĐ
-            </p>
-            <p>
-                <strong>Loyalty Points:</strong> @Model.UserWallet.LoyaltyPoint Points
-            </p>
-            <button class="btn btn-primary mt-3" style="background-color: #f3a683; border-color: #f3a683;" data-bs-toggle="modal" data-bs-target="#paymentModal">
-                Nạp Tiền
-            </button>
-        </div>
-    </div>
     <!-- Modal nhập số tiền -->
     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -84,7 +232,7 @@
                     <form id="paymentForm" method="post" asp-page-handler="Payment">
                         <div class="mb-3">
                             <label for="amount" class="form-label">Nhập số tiền (VNĐ)</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required min="1000" />
+                            <input type="number" class="form-control" id="amount" name="amount" required min="1000"/>
                         </div>
                     </form>
                 </div>
@@ -95,52 +243,79 @@
             </div>
         </div>
     </div>
-    
-    <!-- Wallet Logs -->
-    <div class="card shadow-sm mt-4">
-        <div class="card-header" style="background-color: #f3a683; color: #fff;">
-            <h4 class="mb-0">Wallet Logs</h4>
-        </div>
-        <div class="card-body">
-            @if (Model.WalletLogs != null && Model.WalletLogs.Count > 0)
-            {
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Transaction Date</th>
-                    <th>Amount (VNĐ)</th>
-                    <th>Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var log in Model.WalletLogs)
-                {
-                <tr>
-                    <td>@log.CreateAt?.ToString("dd-MM-yyyy HH:mm")</td>
-                    <td>@log.Amount?.ToString("N0")</td>
-                    <td>@log.Type.Split(' ')[0]</td>
-                </tr>
-                }
-                </tbody>
-            </table>
-            }
-            else
-            {
-            <p>No transaction history available.</p>
-            }
+
+    <!-- Modal Đổi ảnh profile -->
+    <div class="modal fade" id="changePictureModal" tabindex="-1" aria-labelledby="changePictureModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePictureModalLabel">Change Profile Picture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="ProfilePicture" class="form-label">Select a new profile picture</label>
+                            <input type="file" class="form-control" id="ProfilePicture" name="ProfilePicture" accept="image/*" required />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" onclick="document.querySelector('#changePictureModal form').submit();">Save Changes</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Script để submit form khi bấm "OK" -->
     <script>
         function submitPayment() {
             document.getElementById("paymentForm").submit();
         }
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lắng nghe sự kiện click trên các nút toggle-collapse
+            document.querySelectorAll('.toggle-collapse').forEach(button => {
+                button.addEventListener('click', function () {
+                    // Lấy target cần ẩn/hiện từ data-target
+                    const target = document.querySelector(this.getAttribute('data-target'));
+
+                    // Kiểm tra nếu phần tử đang ẩn (chưa có lớp 'show')
+                    if (target.classList.contains('collapse') && !target.classList.contains('show')) {
+                        // Thêm lớp 'show' để hiển thị phần chi tiết
+                        target.classList.add('show');
+                        // Thay đổi trạng thái aria-expanded
+                        this.setAttribute('aria-expanded', 'true');
+                    } else {
+                        // Nếu phần chi tiết đang hiển thị, loại bỏ lớp 'show' để ẩn
+                        target.classList.remove('show');
+                        // Thay đổi trạng thái aria-expanded
+                        this.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Kiểm tra nếu URL có chứa thông tin phân trang để cuộn tới Wallet Logs
+            if (window.location.href.includes("pageIndex=")) {
+                const walletLogSection = document.querySelector(".pagination"); // Thay đổi selector nếu cần để chọn đúng phần Wallet Logs
+                if (walletLogSection) {
+                    // Cuộn tới Wallet Logs
+                    walletLogSection.scrollIntoView({ behavior: "smooth" });
+                }
+            }
+        });
+    </script>
 </div>
 
 <!-- Additional Styles -->
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
     .card {
         border-radius: 10px;
     }
@@ -156,9 +331,17 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 50%;
     }
 </style>
+<script>
+    $(document).ready(function () {
+        // Kích hoạt toggle khi người dùng bấm vào dòng đơn hàng
+        $('.clickable-row').click(function () {
+            var target = $(this).data('target');
+            $(target).collapse('toggle');
+        });
+    });
+</script>
 
 <!-- Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">

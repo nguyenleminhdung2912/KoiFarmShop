@@ -9,9 +9,9 @@
 
 <h2>@ViewData["Title"]</h2>
 <div class="content">
-    @if (!string.IsNullOrEmpty(Model.Message))
+    @if (TempData["UpdateFail"] != null)
     {
-    <div class="alert alert-success">@Model.Message</div>
+        @TempData["UpdateFail"]
     }
     <form method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
@@ -24,24 +24,7 @@
             @Model.ValidateErrors["BlogTitle"]
             }
         </div>
-
-
-        <div class="form-group">
-            <label for="blogImage" class="form-label">Image</label>
-            <input type="file" asp-for="BlogImage" id="blogImage" class="form-input"/>
-            @if (Model.Blog.ImageData != null && Model.Blog.ImageData.Length > 0)
-            {
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Blog.ImageData)" class="img-fluid mb-3" alt="Product Image" style="max-width: 100%; height: auto; border-radius: 8px;" />
-            }
-            else
-            {
-            <p>Hình ảnh không có sẵn.</p>
-            }
-            @if (Model.ValidateErrors.ContainsKey("BlogImage"))
-            {
-            @Model.ValidateErrors["BlogImage"]
-            }
-        </div>
+        
         <div class="form-group">
             <label for="blogDescription" class="form-label">Description</label>
             <input type="text" asp-for="Blog.Description" id="blogDescription" class="form-input" value="@Model.Blog.Description"/>

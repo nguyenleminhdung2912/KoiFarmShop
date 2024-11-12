@@ -1,10 +1,15 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
+using NguyenLeMinhDungFall2024RazorPages;
 using NuGet.Protocol.Plugins;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class BlogManagement : PageModel
 {
@@ -12,11 +17,15 @@ public class BlogManagement : PageModel
     public List<Blog> Blogs { get; set; } = new List<Blog>();
 
     private readonly IBlogRepository _blogRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
-    public BlogManagement(IBlogRepository blogRepository)
+
+    public BlogManagement(IBlogRepository blogRepository, IHubContext<SignalRHub> hubContext)
     {
         this._blogRepository = blogRepository;
+        this.hubContext = hubContext;
     }
+
     public void OnGet()
     {
         Blogs = _blogRepository.GetBlogsForStaff();
@@ -28,6 +37,27 @@ public class BlogManagement : PageModel
         if (handler == "Create")
         {
             return RedirectToPage("/Staff/CreateBlog");
+        }
+
+        if (handler == "Search")
+        {
+            if (string.IsNullOrEmpty(Request.Form["blogTitle"]))
+            {
+                TempData["SearchFail"] = "Blog with this title does not exits";
+                Blogs = _blogRepository.GetBlogsForStaff();
+            }
+            else
+            {
+                if (_blogRepository.GetBlogByTitle(Request.Form["blogTitle"]).IsNullOrEmpty())
+                {
+                    TempData["SearchFail"] = "Blog with this title does not exits";
+                    Blogs = _blogRepository.GetBlogByTitle(Request.Form["blogTitle"]);
+                }
+                else
+                {
+                    Blogs = _blogRepository.GetBlogByTitle(Request.Form["blogTitle"]);
+                }
+            }
         }
 
         if (handler == "Delete")
@@ -54,7 +84,6 @@ public class BlogManagement : PageModel
 
         if (handler == "Update")
         {
-            
             if (string.IsNullOrEmpty(Request.Form["blogId"]))
             {
                 Message = "Chon blog cu the de update";
@@ -62,9 +91,10 @@ public class BlogManagement : PageModel
             }
             else
             {
-               return RedirectToPage("/Staff/UpdateBlog", new {blogId = long.Parse(Request.Form["blogId"])});
+                return RedirectToPage("/Staff/UpdateBlog", new { blogId = long.Parse(Request.Form["blogId"]) });
             }
         }
+
         return Page();
     }
 }

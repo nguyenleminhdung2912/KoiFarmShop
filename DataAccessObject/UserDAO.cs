@@ -19,6 +19,18 @@ namespace DataAccessObject
                     .FirstOrDefault(c => c.UserId.Equals(UserId));
             return returnuser;
         }
+        
+        public static async Task<User?> GetUserByIdToDelete(long? userId)
+        {
+            using var db = new KoiFarmShopDatabaseContext();
+            var returnUser
+                = await db.Users
+                    .Include(c => c.Consignments)
+                    .Include(c => c.Orders)
+                    .Include(c => c.Wallets)
+                    .FirstOrDefaultAsync(c => c.UserId.Equals(userId));
+            return returnUser;
+        }
 
         public static User? CheckLogin(string email, string password)
         {
@@ -89,14 +101,25 @@ namespace DataAccessObject
             try
             {
                 using var context = new KoiFarmShopDatabaseContext();
-                var currentUser = context.Users.FirstOrDefault(u => u.Email == user.Email);
+                var currentUser = context.Users.FirstOrDefault(u => u.UserId == user.UserId);
+
+                if (currentUser == null)
+                {
+                    currentUser = context.Users.FirstOrDefault(u => u.Email == user.Email);
+                }
 
                 if (currentUser != null)
                 {
                     if (!user.Name.IsNullOrEmpty())
                         currentUser.Name = user.Name;
+                    if (!user.Email.IsNullOrEmpty())
+                        currentUser.Email = user.Email;
                     if (!user.Phone.IsNullOrEmpty())
                         currentUser.Phone = user.Phone;
+                    if (!user.Role.IsNullOrEmpty())
+                        currentUser.Role = user.Role;
+                    currentUser.IsDeleted = user.IsDeleted;
+                    context.Users.Update(currentUser);
                     context.SaveChanges();
                     return true;
                 }

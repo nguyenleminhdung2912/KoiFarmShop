@@ -7,18 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
 using DataAccessObject;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly IUserRepository userRepository;
+        private readonly IWalletRepository walletRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
 
-        public CreateModel()
+
+        public CreateModel(IHubContext<SignalRHub> hubContext)
         {
             userRepository = new UserRepository();
+            walletRepository = new WalletRepository();
+            this.hubContext = hubContext;
         }
 
         public IActionResult OnGet()
@@ -26,14 +35,21 @@ namespace KoiFarmRazorPage.Pages.Admin
             return Page();
         }
 
-        [BindProperty]
-        public User User { get; set; } = default!;
+        [BindProperty] public User User { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            // Kiểm tra xem email đã tồn tại hay chưa
+            var existingUser = userRepository.GetUserByEmail(User.Email);
+
+            if (existingUser != null)
+            {
+                ModelState.AddModelError(string.Empty, "Email is already taken.");
                 return Page();
             }
 
@@ -42,7 +58,20 @@ namespace KoiFarmRazorPage.Pages.Admin
 
             userRepository.SaveUser(User);
 
-            return RedirectToPage("/Admin/ViewAllUser");
+            Wallet wallet = new Wallet
+            {
+                UserId = User.UserId,
+                Total = 0,
+                LoyaltyPoint = 0,
+                CreateAt = DateTime.Now,
+                UpdateAt = DateTime.Now,
+                IsDeleted = false,
+            };
+            walletRepository.CreateWallet(wallet);
+
+            await hubContext.Clients.All.SendAsync("RefreshData");
+
+            return RedirectToPage("/Admin/Index");
         }
     }
 }

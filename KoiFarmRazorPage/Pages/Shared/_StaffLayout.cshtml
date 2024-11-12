@@ -69,15 +69,24 @@
 		.content {
 			padding: 20px;
 		}
+		
 	</style>
 </head>
 <body>
 	<div class="header">
 		<h1>@ViewData["Title"]</h1>
-		<form method="post">
-			@Html.AntiForgeryToken()
-			<button type="submit" name="handler" value="Logout">Logout</button>
-		</form>
+		@if (User.Identity.IsAuthenticated)
+		{
+		<li class="nav-item">
+			<a class="nav-link text-danger" href="/Auth/Logout">Đăng Xuất</a>
+		</li>
+		}
+		else
+		{
+		<li class="nav-item">
+			<a class="btn login-btn ms-2" href="/Auth/Login">Đăng Nhập</a>
+		</li>
+		}
 	</div>
 
 	<div class="container">
@@ -94,6 +103,9 @@
 			@* commnet html *@
 			<button onclick="location.href='@Url.Page("/Staff/KoiFishManagement")'">
 				<i class="fas fa-folder"></i> Koi Fish Management
+			</button>
+			<button onclick="location.href='@Url.Page("/Staff/ShipManagement")'">
+				<i class="fas fa-folder"></i> Ship Management
 			</button>
 		</div>
 		<div class="content">

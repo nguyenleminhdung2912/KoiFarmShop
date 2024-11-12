@@ -1,0 +1,48 @@
+﻿@page
+@model KoiFarmRazorPage.Pages.Customer.ViewBlog
+
+@{
+ViewData["Title"] = "Koi Fish Blog";
+Layout = "_CustomerLayout";
+}
+<div class="blog-list-container">
+    <div class="header">
+        <h3>Koi Fish Blog</h3>
+        <!-- Search Form -->
+        <form method="get" class="search-form">
+            <input type="text" name="searchTerm" placeholder="Search blogs..." class="search-input"/>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+    <div class="blog-list">
+        @if (Model.Blogs.Count != 0)
+        {
+        @foreach (var blog in Model.Blogs)
+        {
+        <a href="@Url.Page("/Customer/BlogDetail", new { blogId = blog.BlogId })" class="blog-link">
+            <div class="blog-item">
+                <h2>@blog.Title</h2>
+                <p class="author">By @blog.User?.Name | Created on @blog.CreateAt?.ToString("MMMM dd, yyyy")</p>
+                <p>@(blog.Description?.Length > 100 ? blog.Description.Substring(0, 100) + "..." : blog.Description)</p>
+            </div>
+        </a>
+        }
+        }
+        else
+        {
+        <h5>No Blogs to show</h5>
+        }
+    </div>
+
+    <!-- Pagination -->
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+        <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+            <a class="page-link" asp-route-pageIndex="@i">@i</a>
+        </li>
+        }
+    </ul>
+</div>
+
+<link rel="stylesheet" href="~/css/ViewBlog.css">

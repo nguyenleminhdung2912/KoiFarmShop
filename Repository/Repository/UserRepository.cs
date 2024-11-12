@@ -17,6 +17,9 @@ namespace Repository.Repository
 
         public User GetUserById(long? UserId)
             => UserDAO.GetUserById(UserId);
+        
+        public async Task<User?> GetUserByIdToDelete(long? userId)
+            => await UserDAO.GetUserByIdToDelete(userId);
 
         public List<User> GetUsers()
             => UserDAO.GetUsers();

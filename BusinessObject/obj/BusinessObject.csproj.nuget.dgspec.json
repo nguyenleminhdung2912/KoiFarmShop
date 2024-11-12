@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\git\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {}
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {}
   },
   "projects": {
-    "D:\\git\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+    "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\git\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
         "projectName": "BusinessObject",
-        "projectPath": "D:\\git\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
-        "packagesPath": "C:\\Users\\Hi\\.nuget\\packages\\",
-        "outputPath": "D:\\git\\KoiFarmShop\\BusinessObject\\obj\\",
+        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Hi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

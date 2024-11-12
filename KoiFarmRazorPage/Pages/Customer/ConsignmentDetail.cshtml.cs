@@ -1,9 +1,11 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Customer;
+[Authorize(Roles = "Customer")]
 
 public class ConsignmentDetail : PageModel
 {

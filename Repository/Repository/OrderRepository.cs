@@ -17,8 +17,8 @@ namespace Repository.Repository
         public List<Order> GetAllOrders()
         => OrderDAO.GetAllOrders();
 
-        public Order GetOrderById(long? id)
-        => OrderDAO.GetOrderById(id);
+        public async Task<Order> GetOrderById(long? id)
+        => await OrderDAO.GetOrderById(id);
 
         public List<Order> GetOrdersByAccount(long accountId)
         => OrderDAO.GetOrdersByAccount(accountId);
@@ -29,7 +29,20 @@ namespace Repository.Repository
         public void SaveOrder(Order order)
         => OrderDAO.SaveOrder(order);
 
-        public void UpdateOrder(Order order)
-        => OrderDAO.UpdateOrder(order);
+        public List<Order> GetOrdersByShipStatus(string shipStatus)
+        {
+            return OrderDAO.GetOrdersByShip(shipStatus);
+        }
+
+        public bool SetShipStatusOrder(long orderId, string shipStatus)
+        {
+            return OrderDAO.SetShipStatusOrder(orderId, shipStatus);
+        }
+
+        public async Task<bool> UpdateOrder(Order order)
+        => await OrderDAO.UpdateOrder(order);
+        
+        public async Task<bool> CancelOrder(Order order, long userId)
+            => await OrderDAO.CancelOrder(order, userId);
     }
 }

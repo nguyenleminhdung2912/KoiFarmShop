@@ -40,5 +40,15 @@ namespace Repository.Repository
         {
             return BlogDAO.UpdateBlog(blog);
         }
+
+        public async Task<BlogDAO.BlogResponse> GetBlogsForCustomer(string searchTerm, int pageIndex, int pageSize)
+        {
+            return await BlogDAO.GetBlogsForCustomer(searchTerm, pageIndex, pageSize);
+        }
+
+        public List<Blog> GetBlogByTitle(string title)
+        {
+            return BlogDAO.SearchBlogByName(title);
+        }
     }
 }

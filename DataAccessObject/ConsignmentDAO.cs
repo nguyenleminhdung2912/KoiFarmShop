@@ -14,7 +14,8 @@ namespace DataAccessObject
 
         public static List<Consignment> GetConsignmentsByUserId(long userId)
         {
-            return db.Consignments.Where(c => c.UserId == userId && c.IsDeleted == false).ToList();
+            return db.Consignments.Where(c => c.UserId == userId && c.IsDeleted == false)
+                .OrderByDescending(c => c.CreateAt).ToList();
         }
 
         public static List<Consignment> GetConsignmentsByStatusByStaff(string status)
@@ -23,6 +24,7 @@ namespace DataAccessObject
             {
                 return db.Consignments.Include(c => c.User).ToList();
             }
+
             return db.Consignments.Include(c => c.User).Where(c => c.Status == status && c.IsDeleted == false).ToList();
         }
 
@@ -38,7 +40,8 @@ namespace DataAccessObject
                 return db.Consignments.Where(c => c.UserId == userId).ToList();
             }
 
-            return db.Consignments.Where(c => c.UserId == userId).Where(c => c.Status == status && c.IsDeleted == false).ToList();
+            return db.Consignments.Where(c => c.UserId == userId).Where(c => c.Status == status && c.IsDeleted == false)
+                .ToList();
         }
 
         public static Consignment GetConsignmentById(long consignmentId)
@@ -60,7 +63,7 @@ namespace DataAccessObject
 
             return false;
         }
-        
+
         public static bool RejectConsignmentByStaff(long consignmentId)
         {
             var existConsignment = db.Consignments.Find(consignmentId);
@@ -85,9 +88,10 @@ namespace DataAccessObject
                 db.SaveChanges();
                 return true;
             }
+
             return false;
         }
-        
+
         public static bool CancelConsignmentByCustomer(long consignmentId)
         {
             var existConsignment = db.Consignments.Find(consignmentId);
@@ -98,10 +102,10 @@ namespace DataAccessObject
                 db.SaveChanges();
                 return true;
             }
+
             return false;
         }
-        
-        
+
 
         public static bool CreateConsignment(Consignment consignment)
         {
@@ -129,7 +133,11 @@ namespace DataAccessObject
                 existConsignment.IsDeleted = consignment.IsDeleted;
                 existConsignment.Status = consignment.Status;
                 existConsignment.UserId = consignment.UserId;
-                existConsignment.ImageData = consignment.ImageData;
+                if (consignment.ImageData != null)
+                {
+                    existConsignment.ImageData = consignment.ImageData;
+                }
+
                 db.Consignments.Update(existConsignment);
                 db.SaveChanges();
                 return true;
@@ -143,14 +151,16 @@ namespace DataAccessObject
             var existConsignment = db.Consignments.Find(consignmentId);
             if (existConsignment != null)
             {
-                db.Consignments.Remove(existConsignment);
+                existConsignment.IsDeleted = true;
+                db.Consignments.Update(existConsignment);
+                // db.Consignments.Remove(existConsignment);
                 db.SaveChanges();
                 return true;
             }
 
             return false;
         }
-        
+
 
         public static long GetNextConsignmentId()
         {

@@ -1,19 +1,26 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class UpdateKoiFish : PageModel
 {
     private readonly IKoiFishRepository _koiFishRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
+
 
     public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
 
-    public UpdateKoiFish(IKoiFishRepository koiFishRepository)
+    public UpdateKoiFish(IKoiFishRepository koiFishRepository, IHubContext<SignalRHub> hubContext)
     {
         this._koiFishRepository = koiFishRepository;
+        this.hubContext = hubContext;
     }
 
     public KoiFish Koifish { get; set; } = new KoiFish();
@@ -63,10 +70,10 @@ public class UpdateKoiFish : PageModel
         {
             ValidateErrors["KoiPrice"] = "Koi Price is required";
         }
-        else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
-        {
-            ValidateErrors["KoiStatus"] = "Status is required";
-        }
+        // else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
+        // {
+        //     ValidateErrors["KoiStatus"] = "Status is required";
+        // }
         else if (string.IsNullOrEmpty(Request.Form["koiColor"]))
         {
             ValidateErrors["KoiColor"] = "Color is required";
@@ -83,9 +90,9 @@ public class UpdateKoiFish : PageModel
         {
             ValidateErrors["KoiSize"] = "KoiFish Size must be > 0";
         }
-        else if (int.Parse(Request.Form["koiQuantity"]) <= 0)
+        else if (int.Parse(Request.Form["koiQuantity"]) < 0)
         {
-            ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be > 0";
+            ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be >= 0";
         }
         else if (double.Parse(Request.Form["koiPrice"]) <= 0)
         {
@@ -150,7 +157,12 @@ public class UpdateKoiFish : PageModel
                 TempData["KoiFishFail"] = "KoiFish price Must be a number.";
             }
 
-            koiFish.Status = Request.Form["koiStatus"];
+            if (koiFish.Quantity == 0)
+            {
+                koiFish.Status = "Out of Stock";
+            }
+
+            koiFish.Status = "Available";
             koiFish.UpdateAt = DateTime.Now;
             koiFish.IsDeleted = false;
             koiFish.Color = Request.Form["koiColor"];
@@ -166,6 +178,7 @@ public class UpdateKoiFish : PageModel
             if (_koiFishRepository.UpdateKoiFish(koiFish))
             {
                 TempData["KoiFishSuccess"] = "Update Koi Fish sucessfully";
+
                 return RedirectToPage("/Staff/KoiFishManagement");
             }
             else

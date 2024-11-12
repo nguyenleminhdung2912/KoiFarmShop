@@ -1,13 +1,17 @@
 ﻿using BusinessObject;
 using BusinessObject.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 using Repository.Repository;
 using static KoiFarmRazorPage.Pages.Admin.RevenueModel;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         // Properties to hold data
@@ -17,9 +21,10 @@ namespace KoiFarmRazorPage.Pages.Admin
         private readonly IKoiFishRepository koiFishRepository;
         private readonly IProductRepository productRepository;
         private readonly IAdminRepository adminRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
+
         public IList<User> User { get; set; } = new List<User>()!;
         public IList<Order> Order { get; set; } = new List<Order>()!;
-        public List<string> Transactions { get; set; } = new List<string>();
 
         // Tổng doanh thu
         public double? TodayRevenue { get; set; } = default!;
@@ -31,13 +36,14 @@ namespace KoiFarmRazorPage.Pages.Admin
         public ChartData MonthlyRevenueData { get; set; } = new ChartData();
         public ChartData YearlyRevenueData { get; set; } = new ChartData();
 
-        public IndexModel()
+        public IndexModel( IHubContext<SignalRHub> hubContext)
         {
             userRepository = new UserRepository();
             orderRepository = new OrderRepository();
             koiFishRepository = new KoiFishRepository();
             productRepository = new ProductRepository();
             adminRepository = new AdminRepository();
+            this.hubContext = hubContext;
         }
 
         public async Task OnGet()
@@ -46,6 +52,20 @@ namespace KoiFarmRazorPage.Pages.Admin
             LoadUsers();
             LoadBookings();
             await LoadRevenueChart();
+        }
+        public async Task<IActionResult> OnPostReActivateAsync(int UserId)
+        {
+            if (UserId == null)
+            {
+                return NotFound();
+            }
+
+            var user = userRepository.GetUserById(UserId);
+            user.IsDeleted = false;
+            userRepository.UpdateUser(user);
+            await hubContext.Clients.All.SendAsync("RefreshData");
+
+            return RedirectToPage();
         }
 
         // ** USER ** //
@@ -65,12 +85,6 @@ namespace KoiFarmRazorPage.Pages.Admin
                 order.KoiFishList = koiFishs;
                 order.ProductList = products;
             }
-        }
-
-        // ** TRANSACTION ** //
-        private void LoadTransactions()
-        {
-            Transactions = new List<string> { "Transaction 1", "Transaction 2", "Transaction 3" };
         }
 
         // ** REVENUE ** //

@@ -2,74 +2,105 @@
 @model KoiFarmRazorPage.Pages.Admin.OrderManagement.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+ViewData["Title"] = "Edit";
+Layout = "Shared/_AdminLayout";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5">
+    <div class="card shadow-lg" style="border-radius: 12px;">
+        <div class="card-header text-white" style="background-color: #1f618d;">
+            <h2 class="text-center">Chỉnh Sửa Đơn Hàng</h2>
+        </div>
+        <div class="card-body p-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Order.OrderId" />
 
-<h4>Order</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Order.OrderId" />
-            <div class="form-group">
-                <label asp-for="Order.UserId" class="control-label"></label>
-                <select asp-for="Order.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="Order.UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.KoiFishId" class="control-label"></label>
-                <input asp-for="Order.KoiFishId" class="form-control" />
-                <span asp-validation-for="Order.KoiFishId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.ProductId" class="control-label"></label>
-                <input asp-for="Order.ProductId" class="form-control" />
-                <span asp-validation-for="Order.ProductId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.Quantity" class="control-label"></label>
-                <input asp-for="Order.Quantity" class="form-control" />
-                <span asp-validation-for="Order.Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.TotalPrice" class="control-label"></label>
-                <input asp-for="Order.TotalPrice" class="form-control" />
-                <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.Status" class="control-label"></label>
-                <input asp-for="Order.Status" class="form-control" />
-                <span asp-validation-for="Order.Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.CreateAt" class="control-label"></label>
-                <input asp-for="Order.CreateAt" class="form-control" />
-                <span asp-validation-for="Order.CreateAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.UpdateAt" class="control-label"></label>
-                <input asp-for="Order.UpdateAt" class="form-control" />
-                <span asp-validation-for="Order.UpdateAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.IsDeleted" class="control-label"></label>
-                <input asp-for="Order.IsDeleted" class="form-control" />
-                <span asp-validation-for="Order.IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="Order.UserId" class="control-label">
+                        <i class="fas fa-user"></i> Người Dùng
+                    </label>
+                    <select asp-for="Order.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                    <span asp-validation-for="Order.UserId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.KoiFishId" class="control-label">
+                        <i class="fas fa-fish"></i> Mã Cá Koi
+                    </label>
+                    <input asp-for="Order.KoiFishId" class="form-control" />
+                    <span asp-validation-for="Order.KoiFishId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.ProductId" class="control-label">
+                        <i class="fas fa-box"></i> Mã Sản Phẩm
+                    </label>
+                    <input asp-for="Order.ProductId" class="form-control" />
+                    <span asp-validation-for="Order.ProductId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.Quantity" class="control-label">
+                        <i class="fas fa-sort-numeric-up"></i> Số Lượng
+                    </label>
+                    <input asp-for="Order.Quantity" class="form-control" />
+                    <span asp-validation-for="Order.Quantity" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.TotalPrice" class="control-label">
+                        <i class="fas fa-money-bill-wave"></i> Tổng Giá
+                    </label>
+                    <input asp-for="Order.TotalPrice" class="form-control" />
+                    <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.Status" class="control-label">
+                        <i class="fas fa-cogs"></i> Trạng Thái
+                    </label>
+                    <input asp-for="Order.Status" class="form-control" />
+                    <span asp-validation-for="Order.Status" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.CreateAt" class="control-label">
+                        <i class="fas fa-calendar-plus"></i> Ngày Tạo
+                    </label>
+                    <input asp-for="Order.CreateAt" class="form-control" />
+                    <span asp-validation-for="Order.CreateAt" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.UpdateAt" class="control-label">
+                        <i class="fas fa-calendar-check"></i> Ngày Cập Nhật
+                    </label>
+                    <input asp-for="Order.UpdateAt" class="form-control" />
+                    <span asp-validation-for="Order.UpdateAt" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order.IsDeleted" class="control-label">
+                        <i class="fas fa-trash-alt"></i> Trạng Thái Xóa
+                    </label>
+                    <input asp-for="Order.IsDeleted" class="form-control" />
+                    <span asp-validation-for="Order.IsDeleted" class="text-danger"></span>
+                </div>
+
+                <div class="form-group text-center">
+                    <input type="submit" value="Lưu Thay Đổi" class="btn btn-primary" style="font-weight: bold;" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-page="./Index" class="btn btn-secondary" style="font-weight: bold;">
+            <i class="fas fa-arrow-left"></i> Trở Về Danh Sách
+        </a>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<!-- Thêm Font Awesome cho các icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">

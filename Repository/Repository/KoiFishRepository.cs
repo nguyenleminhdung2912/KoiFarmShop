@@ -32,6 +32,10 @@ namespace Repository.Repository
         public List<KoiFish> GetKoiFishByCustomerOrGuest() => KoiFishDAO.GetKoiFishByCustomerOrGuest();
         public KoiFish GetKoiFishByIdByStaff(long koiFishId) => KoiFishDAO.GetKoiFishByIdByStaff(koiFishId);
         public bool UpdateKoiFish(KoiFish koiFish) => KoiFishDAO.UpdateKoiFish(koiFish);
+        public List<KoiFish> GetKoiFishByName(string koiName)
+        {
+            return KoiFishDAO.SearchKoiFishByName(koiName);
+        }
 
         public List<KoiFish> GetKoiFishsByListString(string listString)
         => KoiFishDAO.GetKoiFishsByListString(listString);

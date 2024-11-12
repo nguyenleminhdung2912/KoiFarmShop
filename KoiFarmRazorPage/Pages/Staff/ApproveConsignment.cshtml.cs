@@ -1,24 +1,31 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class ApproveConsignment : PageModel
 {
     [BindProperty] public Consignment Consignment { get; set; }
 
     private readonly IConsignmentRepository _consignmentRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
+
 
     public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
 
     public string Message { get; set; }
 
-    public ApproveConsignment(IConsignmentRepository consignmentRepository)
+    public ApproveConsignment(IConsignmentRepository consignmentRepository, IHubContext<SignalRHub> hubContext)
     {
         this._consignmentRepository = consignmentRepository;
+        this.hubContext = hubContext;
     }
 
     public void OnGet(long consignmentId)
@@ -40,6 +47,9 @@ public class ApproveConsignment : PageModel
             if (_consignmentRepository.ApproveConsignmentByStaff(Consignment))
             {
                 TempData["SuccessMessage"] = "Approve consignment thành công!!!";
+                
+                hubContext.Clients.All.SendAsync("RefreshData");
+
                 return RedirectToPage("/Staff/ConsignmentManagement");
             }
             else
@@ -48,5 +58,6 @@ public class ApproveConsignment : PageModel
                 return Page();
             }
         }
+        
     }
 }

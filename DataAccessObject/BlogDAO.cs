@@ -14,9 +14,9 @@ namespace DataAccessObject
 
         public static List<Blog> GetAllBlogsForStaff()
         {
-            return _context.Blogs.Include(b => b.User).ToList();
+            return _context.Blogs.Include(b => b.User).OrderByDescending(b => b.CreateAt).Where(b => b.IsDeleted == false).ToList();
         }
-        
+
         public static long GetNextBlogId()
         {
             // Lấy ID lớn nhất hiện có trong bảng Consignment
@@ -36,7 +36,9 @@ namespace DataAccessObject
             var existingBlog = _context.Blogs.Find(id);
             if (existingBlog != null)
             {
-                _context.Blogs.Remove(existingBlog);
+                // _context.Blogs.Remove(existingBlog);
+                existingBlog.IsDeleted = true;
+                _context.Blogs.Update(existingBlog);
                 _context.SaveChanges();
                 return true;
             }
@@ -52,9 +54,7 @@ namespace DataAccessObject
                 existingBlog.Title = blog.Title;
                 existingBlog.Description = blog.Description;
                 existingBlog.UpdateAt = blog.UpdateAt;
-                existingBlog.ImageData = blog.ImageData;
                 existingBlog.IsDeleted = blog.IsDeleted;
-                existingBlog.UserId = blog.UserId;
                 _context.Blogs.Update(existingBlog);
                 _context.SaveChanges();
                 return true;
@@ -65,7 +65,46 @@ namespace DataAccessObject
 
         public static Blog GetBlogByIdByStaff(long id)
         {
-            return _context.Blogs.Include(b => b.User).FirstOrDefault(b => b.BlogId == id);
+            return _context.Blogs.Include(b => b.User).FirstOrDefault(b => b.BlogId == id && b.IsDeleted == false);
+        }
+
+        public class BlogResponse
+        {
+            public List<Blog> Blogs { get; set; }
+            public int TotalPages { get; set; }
+            public int PageIndex { get; set; }
+        }
+
+        public static async Task<BlogResponse> GetBlogsForCustomer(string searchTerm, int pageIndex, int pageSize)
+        {
+            var query = _context.Blogs.Include(x => x.User).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(x => x.Title.ToLower().Contains(searchTerm.ToLower())
+                                         && x.IsDeleted == false);
+            }
+
+            int count = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return new BlogResponse
+            {
+                Blogs = await query.ToListAsync(),
+                TotalPages = totalPages,
+                PageIndex = pageIndex
+            };
+        }
+
+        public static List<Blog> SearchBlogByName(string title)
+        {
+            return _context.Blogs.Include(x => x.User).Where(b => b.Title.ToLower().Contains(title.ToLower()) && b.IsDeleted == false).Take(1).ToList();
+        }
+        public async Task<Blog?> GetBlogDetailForCustomer(long id)
+        {
+            return await _context.Blogs.Include(b => b.User).FirstOrDefaultAsync(b => b.BlogId == id);
         }
     }
 }

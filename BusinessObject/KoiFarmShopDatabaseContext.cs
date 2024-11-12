@@ -73,9 +73,6 @@ public partial class KoiFarmShopDatabaseContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__Blog__UserID__47DBAE45");
-            entity.Property(e => e.ImageData)
-                .HasColumnType("varbinary(max)")
-                .HasColumnName("ImageData");
         });
 
         modelBuilder.Entity<Consignment>(entity =>

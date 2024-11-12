@@ -5,6 +5,7 @@ using Repository.IRepository;
 using Repository.Repository;
 using System.Configuration;
 using KoiFarmRazorPage.Service;
+using NguyenLeMinhDungFall2024RazorPages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var context = new KoiFarmShopDatabaseContext();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 builder.Services.AddSignalR();
 
 // Configure Entity Framework with SQL Server
@@ -61,6 +63,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Auth/Login"; // Redirect to login page
+        options.AccessDeniedPath = "/Auth/Login"; // Redirect to login page
     });
 
 var app = builder.Build();
@@ -85,6 +88,8 @@ app.UseAuthentication(); // Ensure authentication middleware is added before aut
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHub<SignalRHub>("/SignalRHub");
 
 app.MapGet("/", async context =>
 {

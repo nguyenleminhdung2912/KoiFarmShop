@@ -48,7 +48,6 @@ namespace DataAccessObject
 
                 //Get Wallet
                 var wallet = db.Wallets
-                    .Include(w => w.WalletLogs)
                     .FirstOrDefault(w => w.UserId.Equals(user.UserId));
                 return wallet;
             }
