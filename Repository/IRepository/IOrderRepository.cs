@@ -20,5 +20,9 @@ namespace Repository.IRepository
         Task<bool> CancelOrder(Order order, long userId);
         void DeleteOrder(Order order);
         void SaveOrder(Order order);
+        
+        List<Order> GetOrdersByShipStatus(string shipStatus);
+        
+        bool SetShipStatusOrder(long orderId, string shipStatus);
     }
 }
