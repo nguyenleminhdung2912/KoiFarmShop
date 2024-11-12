@@ -49,7 +49,6 @@ public class UpdateBlog : PageModel
                 BlogImage.CopyTo(memoryStream);
                 imageBytes = memoryStream.ToArray();
             }
-            Blog.ImageData = imageBytes;
             Blog.BlogId = long.Parse(Request.Form["blogId"]);
             Blog.UserId = 2;
             Blog.UpdateAt = DateTime.Now;

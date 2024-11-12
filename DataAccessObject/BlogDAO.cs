@@ -16,7 +16,7 @@ namespace DataAccessObject
         {
             return _context.Blogs.Include(b => b.User).ToList();
         }
-        
+
         public static long GetNextBlogId()
         {
             // Lấy ID lớn nhất hiện có trong bảng Consignment
@@ -52,7 +52,6 @@ namespace DataAccessObject
                 existingBlog.Title = blog.Title;
                 existingBlog.Description = blog.Description;
                 existingBlog.UpdateAt = blog.UpdateAt;
-                existingBlog.ImageData = blog.ImageData;
                 existingBlog.IsDeleted = blog.IsDeleted;
                 existingBlog.UserId = blog.UserId;
                 _context.Blogs.Update(existingBlog);
@@ -66,6 +65,41 @@ namespace DataAccessObject
         public static Blog GetBlogByIdByStaff(long id)
         {
             return _context.Blogs.Include(b => b.User).FirstOrDefault(b => b.BlogId == id);
+        }
+
+        public class BlogResponse
+        {
+            public List<Blog> Blogs { get; set; }
+            public int TotalPages { get; set; }
+            public int PageIndex { get; set; }
+        }
+
+        public static async Task<BlogResponse> GetBlogsForCustomer(string searchTerm, int pageIndex, int pageSize)
+        {
+            var query = _context.Blogs.Include(x => x.User).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(x => x.Title.ToLower().Contains(searchTerm.ToLower())
+                                         && x.IsDeleted == false);
+            }
+
+            int count = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return new BlogResponse
+            {
+                Blogs = await query.ToListAsync(),
+                TotalPages = totalPages,
+                PageIndex = pageIndex
+            };
+        }
+
+        public async Task<Blog?> GetBlogDetailForCustomer(long id)
+        {
+            return await _context.Blogs.Include(b => b.User).FirstOrDefaultAsync(b => b.BlogId == id);
         }
     }
 }

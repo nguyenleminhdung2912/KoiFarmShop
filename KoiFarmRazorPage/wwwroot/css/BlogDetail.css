@@ -1,0 +1,114 @@
+/* General Styles for Blog Detail Page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #444;
+}
+
+/* Blog Detail Container */
+.blog-detail-container {
+    max-width: 850px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #f0f4f8, #ffffff);
+}
+
+/* Blog Title */
+.blog-detail-container h1 {
+    font-size: 2.8em;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Blog Author Info */
+.blog-detail-container .author {
+    font-size: 1.1em;
+    color: #777;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* Blog Content */
+.blog-description {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+/* Blog Paragraph Styling */
+.blog-description p {
+    margin-bottom: 25px;
+    text-align: justify;
+}
+
+/* Link in Blog Description */
+.blog-description a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.blog-description a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Back to Blog List Button */
+.back-to-blog-list {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-top: 40px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.back-to-blog-list:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .blog-detail-container {
+        padding: 25px;
+        max-width: 100%;
+    }
+
+    .blog-detail-container h1 {
+        font-size: 2.2em;
+    }
+
+    .blog-description {
+        font-size: 1.1em;
+    }
+
+    .back-to-blog-list {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-detail-container h1 {
+        font-size: 1.8em;
+    }
+
+    .blog-description {
+        font-size: 1em;
+    }
+}

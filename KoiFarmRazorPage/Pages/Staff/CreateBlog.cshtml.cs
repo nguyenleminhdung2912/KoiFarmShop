@@ -46,7 +46,6 @@ public class CreateBlog : PageModel
                 BlogImage.CopyTo(memoryStream);
                 imageBytes = memoryStream.ToArray();
             }
-            Blog.ImageData = imageBytes;
             Blog.BlogId = GetBlogId();
             Blog.UserId = 2;
             Blog.CreateAt = DateTime.Now;

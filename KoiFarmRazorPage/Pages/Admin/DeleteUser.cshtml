@@ -2,14 +2,19 @@
 @model KoiFarmRazorPage.Pages.Admin.DeleteModel
 
 @{
-ViewData["Title"] = "Delete User";
-Layout = "Shared/_AdminLayout";
-
+    ViewData["Title"] = "Delete User";
+    Layout = "Shared/_AdminLayout";
 }
 
 <div class="container mt-5">
     <h1 class="text-danger"><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h1>
-
+    @if (TempData["DeleteMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@TempData["DeleteMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="card my-4 shadow-sm">
         <div class="card-header bg-danger text-white">
             <h4>User Details</h4>
@@ -46,7 +51,7 @@ Layout = "Shared/_AdminLayout";
 
     <div class="d-flex justify-content-between">
         <form method="post">
-            <input type="hidden" asp-for="User.UserId" />
+            <input type="hidden" asp-for="User.UserId"/>
             <button type="submit" class="btn btn-danger btn-lg">
                 <i class="fas fa-trash-alt"></i> Delete
             </button>
@@ -56,4 +61,3 @@ Layout = "Shared/_AdminLayout";
         </a>
     </div>
 </div>
-

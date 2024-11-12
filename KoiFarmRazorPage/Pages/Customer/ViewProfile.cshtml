@@ -39,8 +39,11 @@
                         <div style="padding-left: 7vw" class="col-md-4 text-center">
                             <!-- Profile Picture -->
                             <div class="profile-picture mb-3">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/mentor-booking-3d46a.appspot.com/o/cd1f017c-ae6c-4e4b-b72c-af0c0cfce31a.jpg?alt=media" alt="Profile Picture" class="profile-img"/>
+                                <img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" alt="Profile Picture" class="profile-img"/>
                             </div>
+                            @* <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#changePictureModal"> *@
+                            @*     Change Profile Picture *@
+                            @* </button> *@
                         </div>
                         <div style="padding-right: 100px" class="col-md-8">
                             <!-- Edit Profile Form -->
@@ -236,6 +239,30 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="button" class="btn btn-primary" onclick="submitPayment()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Đổi ảnh profile -->
+    <div class="modal fade" id="changePictureModal" tabindex="-1" aria-labelledby="changePictureModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePictureModalLabel">Change Profile Picture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="ProfilePicture" class="form-label">Select a new profile picture</label>
+                            <input type="file" class="form-control" id="ProfilePicture" name="ProfilePicture" accept="image/*" required />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" onclick="document.querySelector('#changePictureModal form').submit();">Save Changes</button>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessObject;
+using DataAccessObject;
 
 namespace Repository.IRepository
 {
@@ -20,5 +21,8 @@ namespace Repository.IRepository
         Blog GetBlogByIdByStaff(long id);
         
         bool UpdateBlog(Blog blog);
+        
+        Task<BlogDAO.BlogResponse> GetBlogsForCustomer(string searchTerm, int pageIndex, int pageSize);
+
     }
 }
