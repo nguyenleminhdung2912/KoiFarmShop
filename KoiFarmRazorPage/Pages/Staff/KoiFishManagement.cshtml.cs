@@ -1,6 +1,7 @@
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
@@ -26,6 +27,26 @@ public class KoiFishManagement : PageModel
     public IActionResult OnPost()
     {
         string handler = Request.Form["handler"];
+        if (handler == "Search")
+        {
+            if (string.IsNullOrEmpty(Request.Form["koiName"]))
+            {
+                TempData["SearchFail"] = "Koi fish doesn't exist with this nane!!!";
+                KoiFishes = _repository.GetkoiFishes();
+            }
+            else
+            {
+                if (_repository.GetKoiFishByName(Request.Form["koiName"]).IsNullOrEmpty())
+                {
+                    TempData["SearchFail"] = "Koi fish doesn't exist with this name!!!";
+                    KoiFishes = _repository.GetKoiFishByName(Request.Form["koiName"]);
+                }
+                else
+                {
+                    KoiFishes = _repository.GetKoiFishByName(Request.Form["koiName"]);
+                }
+            }
+        }
         if (handler == "Create")
         {
             return RedirectToPage("/Staff/CreateKoiFish");

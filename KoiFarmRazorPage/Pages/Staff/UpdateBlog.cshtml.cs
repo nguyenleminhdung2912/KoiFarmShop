@@ -50,7 +50,7 @@ public class UpdateBlog : PageModel
                 imageBytes = memoryStream.ToArray();
             }
             Blog.BlogId = long.Parse(Request.Form["blogId"]);
-            Blog.UserId = 2;
+            Blog.UserId = long.Parse(User.FindFirst("userId").Value);;
             Blog.UpdateAt = DateTime.Now;
             Blog.IsDeleted = false;
             if (_blogRepository.UpdateBlog(Blog))

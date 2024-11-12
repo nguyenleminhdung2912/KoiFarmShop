@@ -24,5 +24,6 @@ namespace Repository.IRepository
         
         Task<BlogDAO.BlogResponse> GetBlogsForCustomer(string searchTerm, int pageIndex, int pageSize);
 
+        List<Blog> GetBlogByTitle(string title);
     }
 }

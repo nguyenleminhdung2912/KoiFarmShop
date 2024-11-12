@@ -13,7 +13,7 @@
 
         <label for="statusConsignment" class="form-label me-2 mb-0">Status:</label>
 
-        <select name="statusConsignment" id="statusConsignment" class="form-select w-auto me-2">
+        <select name="statusConsignment" asp-for="@Model.SelectedStatus" id="statusConsignment" class="form-select w-auto me-2">
             @{
                 bool isAllSelected = Model.SelectedStatus == "ALL";
                 bool isPendingSelected = Model.SelectedStatus == "PENDING";

@@ -47,7 +47,7 @@ public class CreateBlog : PageModel
                 imageBytes = memoryStream.ToArray();
             }
             Blog.BlogId = GetBlogId();
-            Blog.UserId = 2;
+            Blog.UserId = long.Parse(User.FindFirst("userId").Value);;
             Blog.CreateAt = DateTime.Now;
             Blog.IsDeleted = false;
             if (_blogRepository.AddBlog(Blog))

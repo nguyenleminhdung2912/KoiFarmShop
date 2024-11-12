@@ -94,6 +94,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project_PRN221/KoiFarmShop/KoiFarmRazorPage/Pages/Customer/BlogDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQmxvZ0RldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project_PRN221/KoiFarmShop/KoiFarmRazorPage/Pages/Customer/CartPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQ2FydFBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -128,6 +132,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Project_PRN221/KoiFarmShop/KoiFarmRazorPage/Pages/Customer/ProductDetail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcUHJvZHVjdERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project_PRN221/KoiFarmShop/KoiFarmRazorPage/Pages/Customer/ViewBlog.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcVmlld0Jsb2cuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project_PRN221/KoiFarmShop/KoiFarmRazorPage/Pages/Customer/ViewConsignment.cshtml]

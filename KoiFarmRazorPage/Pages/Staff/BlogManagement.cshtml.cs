@@ -1,6 +1,7 @@
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol.Plugins;
 using Repository.IRepository;
 
@@ -17,6 +18,7 @@ public class BlogManagement : PageModel
     {
         this._blogRepository = blogRepository;
     }
+
     public void OnGet()
     {
         Blogs = _blogRepository.GetBlogsForStaff();
@@ -28,6 +30,27 @@ public class BlogManagement : PageModel
         if (handler == "Create")
         {
             return RedirectToPage("/Staff/CreateBlog");
+        }
+
+        if (handler == "Search")
+        {
+            if (string.IsNullOrEmpty(Request.Form["blogTitle"]))
+            {
+                TempData["SearchFail"] = "Blog with this title does not exits";
+                Blogs = _blogRepository.GetBlogsForStaff();
+            }
+            else
+            {
+                if (_blogRepository.GetBlogByTitle(Request.Form["blogTitle"]).IsNullOrEmpty())
+                {
+                    TempData["SearchFail"] = "Blog with this title does not exits";
+                    Blogs = _blogRepository.GetBlogByTitle(Request.Form["blogTitle"]);
+                }
+                else
+                {
+                    Blogs = _blogRepository.GetBlogByTitle(Request.Form["blogTitle"]);
+                }
+            }
         }
 
         if (handler == "Delete")
@@ -54,7 +77,6 @@ public class BlogManagement : PageModel
 
         if (handler == "Update")
         {
-            
             if (string.IsNullOrEmpty(Request.Form["blogId"]))
             {
                 Message = "Chon blog cu the de update";
@@ -62,9 +84,10 @@ public class BlogManagement : PageModel
             }
             else
             {
-               return RedirectToPage("/Staff/UpdateBlog", new {blogId = long.Parse(Request.Form["blogId"])});
+                return RedirectToPage("/Staff/UpdateBlog", new { blogId = long.Parse(Request.Form["blogId"]) });
             }
         }
+
         return Page();
     }
 }

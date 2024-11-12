@@ -38,8 +38,9 @@ public class ConsignmentManagement : PageModel
         {
             if (string.IsNullOrEmpty(Request.Form["selectedConsignmentId"]))
             {
+                SelectedStatus = "PENDING";
                 Message = "Hay chon consignment cu the de approve";
-                Consignments = _consignmentRepository.GetConsignmentsByStaff();
+                Consignments = _consignmentRepository.GetConsignmentsByStatusByStaff(SelectedStatus);
             }
             else
             {
@@ -52,8 +53,9 @@ public class ConsignmentManagement : PageModel
         {
             if (string.IsNullOrEmpty(Request.Form["selectedConsignmentId"]))
             {
+                SelectedStatus = "PENDING";
                 Message = "Hay chon consignment cu the de reject";
-                Consignments = _consignmentRepository.GetConsignmentsByStaff();
+                Consignments = _consignmentRepository.GetConsignmentsByStatusByStaff(SelectedStatus);
             }
             else
             {
