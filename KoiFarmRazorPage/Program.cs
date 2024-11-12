@@ -5,6 +5,7 @@ using Repository.IRepository;
 using Repository.Repository;
 using System.Configuration;
 using KoiFarmRazorPage.Service;
+using NguyenLeMinhDungFall2024RazorPages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var context = new KoiFarmShopDatabaseContext();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 builder.Services.AddSignalR();
 
 // Configure Entity Framework with SQL Server
@@ -85,6 +87,8 @@ app.UseAuthentication(); // Ensure authentication middleware is added before aut
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHub<SignalRHub>("/SignalRHub");
 
 app.MapGet("/", async context =>
 {
