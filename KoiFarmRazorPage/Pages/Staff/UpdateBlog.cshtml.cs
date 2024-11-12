@@ -9,9 +9,7 @@ public class UpdateBlog : PageModel
 {
     [BindProperty]
     public Blog Blog { get; set; } = new Blog();
-
-    [BindProperty]
-    public IFormFile BlogImage { get; set; }
+    
     
     private readonly IBlogRepository _blogRepository;
 
@@ -38,19 +36,11 @@ public class UpdateBlog : PageModel
         }else if (string.IsNullOrEmpty(Blog.Description))
         {
             ValidateErrors["BlogDescription"] = "Description khong duoc de trong";
-        }else if (BlogImage == null)
-        {
-            ValidateErrors["BlogImage"] = "Image khong duoc de trong";
         }
         else
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                BlogImage.CopyTo(memoryStream);
-                imageBytes = memoryStream.ToArray();
-            }
+
             Blog.BlogId = long.Parse(Request.Form["blogId"]);
-            Blog.UserId = long.Parse(User.FindFirst("userId").Value);;
             Blog.UpdateAt = DateTime.Now;
             Blog.IsDeleted = false;
             if (_blogRepository.UpdateBlog(Blog))
@@ -60,7 +50,7 @@ public class UpdateBlog : PageModel
             }
             else
             {
-                Message = "Cap nhat Blog khong thanh cong";
+                TempData["UpdateFail"] = "Cap nhat Blog khong thanh cong";
                 return Page();
             }
         }

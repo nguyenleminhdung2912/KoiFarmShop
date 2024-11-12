@@ -53,7 +53,6 @@ namespace DataAccessObject
                 existingBlog.Description = blog.Description;
                 existingBlog.UpdateAt = blog.UpdateAt;
                 existingBlog.IsDeleted = blog.IsDeleted;
-                existingBlog.UserId = blog.UserId;
                 _context.Blogs.Update(existingBlog);
                 _context.SaveChanges();
                 return true;
