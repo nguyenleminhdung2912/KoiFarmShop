@@ -532,3 +532,4 @@ D:\Project_PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\refint\KoiFarmRa
 D:\Project_PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.pdb
 D:\Project_PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\KoiFarmRazorPage.genruntimeconfig.cache
 D:\Project_PRN221\KoiFarmShop\KoiFarmRazorPage\obj\Debug\net8.0\ref\KoiFarmRazorPage.dll
+D:\Kì 7\PRN221\KoiFarmShop\KoiFarmRazorPage\bin\Debug\net8.0\libman.json

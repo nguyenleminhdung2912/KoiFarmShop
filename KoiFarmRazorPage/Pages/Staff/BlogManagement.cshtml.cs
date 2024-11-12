@@ -1,4 +1,5 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -8,6 +9,7 @@ using NuGet.Protocol.Plugins;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class BlogManagement : PageModel
 {
@@ -70,7 +72,6 @@ public class BlogManagement : PageModel
                 if (_blogRepository.DeleteBlogById(long.Parse(Request.Form["blogId"])))
                 {
                     TempData["SuccessMessage"] = "Xoa blog thành công!!!";
-                    hubContext.Clients.All.SendAsync("RefreshData");
                     Blogs = _blogRepository.GetBlogsForStaff();
                 }
                 else
@@ -93,7 +94,6 @@ public class BlogManagement : PageModel
                 return RedirectToPage("/Staff/UpdateBlog", new { blogId = long.Parse(Request.Form["blogId"]) });
             }
         }
-        hubContext.Clients.All.SendAsync("RefreshData");
 
         return Page();
     }

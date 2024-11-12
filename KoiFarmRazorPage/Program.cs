@@ -63,6 +63,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Auth/Login"; // Redirect to login page
+        options.AccessDeniedPath = "/Auth/Login"; // Redirect to login page
     });
 
 var app = builder.Build();

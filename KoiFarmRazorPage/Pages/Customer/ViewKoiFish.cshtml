@@ -2,8 +2,8 @@
 @model KoiFarmRazorPage.Pages.Customer.ViewKoiFishModel
 
 @{
-ViewData["Title"] = "ViewKoiFish";
-Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "ViewKoiFish";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
 }
 
 <h2 class="mt-4">Danh Sách Cá Koi</h2>
@@ -12,36 +12,46 @@ Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
         <div class="row row-cols-1 row-cols-md-4 g-4">
             @foreach (var koi in Model.KoiFishList)
             {
-            <div class="col">
-                <div class="card h-100" style="border: 1px solid #ddd; border-radius: 8px;">
-                    <div class="card-body text-center">
-                        <!-- Ảnh cá Koi với kích thước cố định -->
-                        @if (koi.ImageData != null)
-                        {
-                        <div class="koi-image-container">
-                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(koi.ImageData)" alt="Koi Image" class="koi-image" />
-                        </div>
-                        }
-                        else
-                        {
-                        <p>Hình ảnh không có sẵn.</p>
-                        }
+                <a href="/Customer/KoiFishDetail?id=@koi.KoiFishId" class="text-decoration-none text-dark">
+                    <div class="col">
+                        <div class="card h-100" style="border: 1px solid #ddd; border-radius: 8px;">
+                            <div class="card-body text-center">
+                                <!-- Ảnh cá Koi với kích thước cố định -->
+                                @if (koi.ImageData != null)
+                                {
+                                    <div class="koi-image-container">
+                                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(koi.ImageData)" alt="Koi Image" class="koi-image"/>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p>Hình ảnh không có sẵn.</p>
+                                }
 
-                        <!-- Thông tin cá Koi -->
-                        <h5 class="card-title">@koi.Name</h5>
-                        <p class="card-text mb-1"><strong>Xuất xứ:</strong> @koi.Origin</p>
-                        <p class="card-text mb-1"><strong>Giống:</strong> @koi.Breed</p>
-                        <p class="card-text mb-1"><strong>Giá:</strong> @koi.Price?.ToString("C0")</p>
-                        <p class="card-text"><strong>Trạng thái:</strong> @koi.Status</p>
+                                <!-- Thông tin cá Koi -->
+                                <h5 class="card-title">@koi.Name</h5>
+                                <p class="card-text mb-1">
+                                    <strong>Xuất xứ:</strong> @koi.Origin
+                                </p>
+                                <p class="card-text mb-1">
+                                    <strong>Giống:</strong> @koi.Breed
+                                </p>
+                                <p class="card-text mb-1">
+                                    <strong>Giá:</strong> @koi.Price?.ToString("C0")
+                                </p>
+                                <p class="card-text">
+                                    <strong>Trạng thái:</strong> @koi.Status
+                                </p>
 
-                        <!-- Checkbox để chọn cá Koi -->
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input koi-checkbox" name="selectedKoiFishIds" value="@koi.KoiFishId" />
-                            <label class="form-check-label">So sánh</label>
+                                <!-- Checkbox để chọn cá Koi -->
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input koi-checkbox" name="selectedKoiFishIds" value="@koi.KoiFishId"/>
+                                    <label class="form-check-label">So sánh</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </a>
             }
         </div>
 

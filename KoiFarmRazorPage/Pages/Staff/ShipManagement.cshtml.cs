@@ -1,10 +1,12 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class ShipManagement : PageModel
 {
@@ -24,6 +26,7 @@ public class ShipManagement : PageModel
         this._orderRepository = orderRepository;
         this._productRepository = productRepository;
         this._koiFishRepository = koiFishRepository;
+        this.hubContext = hubContext;
     }
 
     public List<Order> Orders { get; set; } = new List<Order>();
@@ -152,6 +155,7 @@ public class ShipManagement : PageModel
                             }
                         }
                     }
+                    hubContext.Clients.All.SendAsync("RefreshData");
 
                     TempData["Success"] = "Ship prepared status updated sucessfully";
                 }
@@ -247,6 +251,7 @@ public class ShipManagement : PageModel
                             }
                         }
                     }
+                    hubContext.Clients.All.SendAsync("RefreshData");
 
                     TempData["Success"] = "Ship on going status updated sucessfully";
                 }
@@ -373,47 +378,11 @@ public class ShipManagement : PageModel
                             }
                         }
                     }
-                    hubContext.Clients.All.SendAsync("RefreshData");
 
                     TempData["Fail"] = "Ship sucess status updated failed";
                 }
             }
         }
-
-        // if (handler == "NotYet")
-        // {
-        //     SelectedStatus = "NOTYET";
-        //     if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["selectedOrderId"]), SelectedStatus))
-        //     {
-        //         Orders = _orderRepository.GetAllOrders();
-        //         foreach (var order in Orders)
-        //         {
-        //             // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-        //             //
-        //             // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-        //             var koiFishIdList = ParseIdString(order.KoiFishId);
-        //             var productIdList = ParseIdString(order.ProductId);
-        //             foreach (var koiFishId in koiFishIdList)
-        //             {
-        //                 if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-        //                 {
-        //                     order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-        //                 }
-        //             }
-        //
-        //             foreach (var productId in koiFishIdList)
-        //             {
-        //                 if (_productRepository.GetProductById(productId) != null)
-        //                 {
-        //                     order.ProductList.Add(_productRepository.GetProductById(productId));
-        //                 }
-        //             }
-        //         }
-        //
-        //         TempData["Success"] = "Ship not yet status updated sucessfully";
-        //     }
-        // }
-        hubContext.Clients.All.SendAsync("RefreshData");
 
     }
 

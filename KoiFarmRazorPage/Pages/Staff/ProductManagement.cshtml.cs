@@ -1,4 +1,5 @@
 ﻿using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -8,6 +9,8 @@ using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff
 {
+    [Authorize(Roles = "Staff")]
+
     public class ProductManagementModel : PageModel
     {
         public List<Product> Products { get; set; }
@@ -21,6 +24,7 @@ namespace KoiFarmRazorPage.Pages.Staff
         public ProductManagementModel(IProductRepository productRepository, IHubContext<SignalRHub> hubContext)
         {
             this.productRepository = productRepository;
+            this.hubContext = hubContext;
         }
 
         public void OnGet()

@@ -1,5 +1,6 @@
 ﻿using BusinessObject;
 using BusinessObject.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -10,6 +11,7 @@ using static KoiFarmRazorPage.Pages.Admin.RevenueModel;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         // Properties to hold data

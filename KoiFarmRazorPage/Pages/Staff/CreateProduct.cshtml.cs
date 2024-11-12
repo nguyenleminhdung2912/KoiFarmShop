@@ -1,12 +1,16 @@
 ﻿using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
+
 namespace KoiFarmRazorPage.Pages.Staff
 {
+	[Authorize(Roles = "Staff")]
+
 	public class CreateProductModel : PageModel
 	{
 		private readonly IProductRepository productRepository;

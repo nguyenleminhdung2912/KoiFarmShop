@@ -1,5 +1,6 @@
 ﻿using BusinessObject;
 using KoiFarmRazorPage.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.IRepository;
@@ -7,6 +8,8 @@ using Repository.Repository;
 using Service.Models;
 
 namespace KoiFarmRazorPage.Pages.Customer;
+
+[Authorize(Roles = "Customer")]
 
 public class PaymentResult : PageModel
 {

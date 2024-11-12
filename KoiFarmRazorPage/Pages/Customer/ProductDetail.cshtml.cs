@@ -27,6 +27,10 @@ public class ProductDetail : PageModel
 
     public IActionResult OnPostAddToCart( long productId, int quantity)
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToPage("/Auth/Login");
+        }
         var product = _productRepository.GetProductById(productId);
 
         if (product != null)

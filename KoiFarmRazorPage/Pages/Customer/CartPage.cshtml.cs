@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KoiFarmRazorPage.Pages.Customer
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class CartPageModel : PageModel
     {
         private readonly ICartRepository _cartRepository;

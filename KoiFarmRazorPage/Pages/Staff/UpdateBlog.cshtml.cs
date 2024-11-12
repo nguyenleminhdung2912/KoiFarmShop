@@ -1,4 +1,5 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -6,6 +7,7 @@ using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class UpdateBlog : PageModel
 {
@@ -24,6 +26,7 @@ public class UpdateBlog : PageModel
     public UpdateBlog(IBlogRepository blogRepository, IHubContext<SignalRHub> hubContext)
     {
         this._blogRepository = blogRepository;
+        this.hubContext = hubContext;
     }
 
     public void OnGet(long blogId)
@@ -50,8 +53,7 @@ public class UpdateBlog : PageModel
             if (_blogRepository.UpdateBlog(Blog))
             {
                 TempData["SuccessMessage"] = "Cap nhat blog thành công!!!";
-                hubContext.Clients.All.SendAsync("RefreshData");
-
+                
                 return RedirectToPage("/Staff/BlogManagement");
             }
             else
@@ -61,7 +63,6 @@ public class UpdateBlog : PageModel
                 return Page();
             }
         }
-        hubContext.Clients.All.SendAsync("RefreshData");
 
         Blog = _blogRepository.GetBlogByIdByStaff(long.Parse(Request.Form["blogId"]));
         return Page();
