@@ -2,6 +2,8 @@ using System.Drawing;
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Customer;
@@ -13,10 +15,12 @@ public class ViewConsignment : PageModel
     public string SelectedStatus { get; set; } = "ALL";
 
     private readonly IConsignmentRepository _consignmentRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
-    public ViewConsignment(IConsignmentRepository consignmentRepository)
+    public ViewConsignment(IConsignmentRepository consignmentRepository, IHubContext<SignalRHub> hubContext)
     {
         this._consignmentRepository = consignmentRepository;
+        this.hubContext = hubContext;
     }
 
     public IActionResult OnGet()
@@ -43,6 +47,8 @@ public class ViewConsignment : PageModel
             if(_consignmentRepository.ConfirmConsignmentByCustomer(long.Parse(Request.Form["consignmentId"])))
             {
                 TempData["SuccessMessage"] = "Consignment approved successfully!";
+                hubContext.Clients.All.SendAsync("RefreshData");
+
                 Consignments = _consignmentRepository.GetConsignments(long.Parse(User.FindFirst("userId").Value));
                 return Page();
             }else
@@ -58,6 +64,8 @@ public class ViewConsignment : PageModel
             if(_consignmentRepository.CancelConsignmentByCustomer(long.Parse(Request.Form["consignmentId"])))
             {
                 TempData["SuccessMessage"] = "Consignment cancelled successfully!";
+                hubContext.Clients.All.SendAsync("RefreshData");
+
                 Consignments = _consignmentRepository.GetConsignments(long.Parse(User.FindFirst("userId").Value));
                 return Page();
             }else
@@ -67,6 +75,8 @@ public class ViewConsignment : PageModel
                 return Page();
             }
         }
+        hubContext.Clients.All.SendAsync("RefreshData");
+
 
         return Page();
 

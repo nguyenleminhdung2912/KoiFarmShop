@@ -1,6 +1,8 @@
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
@@ -15,10 +17,12 @@ public class CreateBlog : PageModel
     public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
 
     private readonly IBlogRepository _blogRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
-    public CreateBlog(IBlogRepository blogRepository)
+    public CreateBlog(IBlogRepository blogRepository, IHubContext<SignalRHub> hubContext)
     {
         this._blogRepository = blogRepository;
+        this.hubContext = hubContext;
     }
 
     public void OnGet()
@@ -52,6 +56,8 @@ public class CreateBlog : PageModel
             if (_blogRepository.AddBlog(Blog))
             {
                 TempData["SuccessMessage"] = "Tao blog thành công!!!";
+                hubContext.Clients.All.SendAsync("RefreshData");
+
                 return RedirectToPage("/Staff/BlogManagement");
             }
             else

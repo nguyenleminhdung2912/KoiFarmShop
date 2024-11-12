@@ -1,7 +1,9 @@
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using NguyenLeMinhDungFall2024RazorPages;
 using NuGet.Protocol.Plugins;
 using Repository.IRepository;
 
@@ -13,10 +15,13 @@ public class BlogManagement : PageModel
     public List<Blog> Blogs { get; set; } = new List<Blog>();
 
     private readonly IBlogRepository _blogRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
-    public BlogManagement(IBlogRepository blogRepository)
+
+    public BlogManagement(IBlogRepository blogRepository, IHubContext<SignalRHub> hubContext)
     {
         this._blogRepository = blogRepository;
+        this.hubContext = hubContext;
     }
 
     public void OnGet()
@@ -65,6 +70,7 @@ public class BlogManagement : PageModel
                 if (_blogRepository.DeleteBlogById(long.Parse(Request.Form["blogId"])))
                 {
                     TempData["SuccessMessage"] = "Xoa blog thành công!!!";
+                    hubContext.Clients.All.SendAsync("RefreshData");
                     Blogs = _blogRepository.GetBlogsForStaff();
                 }
                 else
@@ -87,6 +93,7 @@ public class BlogManagement : PageModel
                 return RedirectToPage("/Staff/UpdateBlog", new { blogId = long.Parse(Request.Form["blogId"]) });
             }
         }
+        hubContext.Clients.All.SendAsync("RefreshData");
 
         return Page();
     }

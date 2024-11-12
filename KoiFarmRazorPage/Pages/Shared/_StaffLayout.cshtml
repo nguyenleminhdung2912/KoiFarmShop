@@ -74,10 +74,18 @@
 <body>
 	<div class="header">
 		<h1>@ViewData["Title"]</h1>
-		<form method="post">
-			@Html.AntiForgeryToken()
-			<button type="submit" name="handler" value="Logout">Logout</button>
-		</form>
+		@if (User.Identity.IsAuthenticated)
+		{
+		<li class="nav-item">
+			<a class="nav-link text-danger" href="/Auth/Logout">Đăng Xuất</a>
+		</li>
+		}
+		else
+		{
+		<li class="nav-item">
+			<a class="btn login-btn ms-2" href="/Auth/Login">Đăng Nhập</a>
+		</li>
+		}
 	</div>
 
 	<div class="container">

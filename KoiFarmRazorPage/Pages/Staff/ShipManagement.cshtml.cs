@@ -1,5 +1,7 @@
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
@@ -13,10 +15,11 @@ public class ShipManagement : PageModel
     private readonly IProductRepository _productRepository;
 
     private readonly IKoiFishRepository _koiFishRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
 
     public ShipManagement(IOrderRepository orderRepository, IProductRepository productRepository,
-        IKoiFishRepository koiFishRepository)
+        IKoiFishRepository koiFishRepository, IHubContext<SignalRHub> hubContext)
     {
         this._orderRepository = orderRepository;
         this._productRepository = productRepository;
@@ -340,6 +343,7 @@ public class ShipManagement : PageModel
                             }
                         }
                     }
+                    hubContext.Clients.All.SendAsync("RefreshData");
 
                     TempData["Success"] = "Ship sucesss status updated sucessfully";
                 }
@@ -369,6 +373,7 @@ public class ShipManagement : PageModel
                             }
                         }
                     }
+                    hubContext.Clients.All.SendAsync("RefreshData");
 
                     TempData["Fail"] = "Ship sucess status updated failed";
                 }
@@ -408,6 +413,8 @@ public class ShipManagement : PageModel
         //         TempData["Success"] = "Ship not yet status updated sucessfully";
         //     }
         // }
+        hubContext.Clients.All.SendAsync("RefreshData");
+
     }
 
     private List<long> ParseIdString(string? idString)

@@ -1,7 +1,9 @@
 using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
@@ -9,12 +11,14 @@ namespace KoiFarmRazorPage.Pages.Staff;
 public class KoiFishManagement : PageModel
 {
     private readonly IKoiFishRepository _repository;
+    private readonly IHubContext<SignalRHub> hubContext;
+
 
     public string Message { get; set; }
 
     public List<KoiFish> KoiFishes { get; set; } = new List<KoiFish>();
 
-    public KoiFishManagement(IKoiFishRepository repository)
+    public KoiFishManagement(IKoiFishRepository repository, IHubContext<SignalRHub> hubContext)
     {
         this._repository = repository;
     }
@@ -89,6 +93,7 @@ public class KoiFishManagement : PageModel
                return RedirectToPage("/Staff/UpdateKoiFish", new { id = long.Parse(Request.Form["selectedKoiFishId"]) });
             }
         }
+        hubContext.Clients.All.SendAsync("RefreshData");
 
         return Page();
     }

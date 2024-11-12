@@ -1,6 +1,8 @@
 ﻿using BusinessObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff
@@ -8,13 +10,15 @@ namespace KoiFarmRazorPage.Pages.Staff
 	public class CreateProductModel : PageModel
 	{
 		private readonly IProductRepository productRepository;
+		private readonly IHubContext<SignalRHub> hubContext;
 
         public string Message { get; set; }
 
         public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();	
-		public CreateProductModel(IProductRepository productRepository)
+		public CreateProductModel(IProductRepository productRepository, IHubContext<SignalRHub> hubContext)
 		{
 			this.productRepository = productRepository;
+			this.hubContext = hubContext;
 		}
 		public void OnGet()
 		{
@@ -109,6 +113,8 @@ namespace KoiFarmRazorPage.Pages.Staff
 				product.IsDeleted = false;
 				productRepository.AddProduct(product);
 				TempData["SuccessMessage"] = "Tao product thành công!!!";
+				hubContext.Clients.All.SendAsync("RefreshData");
+
 				return RedirectToPage("/Staff/ProductManagement");
 			}
 			return Page();
