@@ -86,7 +86,7 @@ namespace DataAccessObject
         public static List<KoiFish> GetFishes()
         {
             db = new KoiFarmShopDatabaseContext();
-            return db.KoiFishes.Include(k => k.KoiFishRatings).OrderByDescending(k => k.CreateAt).ToList();
+            return db.KoiFishes.Include(k => k.KoiFishRatings).OrderByDescending(k => k.CreateAt).Where(k => k.IsDeleted == false).ToList();
         }
 
         public static bool CreateKoiFish(KoiFish koiFish)
@@ -118,7 +118,9 @@ namespace DataAccessObject
             {
                 try
                 {
-                    db.KoiFishes.Remove(existingKoiFish);
+                    existingKoiFish.IsDeleted = true;
+                    db.KoiFishes.Update(existingKoiFish);
+                    // db.KoiFishes.Remove(existingKoiFish);
                     db.SaveChanges();
                     return true;
                 }
@@ -185,7 +187,7 @@ namespace DataAccessObject
         public static List<KoiFish> SearchKoiFishByName(string koiName)
         {
             db = new KoiFarmShopDatabaseContext();
-            return db.KoiFishes.Include(k => k.KoiFishRatings).Where(k => k.Name.Contains(koiName)).Take(1).ToList();
+            return db.KoiFishes.Include(k => k.KoiFishRatings).Where(k => k.Name.Contains(koiName) && k.IsDeleted == false).Take(1).ToList();
         }
     }
 }

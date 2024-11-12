@@ -46,10 +46,10 @@ namespace KoiFarmRazorPage.Pages.Staff
             {
                 ValidateErrors["ProductPrice"] = "Product Price không được để trống";
             }
-            else if (string.IsNullOrEmpty(Request.Form["productStatus"]))
-            {
-                ValidateErrors["ProductStatus"] = "Product Status không được để trống";
-            }
+            // else if (string.IsNullOrEmpty(Request.Form["productStatus"]))
+            // {
+            //     ValidateErrors["ProductStatus"] = "Product Status không được để trống";
+            // }
             else if (string.IsNullOrEmpty(Request.Form["productQuantity"]))
             {
                 ValidateErrors["ProductQuantity"] = "Product Quantity không được để trống";
@@ -79,6 +79,10 @@ namespace KoiFarmRazorPage.Pages.Staff
                 try
                 {
                     product.Price = double.Parse(Request.Form["productPrice"]);
+                    if (product.Price < 0)
+                    {
+                        ValidateErrors["ProductPrice"] = "Price không thể nhỏ hơn 0";
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -88,6 +92,10 @@ namespace KoiFarmRazorPage.Pages.Staff
                 try
                 {
                     product.Quantity = int.Parse(Request.Form["productQuantity"]);
+                    if (product.Quantity < 0)
+                    {
+                        ValidateErrors["ProductQuantity"] = "Product Quantity không được nhỏ hơn 0";
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -95,7 +103,15 @@ namespace KoiFarmRazorPage.Pages.Staff
                 }
 
                 product.UpdateAt = DateTime.Now;
-                product.Status = Request.Form["productStatus"];
+                if (product.Quantity == 0)
+                {
+                    product.Status = "Out of Stock";
+                }
+                else
+                {
+                    product.Status = "Available";
+                }
+
                 product.IsDeleted = false;
                 productRepository.UpdateProduct(product);
                 Message = "Cập nhật product thành công";

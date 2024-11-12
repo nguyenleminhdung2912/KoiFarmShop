@@ -63,10 +63,10 @@ public class UpdateKoiFish : PageModel
         {
             ValidateErrors["KoiPrice"] = "Koi Price is required";
         }
-        else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
-        {
-            ValidateErrors["KoiStatus"] = "Status is required";
-        }
+        // else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
+        // {
+        //     ValidateErrors["KoiStatus"] = "Status is required";
+        // }
         else if (string.IsNullOrEmpty(Request.Form["koiColor"]))
         {
             ValidateErrors["KoiColor"] = "Color is required";
@@ -83,9 +83,9 @@ public class UpdateKoiFish : PageModel
         {
             ValidateErrors["KoiSize"] = "KoiFish Size must be > 0";
         }
-        else if (int.Parse(Request.Form["koiQuantity"]) <= 0)
+        else if (int.Parse(Request.Form["koiQuantity"]) < 0)
         {
-            ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be > 0";
+            ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be >= 0";
         }
         else if (double.Parse(Request.Form["koiPrice"]) <= 0)
         {
@@ -150,7 +150,12 @@ public class UpdateKoiFish : PageModel
                 TempData["KoiFishFail"] = "KoiFish price Must be a number.";
             }
 
-            koiFish.Status = Request.Form["koiStatus"];
+            if (koiFish.Quantity == 0)
+            {
+                koiFish.Status = "Out of Stock";
+            }
+
+            koiFish.Status = "Available";
             koiFish.UpdateAt = DateTime.Now;
             koiFish.IsDeleted = false;
             koiFish.Color = Request.Form["koiColor"];

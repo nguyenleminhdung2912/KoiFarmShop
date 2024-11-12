@@ -80,12 +80,12 @@ namespace KoiFarmRazorPage.Pages.Staff
                     long selectedProductId = long.Parse(Request.Form["selectedProductId"]);
                     if (productRepository.DeleteProductById(selectedProductId))
                     {
-                        Message = "Xoá product thành công!!!";
+                       TempData["DeleteSuccess"] = "Xoá product thành công!!!";
                         Products = productRepository.GetProductList();
                     }
                     else
                     {
-                        Message = "Xoá product thất bại";
+                        TempData["DeleteFail"] = "Xoá product thất bại";
                         Products = productRepository.GetProductList();
                     }
                 }

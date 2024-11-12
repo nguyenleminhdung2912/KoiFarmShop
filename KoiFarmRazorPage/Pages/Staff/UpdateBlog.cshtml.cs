@@ -50,10 +50,12 @@ public class UpdateBlog : PageModel
             }
             else
             {
+                Blog = _blogRepository.GetBlogByIdByStaff(long.Parse(Request.Form["blogId"]));
                 TempData["UpdateFail"] = "Cap nhat Blog khong thanh cong";
                 return Page();
             }
         }
+        Blog = _blogRepository.GetBlogByIdByStaff(long.Parse(Request.Form["blogId"]));
         return Page();
     }
 }
