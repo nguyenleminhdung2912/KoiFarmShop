@@ -53,7 +53,7 @@ namespace DataAccessObject
 
         public static List<Product> GetProducts()
         {
-            return _context.Products.ToList();
+            return _context.Products.Where(k => k.IsDeleted == false).ToList();
         }
 
         public static Product GetProductById(long productId)
@@ -63,7 +63,7 @@ namespace DataAccessObject
 
         public static List<Product> SearchProductByName(string name)
         {
-            var products = _context.Products.Where(p => p.Name == name).Take(1);
+            var products = _context.Products.Where(p => p.Name == name && p.IsDeleted == false).Take(1);
             return products.ToList();
         }
 
@@ -104,7 +104,9 @@ namespace DataAccessObject
                 if (product.ProductRatings.Any())
                 {
                     product.ProductRatings.Clear();
-                    _context.Products.Remove(product);
+                    product.IsDeleted = true;
+                    _context.Products.Update(product);
+                    // _context.Products.Remove(product);
                     _context.SaveChanges();
                     return true;
                 }

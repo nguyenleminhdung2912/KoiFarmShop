@@ -56,10 +56,12 @@ public class CreateKoiFish : PageModel
         }else if (string.IsNullOrEmpty(Request.Form["koiPrice"]))
         {
             ValidateErrors["KoiPrice"] = "Koi Price is required";
-        }else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
-        {
-            ValidateErrors["KoiStatus"] = "Status is required";
-        }else if (string.IsNullOrEmpty(Request.Form["koiColor"]))
+        }
+        // else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
+        // {
+        //     ValidateErrors["KoiStatus"] = "Status is required";
+        // }
+        else if (string.IsNullOrEmpty(Request.Form["koiColor"]))
         {
             ValidateErrors["KoiColor"] = "Color is required";
         }else if (string.IsNullOrEmpty(Request.Form["koiQuantity"]))
@@ -101,7 +103,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish Age must be an integer number.";
+                ValidateErrors["KoiAge"] = "KoiFish Age must be an integer number.";
             }
             
             try
@@ -110,7 +112,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "Koi Size Age must be an integer number.";
+                ValidateErrors["KoiSize"] = "Koi Size Age must be an integer number.";
             }
             koiFish.Breed = Request.Form["koiBreed"];
             try
@@ -119,7 +121,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish Filter Ratio Must be a number.";
+                ValidateErrors["FilterRatio"] = "KoiFish Filter Ratio Must be a number.";
             }
             
             try
@@ -128,10 +130,10 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish price Must be a number.";
+                ValidateErrors["KoiPrice"] = "KoiFish price Must be a number.";
             }
             
-            koiFish.Status = Request.Form["koiStatus"];
+            koiFish.Status = "Available";
             koiFish.CreateAt = DateTime.Now;
             koiFish.IsDeleted = false;
             koiFish.Color = Request.Form["koiColor"];
@@ -141,7 +143,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish Quantity must be an integer number.";
+                ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be an integer number.";
             }
 
             if (_koiFishRepository.CreateKoiFish(koiFish))

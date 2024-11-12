@@ -14,7 +14,7 @@ namespace DataAccessObject
 
         public static List<Blog> GetAllBlogsForStaff()
         {
-            return _context.Blogs.Include(b => b.User).OrderByDescending(b => b.CreateAt).ToList();
+            return _context.Blogs.Include(b => b.User).OrderByDescending(b => b.CreateAt).Where(b => b.IsDeleted == false).ToList();
         }
 
         public static long GetNextBlogId()
@@ -36,7 +36,9 @@ namespace DataAccessObject
             var existingBlog = _context.Blogs.Find(id);
             if (existingBlog != null)
             {
-                _context.Blogs.Remove(existingBlog);
+                // _context.Blogs.Remove(existingBlog);
+                existingBlog.IsDeleted = true;
+                _context.Blogs.Update(existingBlog);
                 _context.SaveChanges();
                 return true;
             }
@@ -63,7 +65,7 @@ namespace DataAccessObject
 
         public static Blog GetBlogByIdByStaff(long id)
         {
-            return _context.Blogs.Include(b => b.User).FirstOrDefault(b => b.BlogId == id);
+            return _context.Blogs.Include(b => b.User).FirstOrDefault(b => b.BlogId == id && b.IsDeleted == false);
         }
 
         public class BlogResponse
@@ -98,7 +100,7 @@ namespace DataAccessObject
 
         public static List<Blog> SearchBlogByName(string title)
         {
-            return _context.Blogs.Include(x => x.User).Where(b => b.Title.ToLower().Contains(title.ToLower())).Take(1).ToList();
+            return _context.Blogs.Include(x => x.User).Where(b => b.Title.ToLower().Contains(title.ToLower()) && b.IsDeleted == false).Take(1).ToList();
         }
         public async Task<Blog?> GetBlogDetailForCustomer(long id)
         {

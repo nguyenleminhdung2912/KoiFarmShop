@@ -85,6 +85,7 @@ public class ViewConsignment : PageModel
     [IgnoreAntiforgeryToken] 
     public JsonResult OnPostDelete(long id)
     {
+        TempData["DeleteSuccessful"] = "Delete consignment successfull";
         bool isDeleted = _consignmentRepository.DeleteConsignment(id);
     
         

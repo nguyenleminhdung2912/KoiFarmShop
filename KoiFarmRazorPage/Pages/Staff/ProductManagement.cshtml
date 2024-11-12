@@ -26,6 +26,15 @@ var successMessage = TempData["SuccessMessage"] as string;
         }
     }
 
+    @if (TempData["DeleteSuccess"] != null)
+    {
+    <div class="alert alert-success">@TempData["DeleteSuccess"]</div>
+    }
+    @if (TempData["DeleteFail"] != null)
+    {
+    <div class="alert alert-danger">@TempData["DeleteFail"]</div>
+    }
+
     <!-- Search Result Messages -->
     @if (TempData["SearchFail"] != null)
     {

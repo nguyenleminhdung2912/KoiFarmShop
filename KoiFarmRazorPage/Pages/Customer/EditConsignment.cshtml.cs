@@ -15,12 +15,11 @@ public class EditConsignment : PageModel
 
     public string Message { get; set; }
 
-    [BindProperty]
-    public Consignment Consignment { get; set; }
+    [BindProperty] public Consignment Consignment { get; set; }
 
-    public Dictionary<string,string> ValidateErrors { get; set; } = new Dictionary<string, string>();
-    
-    
+    public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
+
+
     [BindProperty] public IFormFile? KoiImage { get; set; }
 
     public EditConsignment(IConsignmentRepository consignmentRepository, IHubContext<SignalRHub> hubContext)
@@ -29,6 +28,7 @@ public class EditConsignment : PageModel
         this.hubContext = hubContext;
 
     }
+
     public void OnGet(long id)
     {
         Consignment = _consignmentRepository.GetConsignmentById(id);
@@ -36,26 +36,31 @@ public class EditConsignment : PageModel
 
     public IActionResult OnPost()
     {
-        
         if (string.IsNullOrEmpty(Consignment.KoiName))
         {
             ValidateErrors["KoiName"] = "KoiName không được để trống";
-        }else if (KoiImage == null)
-        {
-            ValidateErrors["KoiImage"] = "Koi image không đuợc để trống";
-        }else if (Consignment.FromTime == null)
+        }
+        // else if (KoiImage == null)
+        // {
+        //     ValidateErrors["KoiImage"] = "Koi image không đuợc để trống";
+        // }
+        else if (Consignment.FromTime == null)
         {
             ValidateErrors["FromTime"] = "FromTime không đuợc để trống";
-        }else if (Consignment.ToTime == null)
+        }
+        else if (Consignment.ToTime == null)
         {
             ValidateErrors["ToTime"] = "ToTime không được để trống";
-        }else if ((Consignment.ToTime - Consignment.FromTime).Value.Days < 1)
+        }
+        else if ((Consignment.ToTime - Consignment.FromTime).Value.Days < 1)
         {
             ValidateErrors["ToTime"] = "Thời gian ký gửi từ fromtime đến totime phải ít nhất 1 ngày";
-        }else if (Consignment.FromTime >= Consignment.ToTime)
+        }
+        else if (Consignment.FromTime >= Consignment.ToTime)
         {
             ValidateErrors["ToTime"] = "Thời gian to time kết thúc ký gửi phải lớn hơn thời gian bắt đầu";
-        }else if ((Consignment.ToTime - DateTime.Now).Value.Days < 7)
+        }
+        else if ((Consignment.ToTime - DateTime.Now)?.TotalDays < 7)
         {
             ValidateErrors["FromTime"] =
                 "Thời gian bắt đầu ký gửi của cập nhat ky gui phai sau thoi gian cap nhat 1 tuan ";
@@ -63,10 +68,13 @@ public class EditConsignment : PageModel
         else
         {
             Consignment.ConsignmentId = long.Parse(Request.Form["consignmentId"]);
-            using (var memoryStream = new MemoryStream())
+            if (KoiImage != null)
             {
-                KoiImage.CopyTo(memoryStream);
-                Consignment.ImageData = memoryStream.ToArray();
+                using (var memoryStream = new MemoryStream())
+                {
+                    KoiImage.CopyTo(memoryStream);
+                    Consignment.ImageData = memoryStream.ToArray();
+                }
             }
 
             // Consignment.CreateAt = DateTime.Parse(Request.Form["createAt"]);
@@ -91,6 +99,7 @@ public class EditConsignment : PageModel
 
         hubContext.Clients.All.SendAsync("RefreshData");
 
+        Consignment = _consignmentRepository.GetConsignmentById(long.Parse(Request.Form["consignmentId"]));
         return Page();
     }
 }

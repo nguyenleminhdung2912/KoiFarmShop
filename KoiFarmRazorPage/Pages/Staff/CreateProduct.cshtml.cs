@@ -54,10 +54,12 @@ namespace KoiFarmRazorPage.Pages.Staff
 			else if (string.IsNullOrEmpty(Request.Form["productPrice"]))
 			{
 				ValidateErrors["ProductPrice"] = "Product Price không được để trống";
-			}else if (string.IsNullOrEmpty(Request.Form["productStatus"]))
-			{
-				ValidateErrors["ProductStatus"] = "Product Status không được để trống";
-			}else if (string.IsNullOrEmpty(Request.Form["productQuantity"]))
+			}
+			// else if (string.IsNullOrEmpty(Request.Form["productStatus"]))
+			// {
+			// 	ValidateErrors["ProductStatus"] = "Product Status không được để trống";
+			// }
+			else if (string.IsNullOrEmpty(Request.Form["productQuantity"]))
 			{
 				ValidateErrors["ProductQuantity"] = "Product Quantity khong duoc de trong";
 			}
@@ -103,13 +105,17 @@ namespace KoiFarmRazorPage.Pages.Staff
 				try
 				{
 					product.Quantity = int.Parse(Request.Form["productQuantity"]);
+					if (product.Quantity <= 0)
+					{
+						ValidateErrors["ProductQuantity"] = "Quantity phải lớn hơn 0";
+					}
 				}
 				catch (Exception e)
 				{
 					ValidateErrors["ProductQuantity"] = "Product Quantity phai la so nguyen";
 				}
 				product.CreateAt = DateTime.Now;
-				product.Status = Request.Form["productStatus"];
+				product.Status = "Available";
 				product.IsDeleted = false;
 				productRepository.AddProduct(product);
 				TempData["SuccessMessage"] = "Tao product thành công!!!";
