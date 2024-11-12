@@ -7,21 +7,23 @@ namespace KoiFarmRazorPage.Pages.Staff;
 
 public class UpdateBlog : PageModel
 {
-    [BindProperty] public Blog Blog { get; set; } = new Blog();
+    [BindProperty]
+    public Blog Blog { get; set; } = new Blog();
 
-    [BindProperty] public IFormFile BlogImage { get; set; }
-
+    [BindProperty]
+    public IFormFile BlogImage { get; set; }
+    
     private readonly IBlogRepository _blogRepository;
 
     public string Message { get; set; }
 
-    public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string,string> ValidateErrors { get; set; } = new Dictionary<string, string>();
 
     public UpdateBlog(IBlogRepository blogRepository)
     {
         this._blogRepository = blogRepository;
     }
-
+    
     public void OnGet(long blogId)
     {
         Blog = _blogRepository.GetBlogByIdByStaff(blogId);
@@ -33,19 +35,22 @@ public class UpdateBlog : PageModel
         if (string.IsNullOrEmpty(Blog.Title))
         {
             ValidateErrors["BlogTitle"] = "Title khong duoc de trong";
-        }
-        else if (string.IsNullOrEmpty(Blog.Description))
+        }else if (string.IsNullOrEmpty(Blog.Description))
         {
             ValidateErrors["BlogDescription"] = "Description khong duoc de trong";
-        }
-        else if (BlogImage == null)
+        }else if (BlogImage == null)
         {
             ValidateErrors["BlogImage"] = "Image khong duoc de trong";
         }
         else
         {
+            using (var memoryStream = new MemoryStream())
+            {
+                BlogImage.CopyTo(memoryStream);
+                imageBytes = memoryStream.ToArray();
+            }
             Blog.BlogId = long.Parse(Request.Form["blogId"]);
-            Blog.UserId = long.Parse(User.FindFirst("userId").Value);
+            Blog.UserId = 2;
             Blog.UpdateAt = DateTime.Now;
             Blog.IsDeleted = false;
             if (_blogRepository.UpdateBlog(Blog))
@@ -59,7 +64,6 @@ public class UpdateBlog : PageModel
                 return Page();
             }
         }
-
         return Page();
     }
 }

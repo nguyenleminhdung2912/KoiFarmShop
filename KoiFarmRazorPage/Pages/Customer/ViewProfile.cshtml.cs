@@ -71,6 +71,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             if (!ModelState.IsValid)
             {
                 // Update thông tin profile
+                UserProfile.IsDeleted = false;
                 userRepository.UpdateUser(UserProfile);
                 
                 // Tạo thông báo

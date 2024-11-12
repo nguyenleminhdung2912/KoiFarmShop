@@ -19,6 +19,18 @@ namespace DataAccessObject
                     .FirstOrDefault(c => c.UserId.Equals(UserId));
             return returnuser;
         }
+        
+        public static async Task<User?> GetUserByIdToDelete(long? userId)
+        {
+            using var db = new KoiFarmShopDatabaseContext();
+            var returnUser
+                = await db.Users
+                    .Include(c => c.Consignments)
+                    .Include(c => c.Orders)
+                    .Include(c => c.Wallets)
+                    .FirstOrDefaultAsync(c => c.UserId.Equals(userId));
+            return returnUser;
+        }
 
         public static User? CheckLogin(string email, string password)
         {

@@ -10,6 +10,7 @@ namespace Repository.IRepository
     public interface IUserRepository
     {
         User GetUserById(long? UserId);
+        Task<User?> GetUserByIdToDelete(long? UserId);
         User GetUserByEmail(string UserEmail);
         User CheckLogin(string email, string password);
         void Register(User user);

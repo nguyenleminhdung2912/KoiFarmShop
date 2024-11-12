@@ -41,8 +41,13 @@ public class CreateBlog : PageModel
         }
         else
         {
+            using (var memoryStream = new MemoryStream())
+            {
+                BlogImage.CopyTo(memoryStream);
+                imageBytes = memoryStream.ToArray();
+            }
             Blog.BlogId = GetBlogId();
-            Blog.UserId =  long.Parse(User.FindFirst("userId").Value);
+            Blog.UserId = 2;
             Blog.CreateAt = DateTime.Now;
             Blog.IsDeleted = false;
             if (_blogRepository.AddBlog(Blog))

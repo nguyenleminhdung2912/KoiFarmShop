@@ -1,0 +1,18 @@
+﻿@page "{blogId:int}"
+@model KoiFarmRazorPage.Pages.Customer.BlogDetail
+
+@{
+ViewData["Title"] = "Blog Detail";
+Layout = "_CustomerLayout";
+}
+
+<div class="blog-detail-container">
+    <h1>@Model.Blog.Title</h1>
+    <p class="author">By @Model.Blog.User?.Name | Created on @Model.Blog.CreateAt?.ToString("MMMM dd, yyyy")</p>
+    <div class="blog-description">
+        <p>@Model.Blog.Description</p>
+    </div>
+    <a href="/Customer/ViewBlog" class="back-to-blog-list">Back to Blog List</a>
+</div>
+
+<link rel="stylesheet" href="~/css/BlogDetail.css">
