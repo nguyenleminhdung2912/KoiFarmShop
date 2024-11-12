@@ -67,7 +67,7 @@ public class EditConsignment : PageModel
             Consignment.UpdateAt = DateTime.Now;
             Consignment.IsDeleted = false;
             Consignment.Status = "PENDING";
-            Consignment.UserId = 2;
+            Consignment.UserId = long.Parse(User.FindFirst("userId").Value);
             if (_consignmentRepository.UpdateConsignment(Consignment))
             {
                 TempData["SuccessMessage"] = "Cập nhật consignment thành công!!!";

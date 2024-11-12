@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {}
+    "D:\\Project_PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {}
   },
   "projects": {
-    "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+    "D:\\Project_PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "projectUniqueName": "D:\\Project_PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
         "projectName": "BusinessObject",
-        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
+        "projectPath": "D:\\Project_PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Project_PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -85,17 +89,21 @@
         }
       }
     },
-    "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
+    "D:\\Project_PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+        "projectUniqueName": "D:\\Project_PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
         "projectName": "DataAccessObject",
-        "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\obj\\",
+        "projectPath": "D:\\Project_PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Project_PRN221\\KoiFarmShop\\DataAccessObject\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -110,8 +118,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
-                "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
+              "D:\\Project_PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "D:\\Project_PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
               }
             }
           }

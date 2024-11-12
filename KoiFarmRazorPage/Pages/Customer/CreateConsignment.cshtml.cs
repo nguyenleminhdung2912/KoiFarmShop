@@ -69,7 +69,7 @@ public class CreateConsignment : PageModel
             consignment.ToTime = ToTime;
             consignment.IsDeleted = false;
             // consignment.UserId = long.Parse(User.FindFirst("userId").Value);
-            consignment.UserId = 2;
+            consignment.UserId = long.Parse(User.FindFirst("userId").Value);
             consignment.CreateAt = DateTime.Now;
             consignment.Status = "PENDING";
             if (_consignmentRepository.AddConsignment(consignment))
