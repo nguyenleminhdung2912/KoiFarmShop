@@ -37,8 +37,6 @@ namespace KoiFarmRazorPage.Pages.Admin
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,10 +46,17 @@ namespace KoiFarmRazorPage.Pages.Admin
 
             try
             {
-                User user = userRepository.GetUserById(User.UserId);
+                var existingUser = userRepository.GetUserById(User.UserId);
+                if (existingUser == null)
+                {
+                    return NotFound();
+                }
+
                 User.UpdateAt = DateTime.Now;
-                User.CreateAt = user.CreateAt;
-                User.IsDeleted = user.IsDeleted;
+                User.CreateAt = existingUser.CreateAt;
+                User.IsDeleted = existingUser.IsDeleted;
+                
+
                 userRepository.UpdateUser(User);
             }
             catch (DbUpdateConcurrencyException)
@@ -66,7 +71,7 @@ namespace KoiFarmRazorPage.Pages.Admin
                 }
             }
 
-            return RedirectToPage("./ViewAllUser");
+            return RedirectToPage("./Index");
         }
 
         private bool UserExists(long id)

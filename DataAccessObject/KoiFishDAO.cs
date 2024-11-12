@@ -56,16 +56,28 @@ namespace DataAccessObject
             try
             {
                 using var context = new KoiFarmShopDatabaseContext();
+
+                // Chia chuỗi theo dấu phẩy, loại bỏ khoảng trắng và parse thành số
                 var koiFishIds = listString
                     .Split(',')
                     .Select(id => int.Parse(id.Trim()))
                     .ToList();
-                list = context.KoiFishes
+
+                // Lấy danh sách cá Koi từ cơ sở dữ liệu mà ID có trong list
+                var koiFishes = context.KoiFishes
                     .Where(kf => koiFishIds.Contains((int)kf.KoiFishId))
+                    .ToList();
+
+                // Đảm bảo rằng mỗi ID xuất hiện trong chuỗi sẽ được thêm vào danh sách đúng số lần
+                list = koiFishIds
+                    .Select(id => koiFishes.FirstOrDefault(kf => (int)kf.KoiFishId == id))
+                    .Where(kf => kf != null)
                     .ToList();
             }
             catch (Exception ex)
             {
+                // Lỗi sẽ được ghi lại ở đây nếu cần
+                Console.WriteLine(ex.Message);
             }
 
             return list;

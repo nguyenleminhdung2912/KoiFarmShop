@@ -47,6 +47,19 @@ namespace KoiFarmRazorPage.Pages.Admin
             LoadBookings();
             await LoadRevenueChart();
         }
+        public async Task<IActionResult> OnPostReActivateAsync(int UserId)
+        {
+            if (UserId == null)
+            {
+                return NotFound();
+            }
+
+            var user = userRepository.GetUserById(UserId);
+            user.IsDeleted = false;
+            userRepository.UpdateUser(user);
+
+            return RedirectToPage();
+        }
 
         // ** USER ** //
         private void LoadUsers()
@@ -65,12 +78,6 @@ namespace KoiFarmRazorPage.Pages.Admin
                 order.KoiFishList = koiFishs;
                 order.ProductList = products;
             }
-        }
-
-        // ** TRANSACTION ** //
-        private void LoadTransactions()
-        {
-            Transactions = new List<string> { "Transaction 1", "Transaction 2", "Transaction 3" };
         }
 
         // ** REVENUE ** //

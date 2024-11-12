@@ -23,8 +23,9 @@ public partial class Order
     //  PAID là khi khách hàng đã thanh toán, ngồi chờ giao hàng
     //  COMPLETED là khi đơn hàng được giao thành công
     //  CANCELLED là khi người mua huỷ yêu cầu -> Hoàn tiền lại
-    //                                         -> 1 ngày trước khi giao : chỉ hoàn 80%
-    //                                         -> Còn lại               : hoàn 100%
+    //                                         -> Shipment Status ONGOING và SUCCESSFUL : không hoàn
+    //                                         -> Shipment Status PREPARING : hoàn 80%%
+    //                                         -> Shipment Status NOTYET : hoàn 100%
     //  FAILED là khi đơn hàng bị fail do không đủ tiền trong tài khoản
 
     public string? ShipmentStatus { get; set; }
@@ -32,6 +33,7 @@ public partial class Order
     // PREPARING là khi đang soạn hàng
     // ONGOING là khi đang giao
     // SUCCESSFUL là khi hoàn thành
+    // CANCELLED là khi hoàn thành
     
     public string? Address { get; set; }
 

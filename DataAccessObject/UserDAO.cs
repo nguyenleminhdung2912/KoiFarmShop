@@ -95,8 +95,14 @@ namespace DataAccessObject
                 {
                     if (!user.Name.IsNullOrEmpty())
                         currentUser.Name = user.Name;
+                    if (!user.Email.IsNullOrEmpty())
+                        currentUser.Email = user.Email;
                     if (!user.Phone.IsNullOrEmpty())
                         currentUser.Phone = user.Phone;
+                    if (!user.Role.IsNullOrEmpty())
+                        currentUser.Role = user.Role;
+                    currentUser.IsDeleted = user.IsDeleted;
+                    context.Users.Update(currentUser);
                     context.SaveChanges();
                     return true;
                 }

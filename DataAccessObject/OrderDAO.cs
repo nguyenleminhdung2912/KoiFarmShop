@@ -21,16 +21,20 @@ namespace DataAccessObject
                     .Include(o => o.User)
                     .ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
-        public static Order GetOrderById(long? id)
+        public static async Task<Order> GetOrderById(long? id)
         {
             using var db = new KoiFarmShopDatabaseContext();
             Order returnOrder
-                = db.Orders
-                .FirstOrDefault(c => c.OrderId.Equals(id));
+                = await db.Orders
+                    .Include(c => c.User)
+                    .FirstOrDefaultAsync(c => c.OrderId == id);
             return returnOrder;
         }
 
@@ -44,7 +48,10 @@ namespace DataAccessObject
                     .Where(o => o.UserId.Equals(accountId))
                     .ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
@@ -58,7 +65,10 @@ namespace DataAccessObject
                     .Where(o => o.CreateAt >= fromDate && o.CreateAt <= toDate)
                     .ToList();
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
+
             return list;
         }
 
@@ -74,18 +84,83 @@ namespace DataAccessObject
             }
             catch (Exception ex)
             {
-
             }
         }
 
-        public static void UpdateOrder(Order order)
+        public static async Task<bool> UpdateOrder(Order order)
         {
             try
             {
                 using var context = new KoiFarmShopDatabaseContext();
-                context.Entry<Order>(order).State
-                    = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
+                context.Orders.Update(order);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<bool> CancelOrder(Order order, long userId)
+        {
+            try
+            {
+                using var context = new KoiFarmShopDatabaseContext();
+
+                var wallet = await context.Wallets
+                    .FirstOrDefaultAsync(w => w.UserId == userId);
+                if (wallet == null)
+                {
+                    return false;
+                }
+
+                // Kiểm tra TotalPrice và wallet.Total để tránh lỗi null
+                if (order.TotalPrice == null || wallet.Total == null)
+                {
+                    throw new InvalidOperationException("Order total price or wallet balance is null.");
+                }
+
+                // Tính tiền phải hoàn
+                double refundAmount = 0;
+
+                // Trạng thái "NOTYET" -> hoàn 100%
+                if (order.ShipmentStatus.Equals("NOTYET"))
+                {
+                    refundAmount = order.TotalPrice.Value; // hoàn 100%
+                }
+                // Trạng thái "PREPARING" -> hoàn 90%
+                else if (order.ShipmentStatus.Equals("PREPARING"))
+                {
+                    refundAmount = order.TotalPrice.Value * 0.9; // hoàn 90%
+                }
+                // Thêm xử lý nếu trạng thái không hợp lệ
+                else
+                {
+                    throw new InvalidOperationException("Invalid shipment status for cancellation.");
+                }
+
+                // Cập nhật số tiền trong ví
+                wallet.Total += refundAmount;
+                order.Status = "CANCELLED";
+                order.ShipmentStatus = "CANCELLED";
+                
+                // Tạo wallet log
+                var maxId = context.WalletLogs.Max(a => (int?)a.WalletLogId) ?? 0;
+                WalletLog walletLog = new WalletLog();
+                walletLog.WalletLogId = (short)(maxId + 1);
+                walletLog.WalletId = wallet.WalletId;
+                walletLog.Amount = refundAmount;
+                walletLog.Type = "Refund";
+                walletLog.CreateAt = DateTime.Now;
+                walletLog.IsDeleted = false;
+                
+                // Lưu thay đổi vào cơ sở dữ liệu
+                context.WalletLogs.Add(walletLog);
+                context.Orders.Update(order);
+                context.Wallets.Update(wallet);
+                await context.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {
@@ -185,7 +260,8 @@ namespace DataAccessObject
                 using var _context = new KoiFarmShopDatabaseContext();
 
                 return await _context.Orders
-                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear && o.Status.Equals("Completed"))
+                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Year >= startYear &&
+                                o.Status.Equals("Completed"))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -240,7 +316,7 @@ namespace DataAccessObject
                     MonthRevenue = g.Key.Month == startOfMonth ? g.Sum(o => o.TotalPrice) : 0,
                     YearRevenue = g.Key.Year == now.Year ? g.Sum(o => o.TotalPrice) : 0
                 })
-            .ToListAsync();
+                .ToListAsync();
 
             return new RevenueDTO
             {

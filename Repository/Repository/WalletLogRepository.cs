@@ -19,5 +19,8 @@ namespace Repository.Repository
 
         public WalletLog? GetWalletLogByType(string type)
             => WalletLogDAO.GetWalletLogByType(type);
+
+        public Task<WalletLogDAO.WalletLogResponse> GetWalletLogsByWalletId(int pageIndex, int pageSize, long walletId)
+            => WalletLogDAO.GetWalletLogsByWalletId(pageIndex, pageSize, walletId);
     }
 }

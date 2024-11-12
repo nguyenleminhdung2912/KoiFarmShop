@@ -43,5 +43,32 @@ namespace DataAccessObject
                     .FirstOrDefault(c => c.Type.Equals(type));
             return returnWalletLog;
         }
+        
+        public class WalletLogResponse
+        {
+            public List<WalletLog> WalletLogs { get; set; }
+            public int TotalPages { get; set; }
+            public int PageIndex { get; set; }
+        }
+
+        public static async Task<WalletLogResponse> GetWalletLogsByWalletId(int pageIndex, int pageSize, long walletId)
+        {
+            using var _context = new KoiFarmShopDatabaseContext(); 
+
+            var query = _context.WalletLogs.AsQueryable();
+            query = query.Where(x => x.WalletId == walletId).OrderByDescending(x => x.CreateAt);
+
+            int count = await query.CountAsync(); 
+            int totalPages = (int)Math.Ceiling(count / (double)pageSize); 
+
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            // Gán dữ liệu vào ViewModel
+            return new WalletLogResponse
+            {
+                WalletLogs = await query.ToListAsync(),
+                TotalPages = totalPages,
+                PageIndex = pageIndex
+            };
+        }
     }
 }
