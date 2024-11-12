@@ -1,0 +1,212 @@
+@page
+@model KoiFarmRazorPage.Pages.Staff.ShipManagement
+
+@{
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+    ViewData["Title"] = "Ship Management";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Manage Ship here.</p>
+
+@if (TempData["Success"] != null)
+{
+    @TempData["Success"]
+}
+
+@if (TempData["Fail"] != null)
+{
+    @TempData["Fail"]
+}
+
+<div class="search-form" style="margin-bottom: 20px;">
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <label for="statusConsignment" class="form-label me-2 mb-0">Status:</label>
+
+        <select name="shipStatus" asp-for="@Model.SelectedStatus" id="statusConsignment" class="form-select w-auto me-2">
+            @{
+                bool isAllSelected = Model.SelectedStatus == "ALL";
+                bool isNotYetSelected = Model.SelectedStatus == "NOTYET";
+                bool isPREPARINGSelected = Model.SelectedStatus == "PREPARING";
+                bool isONGOINGSelected = Model.SelectedStatus == "ONGOING";
+                bool isSUCCESSFULSelected = Model.SelectedStatus == "SUCCESSFUL";
+                bool isCancelledSelected = Model.SelectedStatus == "CANCELLED";
+            }
+            <option value="ALL" selected="@(isAllSelected)">Tất cả</option>
+            <option value="NOTYET" selected="@(isNotYetSelected)">Not Yet</option>
+            <option value="PREPARING" selected="@(isPREPARINGSelected)">Preparing</option>
+            <option value="ONGOING" selected="@(isONGOINGSelected)">On Going</option>
+            <option value="SUCCESSFUL" selected="@(isSUCCESSFULSelected)">Successful</option>
+            <option value="CANCELLED" selected="@(isCancelledSelected)">Cancelled</option>
+        </select>
+
+        <button type="submit" name="handler" value="Search" style="padding: 10px 15px; background-color: #4267B2; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">Search</button>
+    </form>
+</div>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 5px; overflow: hidden;">
+	    <thead>
+	    <tr>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Select</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Order Id</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">User Name</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Total Quantity</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Total Price</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Address</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Shipment Status</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Products</th>
+		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">KoiFishes</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    @foreach (var order in Model.Orders)
+	    {
+		    <tr>
+			    <td style="padding: 10px; border: 1px solid #ddd;">
+				    <input type="radio" name="selectedOrderId" value="@order.OrderId"/>
+			    </td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.OrderId</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.User.Name</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.Quantity</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.TotalPrice</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.Status</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.Address</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">@order.ShipmentStatus</td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">
+				    <ul>
+					    @foreach (var product in order.ProductList)
+					    {
+						    <li>Name: @product.Name</li>
+						    <li>Price: @String.Format("{0:C}", product.Price)</li>
+					    }
+				    </ul>
+			    </td>
+			    <td style="padding: 10px; border: 1px solid #ddd;">
+				    <ul>
+					    @foreach (var koiFish in order.KoiFishList)
+					    {
+						    <li>Name: @koiFish.Name</li>
+						    <li>Price: @String.Format("{0:C}", koiFish.Price)</li>
+					    }
+				    </ul>
+			    </td>
+		    </tr>
+	    }
+	    </tbody>
+    </table>
+	@* @if (Model.SelectedStatus == "ALL") *@
+	@* { *@
+	@* <div class="pending-buttons" style="margin-top: 20px;"> *@
+	@* 	<button type="submit" name="handler" value="NotYet" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Prepare</button> *@
+	@* </div> *@
+	@* } *@
+    @if (Model.SelectedStatus == "NOTYET")
+    {
+        <div class="pending-buttons" style="margin-top: 20px;">
+            <button type="submit" name="handler" value="Prepare" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Prepare</button>
+        </div>
+    }
+    @if (Model.SelectedStatus == "PREPARING")
+    {
+        <div class="pending-buttons" style="margin-top: 20px;">
+            <button type="submit" name="handler" value="OnGoing" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">On Going</button>
+        </div>
+    }
+    @if (Model.SelectedStatus == "ONGOING")
+    {
+        <div class="pending-buttons" style="margin-top: 20px;">
+            <button type="submit" name="handler" value="Success" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Finish</button>
+        </div>
+    }
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+
+
+<style>
+	.content-cell {
+		max-width: 100px;
+	}
+
+	.content-scroll {
+		max-height: 100px;
+		overflow: auto;
+		white-space: pre-wrap;
+		word-break: break-word;
+		padding: 4px;
+		background-color: #f8f9fa;
+		border-radius: 4px;
+	}
+
+
+		.content-scroll:hover {
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		}
+</style>
+
+<style>
+	.table {
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	tbody tr:hover {
+		background-color: #e9ecef;
+		transition: background-color 0.3s ease-in-out;
+	}
+
+	.custom-badge {
+		background-color: #007bff;
+		color: white;
+		padding: 6px 12px;
+		border-radius: 12px;
+		font-size: 0.85rem;
+		margin-bottom: 4px;
+	}
+
+	.align-middle {
+		vertical-align: middle !important;
+	}
+
+	thead th {
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	.d-flex {
+		display: flex;
+	}
+
+	.flex-wrap {
+		flex-wrap: wrap;
+	}
+
+	.gap-1 {
+		gap: 0.25rem;
+	}
+
+	h1 {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-weight: 700;
+		color: #495057;
+	}
+
+
+	.text-truncate {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.content-cell {
+		max-width: 200px;
+		cursor: pointer;
+	}
+</style>

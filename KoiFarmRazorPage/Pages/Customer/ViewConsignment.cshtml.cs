@@ -21,34 +21,34 @@ public class ViewConsignment : PageModel
 
     public IActionResult OnGet()
     {
-        // if (!User.Identity.IsAuthenticated)
-        // {
-        //     return RedirectToPage("/Auth/Login"); 
-        // }
-
-        // long userId = long.Parse(User.FindFirst("userId").Value);
-        // Consignments = _consignmentRepository.GetConsignments(userId);
-        long userId = 2;
-        Consignments = _consignmentRepository.GetConsignments(userId);
-        return Page();
+        if (!User.Identity.IsAuthenticated)
+        {
+            return RedirectToPage("/Auth/Login"); 
+        }
+        else
+        {
+            long userId = long.Parse(User.FindFirst("userId").Value);
+            Consignments = _consignmentRepository.GetConsignments(userId);
+            return Page();
+        }
     }
 
     public IActionResult OnPost()
     {
         SelectedStatus = Request.Form["statusConsignment"];
-        Consignments = _consignmentRepository.GetConsignmentsByStatusByUser(SelectedStatus, 2);
+        Consignments = _consignmentRepository.GetConsignmentsByStatusByUser(SelectedStatus, long.Parse(User.FindFirst("userId").Value));
         string handler = Request.Form["handler"];
         if (handler == "Confirm")
         {
             if(_consignmentRepository.ConfirmConsignmentByCustomer(long.Parse(Request.Form["consignmentId"])))
             {
                 TempData["SuccessMessage"] = "Consignment approved successfully!";
-                Consignments = _consignmentRepository.GetConsignments(2);
+                Consignments = _consignmentRepository.GetConsignments(long.Parse(User.FindFirst("userId").Value));
                 return Page();
             }else
             {
                 Message = "Consignment confirmation failed!";
-                Consignments = _consignmentRepository.GetConsignments(2);
+                Consignments = _consignmentRepository.GetConsignments(long.Parse(User.FindFirst("userId").Value));
                 return Page();
             }
         }
@@ -58,12 +58,12 @@ public class ViewConsignment : PageModel
             if(_consignmentRepository.CancelConsignmentByCustomer(long.Parse(Request.Form["consignmentId"])))
             {
                 TempData["SuccessMessage"] = "Consignment cancelled successfully!";
-                Consignments = _consignmentRepository.GetConsignments(2);
+                Consignments = _consignmentRepository.GetConsignments(long.Parse(User.FindFirst("userId").Value));
                 return Page();
             }else
             {
                 Message = "Consignment cancel failed!";
-                Consignments = _consignmentRepository.GetConsignments(2);
+                Consignments = _consignmentRepository.GetConsignments(long.Parse(User.FindFirst("userId").Value));
                 return Page();
             }
         }

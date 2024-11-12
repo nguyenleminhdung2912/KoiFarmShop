@@ -144,7 +144,7 @@ namespace DataAccessObject
                 wallet.Total += refundAmount;
                 order.Status = "CANCELLED";
                 order.ShipmentStatus = "CANCELLED";
-                
+
                 // Tạo wallet log
                 var maxId = context.WalletLogs.Max(a => (int?)a.WalletLogId) ?? 0;
                 WalletLog walletLog = new WalletLog();
@@ -154,7 +154,7 @@ namespace DataAccessObject
                 walletLog.Type = "Refund";
                 walletLog.CreateAt = DateTime.Now;
                 walletLog.IsDeleted = false;
-                
+
                 // Lưu thay đổi vào cơ sở dữ liệu
                 context.WalletLogs.Add(walletLog);
                 context.Orders.Update(order);
@@ -293,6 +293,19 @@ namespace DataAccessObject
             }
         }
 
+        public static List<Order> GetOrdersByShip(string ship)
+        {
+            using var context = new KoiFarmShopDatabaseContext();
+            if (ship == "ALL")
+            {
+                return context.Orders.Include(o => o.User).ToList();
+            }
+            else
+            {
+                return context.Orders.Include(o => o.User).Where(o => o.ShipmentStatus.Equals(ship)).ToList();
+            }
+        }
+
         // 7. Lấy tổng doanh thu cho ngày / tháng / năm
         public static async Task<RevenueDTO> GetRevenueDataAsync()
         {
@@ -324,6 +337,28 @@ namespace DataAccessObject
                 MonthRevenue = revenueData.Sum(r => r.MonthRevenue),
                 YearRevenue = revenueData.Sum(r => r.YearRevenue)
             };
+        }
+
+        public static bool SetShipStatusOrder(long orderId, string shipStatus)
+        {
+            using var _context = new KoiFarmShopDatabaseContext();
+            var existingOrder = _context.Orders.Find(orderId);
+            if (existingOrder != null)
+            {
+                try
+                {
+                    existingOrder.ShipmentStatus = shipStatus;
+                    _context.Orders.Update(existingOrder);
+                    _context.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+
+            return false;
         }
     }
 }

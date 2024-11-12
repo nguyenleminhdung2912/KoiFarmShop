@@ -29,6 +29,16 @@ namespace Repository.Repository
         public void SaveOrder(Order order)
         => OrderDAO.SaveOrder(order);
 
+        public List<Order> GetOrdersByShipStatus(string shipStatus)
+        {
+            return OrderDAO.GetOrdersByShip(shipStatus);
+        }
+
+        public bool SetShipStatusOrder(long orderId, string shipStatus)
+        {
+            return OrderDAO.SetShipStatusOrder(orderId, shipStatus);
+        }
+
         public async Task<bool> UpdateOrder(Order order)
         => await OrderDAO.UpdateOrder(order);
         

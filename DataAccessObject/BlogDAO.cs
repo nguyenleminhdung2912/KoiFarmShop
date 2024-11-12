@@ -52,6 +52,7 @@ namespace DataAccessObject
                 existingBlog.Title = blog.Title;
                 existingBlog.Description = blog.Description;
                 existingBlog.UpdateAt = blog.UpdateAt;
+                // existingBlog.ImageData = blog.ImageData;
                 existingBlog.IsDeleted = blog.IsDeleted;
                 existingBlog.UserId = blog.UserId;
                 _context.Blogs.Update(existingBlog);
