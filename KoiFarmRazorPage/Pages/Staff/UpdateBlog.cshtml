@@ -9,9 +9,9 @@
 
 <h2>@ViewData["Title"]</h2>
 <div class="content">
-    @if (!string.IsNullOrEmpty(Model.Message))
+    @if (TempData["UpdateFail"] != null)
     {
-    <div class="alert alert-success">@Model.Message</div>
+        @TempData["UpdateFail"]
     }
     <form method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()

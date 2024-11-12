@@ -6,14 +6,13 @@
     ViewData["Title"] = "Create Blog";
 }
 
-}
 
 <h2>@ViewData["Title"]</h2>
 <div class="content">
-    @if (!string.IsNullOrEmpty(Model.Message))
-    {
-        <div class="alert alert-success">@Model.Message</div>
-    }
+   @if (TempData["CreateFail"] != null)
+   {
+       @TempData["CreateFail"]
+   }
     <form method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 

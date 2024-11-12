@@ -14,7 +14,7 @@ namespace DataAccessObject
 
         public static List<Consignment> GetConsignmentsByUserId(long userId)
         {
-            return db.Consignments.Where(c => c.UserId == userId && c.IsDeleted == false).ToList();
+            return db.Consignments.Where(c => c.UserId == userId && c.IsDeleted == false).OrderByDescending(c => c.CreateAt).ToList();
         }
 
         public static List<Consignment> GetConsignmentsByStatusByStaff(string status)

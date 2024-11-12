@@ -14,7 +14,7 @@ namespace DataAccessObject
 
         public static List<Blog> GetAllBlogsForStaff()
         {
-            return _context.Blogs.Include(b => b.User).ToList();
+            return _context.Blogs.Include(b => b.User).OrderByDescending(b => b.CreateAt).ToList();
         }
 
         public static long GetNextBlogId()
@@ -52,9 +52,7 @@ namespace DataAccessObject
                 existingBlog.Title = blog.Title;
                 existingBlog.Description = blog.Description;
                 existingBlog.UpdateAt = blog.UpdateAt;
-                // existingBlog.ImageData = blog.ImageData;
                 existingBlog.IsDeleted = blog.IsDeleted;
-                existingBlog.UserId = blog.UserId;
                 _context.Blogs.Update(existingBlog);
                 _context.SaveChanges();
                 return true;
@@ -98,6 +96,10 @@ namespace DataAccessObject
             };
         }
 
+        public static List<Blog> SearchBlogByName(string title)
+        {
+            return _context.Blogs.Include(x => x.User).Where(b => b.Title.ToLower().Contains(title.ToLower())).Take(1).ToList();
+        }
         public async Task<Blog?> GetBlogDetailForCustomer(long id)
         {
             return await _context.Blogs.Include(b => b.User).FirstOrDefaultAsync(b => b.BlogId == id);

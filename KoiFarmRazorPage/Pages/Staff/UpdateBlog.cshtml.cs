@@ -7,10 +7,10 @@ namespace KoiFarmRazorPage.Pages.Staff;
 
 public class UpdateBlog : PageModel
 {
-    [BindProperty] public Blog Blog { get; set; } = new Blog();
-
-    [BindProperty] public IFormFile BlogImage { get; set; }
-
+    [BindProperty]
+    public Blog Blog { get; set; } = new Blog();
+    
+    
     private readonly IBlogRepository _blogRepository;
 
     public string Message { get; set; }
@@ -33,19 +33,14 @@ public class UpdateBlog : PageModel
         if (string.IsNullOrEmpty(Blog.Title))
         {
             ValidateErrors["BlogTitle"] = "Title khong duoc de trong";
-        }
-        else if (string.IsNullOrEmpty(Blog.Description))
+        }else if (string.IsNullOrEmpty(Blog.Description))
         {
             ValidateErrors["BlogDescription"] = "Description khong duoc de trong";
         }
-        else if (BlogImage == null)
-        {
-            ValidateErrors["BlogImage"] = "Image khong duoc de trong";
-        }
         else
         {
+
             Blog.BlogId = long.Parse(Request.Form["blogId"]);
-            Blog.UserId = long.Parse(User.FindFirst("userId").Value);
             Blog.UpdateAt = DateTime.Now;
             Blog.IsDeleted = false;
             if (_blogRepository.UpdateBlog(Blog))
@@ -55,7 +50,7 @@ public class UpdateBlog : PageModel
             }
             else
             {
-                Message = "Cap nhat Blog khong thanh cong";
+                TempData["UpdateFail"] = "Cap nhat Blog khong thanh cong";
                 return Page();
             }
         }

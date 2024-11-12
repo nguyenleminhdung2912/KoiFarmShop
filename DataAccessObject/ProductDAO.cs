@@ -14,7 +14,7 @@ namespace DataAccessObject
 
         public static List<Product> GetProductsForCustomer()
         {
-            return _context.Products.Where(c => c.Status == "Available" && c.IsDeleted == false).ToList();
+            return _context.Products.Where(c => c.Status == "Available" && c.IsDeleted == false).OrderByDescending(p => p.CreateAt).ToList();
         }
 
         public static List<Product> GetProductsByListString(string listString)

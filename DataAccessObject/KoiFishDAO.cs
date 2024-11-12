@@ -86,7 +86,7 @@ namespace DataAccessObject
         public static List<KoiFish> GetFishes()
         {
             db = new KoiFarmShopDatabaseContext();
-            return db.KoiFishes.Include(k => k.KoiFishRatings).ToList();
+            return db.KoiFishes.Include(k => k.KoiFishRatings).OrderByDescending(k => k.CreateAt).ToList();
         }
 
         public static bool CreateKoiFish(KoiFish koiFish)
@@ -180,6 +180,12 @@ namespace DataAccessObject
             }
 
             return false;
+        }
+
+        public static List<KoiFish> SearchKoiFishByName(string koiName)
+        {
+            db = new KoiFarmShopDatabaseContext();
+            return db.KoiFishes.Include(k => k.KoiFishRatings).Where(k => k.Name.Contains(koiName)).Take(1).ToList();
         }
     }
 }
