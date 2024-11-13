@@ -101,7 +101,12 @@ namespace DataAccessObject
             try
             {
                 using var context = new KoiFarmShopDatabaseContext();
-                var currentUser = context.Users.FirstOrDefault(u => u.Email == user.Email);
+                var currentUser = context.Users.FirstOrDefault(u => u.UserId == user.UserId);
+
+                if (currentUser == null)
+                {
+                    currentUser = context.Users.FirstOrDefault(u => u.Email == user.Email);
+                }
 
                 if (currentUser != null)
                 {

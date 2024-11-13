@@ -1,9 +1,14 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+
+[Authorize(Roles = "Staff")]
 
 public class ConsignmentManagement : PageModel
 {
@@ -12,12 +17,14 @@ public class ConsignmentManagement : PageModel
     public List<Consignment> Consignments { get; set; } = new List<Consignment>();
 
     private readonly IConsignmentRepository _consignmentRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
     public string Message { get; set; }
 
-    public ConsignmentManagement(IConsignmentRepository consignmentRepository)
+    public ConsignmentManagement(IConsignmentRepository consignmentRepository, IHubContext<SignalRHub> hubContext)
     {
         this._consignmentRepository = consignmentRepository;
+        this.hubContext = hubContext;
     }
 
     public void OnGet()
@@ -73,6 +80,8 @@ public class ConsignmentManagement : PageModel
                 }
             }
         }
+        
+        hubContext.Clients.All.SendAsync("RefreshData");
 
         return Page();
     }

@@ -7,19 +7,26 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using DataAccessObject;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using NuGet.Protocol.Plugins;
 using Repository.IRepository;
 using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly IUserRepository userRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
 
-        public DeleteModel()
+        public DeleteModel(IHubContext<SignalRHub> hubContext)
         {
             userRepository = new UserRepository();
+            this.hubContext = hubContext;
+
         }
 
         [BindProperty] public User User { get; set; } = default!;
@@ -59,7 +66,7 @@ namespace KoiFarmRazorPage.Pages.Admin
                 if (wallet.Total != 0)
                 {
                     TempData["DeleteMessage"] = "Cannot delete this User because they have money in their wallet.";
-                    return RedirectToPage("./DeleteUser", new { id = user.UserId });
+                    return RedirectToPage("/Admin/DeleteUser", new { id = user.UserId });
                 }
             }
 
@@ -73,7 +80,7 @@ namespace KoiFarmRazorPage.Pages.Admin
                         order.Status.Equals("PAID") && order.ShipmentStatus.Equals("NOTYET") )
                     {
                         TempData["DeleteMessage"] = "Cannot delete this User because they have going on order.";
-                        return RedirectToPage("./DeleteUser", new { id = user.UserId });
+                        return RedirectToPage("/Admin/DeleteUser", new { id = user.UserId });
                     }
                 }
             }
@@ -89,7 +96,7 @@ namespace KoiFarmRazorPage.Pages.Admin
                        )
                     {
                         TempData["DeleteMessage"] = "Cannot delete this User because they have going on consignment.";
-                        return RedirectToPage("./DeleteUser", new { id = user.UserId });
+                        return RedirectToPage("/Admin/DeleteUser", new { id = user.UserId });
                     }
                 }
             }
@@ -97,9 +104,10 @@ namespace KoiFarmRazorPage.Pages.Admin
             user.IsDeleted = true;
             userRepository.UpdateUser(user);
             TempData["DeleteMessage"] = "Delete user successfully.";
-
-
-            return RedirectToPage("./Index");
+            
+            await hubContext.Clients.All.SendAsync("RefreshData");
+            
+            return RedirectToPage("/Admin/Index");
         }
     }
 }

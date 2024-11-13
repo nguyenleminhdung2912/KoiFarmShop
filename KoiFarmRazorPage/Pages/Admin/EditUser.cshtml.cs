@@ -4,22 +4,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IUserRepository userRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
 
-        public EditModel()
+
+        public EditModel(IHubContext<SignalRHub> hubContext)
         {
             userRepository = new UserRepository();
+            this.hubContext = hubContext;
+
         }
 
-        [BindProperty]
-        public User User { get; set; } = default!;
+        [BindProperty] public User User { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -33,6 +40,7 @@ namespace KoiFarmRazorPage.Pages.Admin
             {
                 return NotFound();
             }
+
             User = user;
             return Page();
         }
@@ -55,7 +63,7 @@ namespace KoiFarmRazorPage.Pages.Admin
                 User.UpdateAt = DateTime.Now;
                 User.CreateAt = existingUser.CreateAt;
                 User.IsDeleted = existingUser.IsDeleted;
-                
+
 
                 userRepository.UpdateUser(User);
             }
@@ -70,6 +78,8 @@ namespace KoiFarmRazorPage.Pages.Admin
                     throw;
                 }
             }
+
+            hubContext.Clients.All.SendAsync("RefreshData");
 
             return RedirectToPage("./Index");
         }

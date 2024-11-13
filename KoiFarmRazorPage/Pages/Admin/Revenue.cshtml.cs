@@ -1,6 +1,7 @@
 ﻿using BusinessObject;
 using BusinessObject.DTO;
 using DataAccessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class RevenueModel : PageModel
     {
 

@@ -7,20 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
 using DataAccessObject;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly IUserRepository userRepository;
         private readonly IWalletRepository walletRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
 
-        public CreateModel()
+
+        public CreateModel(IHubContext<SignalRHub> hubContext)
         {
             userRepository = new UserRepository();
             walletRepository = new WalletRepository();
+            this.hubContext = hubContext;
         }
 
         public IActionResult OnGet()
@@ -36,7 +43,7 @@ namespace KoiFarmRazorPage.Pages.Admin
             {
                 return Page();
             }
-            
+
             // Kiểm tra xem email đã tồn tại hay chưa
             var existingUser = userRepository.GetUserByEmail(User.Email);
 
@@ -50,7 +57,7 @@ namespace KoiFarmRazorPage.Pages.Admin
             User.IsDeleted = false;
 
             userRepository.SaveUser(User);
-            
+
             Wallet wallet = new Wallet
             {
                 UserId = User.UserId,
@@ -61,6 +68,8 @@ namespace KoiFarmRazorPage.Pages.Admin
                 IsDeleted = false,
             };
             walletRepository.CreateWallet(wallet);
+
+            await hubContext.Clients.All.SendAsync("RefreshData");
 
             return RedirectToPage("/Admin/Index");
         }

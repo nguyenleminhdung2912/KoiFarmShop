@@ -1,11 +1,15 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using NguyenLeMinhDungFall2024RazorPages;
 using NuGet.Protocol.Plugins;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
+[Authorize(Roles = "Staff")]
 
 public class BlogManagement : PageModel
 {
@@ -13,10 +17,13 @@ public class BlogManagement : PageModel
     public List<Blog> Blogs { get; set; } = new List<Blog>();
 
     private readonly IBlogRepository _blogRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
 
-    public BlogManagement(IBlogRepository blogRepository)
+
+    public BlogManagement(IBlogRepository blogRepository, IHubContext<SignalRHub> hubContext)
     {
         this._blogRepository = blogRepository;
+        this.hubContext = hubContext;
     }
 
     public void OnGet()

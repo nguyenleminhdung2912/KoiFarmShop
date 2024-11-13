@@ -1,20 +1,28 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
 
+[Authorize(Roles = "Staff")]
+
 public class CreateKoiFish : PageModel
 {
     private readonly IKoiFishRepository _koiFishRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
+
 
     public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
     public string Message { get; set; }
 
-    public CreateKoiFish(IKoiFishRepository koiFishRepository)
+    public CreateKoiFish(IKoiFishRepository koiFishRepository, IHubContext<SignalRHub> hubContext)
     {
         this._koiFishRepository = koiFishRepository;
+        this.hubContext = hubContext;
     }
     public void OnGet()
     {
@@ -144,6 +152,8 @@ public class CreateKoiFish : PageModel
             if (_koiFishRepository.CreateKoiFish(koiFish))
             {
                 TempData["KoiFishSuccess"] = "Create Koi Fish sucessfully";
+                hubContext.Clients.All.SendAsync("RefreshData");
+
                 return RedirectToPage("/Staff/KoiFishManagement");
             }
             else

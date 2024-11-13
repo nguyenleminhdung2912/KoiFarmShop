@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/KoiFarmRazorPage.styles.css" asp-append-version="true"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+
 
     <style>
         /* Navbar Customization */
@@ -75,15 +78,15 @@
                 <!-- Kiểm tra trạng thái đăng nhập và hiển thị nút Đăng nhập hoặc Tài khoản -->
                 @if (User.Identity.IsAuthenticated)
                 {
-                <li class="nav-item">
-                    <a class="nav-link text-danger" style="color: white" href="/Auth/Logout">Đăng Xuất</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" style="color: white" href="/Auth/Logout">Đăng Xuất</a>
+                    </li>
                 }
                 else
                 {
-                <li class="nav-item">
-                    <a class="btn login-btn ms-2" href="/Auth/Login">Đăng Nhập</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="btn login-btn ms-2" href="/Auth/Login">Đăng Nhập</a>
+                    </li>
                 }
             </ul>
         </div>
@@ -157,6 +160,7 @@
 
 <!-- Đừng quên thêm FontAwesome cho icon -->
 <script src="https://kit.fontawesome.com/0c7d29a07c.js" crossorigin="anonymous"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
 <!-- Footer -->
 <footer class="text-center">
@@ -167,7 +171,6 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

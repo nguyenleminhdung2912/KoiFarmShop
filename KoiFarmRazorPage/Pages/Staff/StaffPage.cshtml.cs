@@ -1,10 +1,13 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff
 {
+    [Authorize(Roles = "Staff")]
+
     public class StaffPageModel : PageModel
     {
         private readonly IConsignmentRepository _consignmentRepository;

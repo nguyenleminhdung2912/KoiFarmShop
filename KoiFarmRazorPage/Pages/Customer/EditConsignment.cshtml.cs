@@ -1,13 +1,19 @@
 using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Customer;
+[Authorize(Roles = "Customer")]
 
 public class EditConsignment : PageModel
 {
     private readonly IConsignmentRepository _consignmentRepository;
+    private readonly IHubContext<SignalRHub> hubContext;
+
 
     public string Message { get; set; }
 
@@ -18,9 +24,11 @@ public class EditConsignment : PageModel
 
     [BindProperty] public IFormFile? KoiImage { get; set; }
 
-    public EditConsignment(IConsignmentRepository consignmentRepository)
+    public EditConsignment(IConsignmentRepository consignmentRepository, IHubContext<SignalRHub> hubContext)
     {
         this._consignmentRepository = consignmentRepository;
+        this.hubContext = hubContext;
+
     }
 
     public void OnGet(long id)
@@ -79,6 +87,10 @@ public class EditConsignment : PageModel
             if (_consignmentRepository.UpdateConsignment(Consignment))
             {
                 TempData["SuccessMessage"] = "Cập nhật consignment thành công!!!";
+                
+                hubContext.Clients.All.SendAsync("RefreshData");
+
+                
                 return RedirectToPage("/Customer/ViewConsignment");
             }
             else
@@ -86,6 +98,8 @@ public class EditConsignment : PageModel
                 Message = "Consignment updated fail";
             }
         }
+
+        hubContext.Clients.All.SendAsync("RefreshData");
 
         Consignment = _consignmentRepository.GetConsignmentById(long.Parse(Request.Form["consignmentId"]));
         return Page();

@@ -1,10 +1,15 @@
 ﻿using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff
 {
+    [Authorize(Roles = "Staff")]
+
     public class UpdateProductModel : PageModel
     {
         public Product Product { get; set; } = new Product();
@@ -12,12 +17,15 @@ namespace KoiFarmRazorPage.Pages.Staff
         public string Message { get; set; }
 
         private readonly IProductRepository productRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
+
 
         public Dictionary<string, string> ValidateErrors { get; set; } = new Dictionary<string, string>();
 
-        public UpdateProductModel(IProductRepository productRepository)
+        public UpdateProductModel(IProductRepository productRepository, IHubContext<SignalRHub> hubContext)
         {
             this.productRepository = productRepository;
+            this.hubContext = hubContext;
         }
 
         public void OnGet(long productId)
@@ -117,6 +125,7 @@ namespace KoiFarmRazorPage.Pages.Staff
                 Message = "Cập nhật product thành công";
                 Product = productRepository.GetProductById(product.ProductId);
                 TempData["SuccessMessage"] = "Cap nhat product thành công!!!";
+                
                 return RedirectToPage("/Staff/ProductManagement");
             }
 

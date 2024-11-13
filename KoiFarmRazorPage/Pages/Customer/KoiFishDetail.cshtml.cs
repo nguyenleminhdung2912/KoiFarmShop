@@ -19,8 +19,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             _cartRepository = cartRepository;
         }
 
-        [BindProperty]
-        public string? Message { get; set; }
+        [BindProperty] public string? Message { get; set; }
         public KoiFish KoiFish { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long id, string message)
@@ -36,18 +35,24 @@ namespace KoiFarmRazorPage.Pages.Customer
 
             return Page();
         }
+
         public async Task<IActionResult> OnPostAddToCart(long KoiFishId)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Auth/Login");
+            }
+
             KoiFish koiFish = await koiFishRepository.GetKoiFishById(KoiFishId);
 
             if (koiFish != null)
             {
                 _cartRepository.AddKoiFish(koiFish, 1);
             }
-            
+
             TempData["Message"] = "Add to Cart Successfully! Please check your cart!";
 
-            return RedirectToPage("/Customer/KoiFishDetail", new {id = KoiFishId});
+            return RedirectToPage("/Customer/KoiFishDetail", new { id = KoiFishId });
         }
     }
 }

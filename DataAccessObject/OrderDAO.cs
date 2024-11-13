@@ -348,6 +348,10 @@ namespace DataAccessObject
                 try
                 {
                     existingOrder.ShipmentStatus = shipStatus;
+                    if (shipStatus.Equals("SUCCESSFUL"))
+                    {
+                        existingOrder.Status = "COMPLETED";
+                    }
                     _context.Orders.Update(existingOrder);
                     _context.SaveChanges();
                     return true;

@@ -3,11 +3,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using BusinessObject;
 using DataAccessObject;
 using KoiFarmRazorPage.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Customer
 {
+    [Authorize(Roles = "Customer")]
     public class ViewProfileModel : PageModel
     {
         private readonly IUserRepository userRepository;
@@ -17,8 +21,9 @@ namespace KoiFarmRazorPage.Pages.Customer
         private readonly IOrderRepository orderRepository;
         private readonly IKoiFishRepository koiFishRepository;
         private readonly IProductRepository productRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
 
-        public ViewProfileModel(IVnPayService vnPayService)
+        public ViewProfileModel(IVnPayService vnPayService, IHubContext<SignalRHub> hubContext)
         {
             userRepository = new UserRepository();
             walletRepository = new WalletRepository();
@@ -27,6 +32,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             orderRepository = new OrderRepository();
             koiFishRepository = new KoiFishRepository();
             productRepository = new ProductRepository();
+            this.hubContext = hubContext;
         }
 
         [BindProperty] public User UserProfile { get; set; }
@@ -66,7 +72,7 @@ namespace KoiFarmRazorPage.Pages.Customer
         }
 
         // Update profile
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
@@ -76,6 +82,8 @@ namespace KoiFarmRazorPage.Pages.Customer
                 
                 // Tạo thông báo
                 TempData["SuccessMessage"] = "Cập nhật thành công!";
+                await hubContext.Clients.All.SendAsync("RefreshData");
+
                 return RedirectToPage(); 
             }
 
@@ -93,6 +101,9 @@ namespace KoiFarmRazorPage.Pages.Customer
             }
 
             // Tạo URL thanh toán và chuyển hướng tới VNPay
+            
+            hubContext.Clients.All.SendAsync("RefreshData");
+
             return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, amount));
         }
         
@@ -117,6 +128,9 @@ namespace KoiFarmRazorPage.Pages.Customer
             await orderRepository.CancelOrder(order, user.UserId);
             
             TempData["SuccessMessage"] = "Order has been successfully cancelled.";
+            
+            await hubContext.Clients.All.SendAsync("RefreshData");
+            
             return RedirectToPage(); // Quay lại trang sau khi hủy
         }
     }

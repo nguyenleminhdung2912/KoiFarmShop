@@ -1,22 +1,30 @@
 ﻿using BusinessObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff
 {
+    [Authorize(Roles = "Staff")]
+
     public class ProductManagementModel : PageModel
     {
         public List<Product> Products { get; set; }
 
         private readonly IProductRepository productRepository;
+        private readonly IHubContext<SignalRHub> hubContext;
+
 
         public string Message { get; set; }
 
-        public ProductManagementModel(IProductRepository productRepository)
+        public ProductManagementModel(IProductRepository productRepository, IHubContext<SignalRHub> hubContext)
         {
             this.productRepository = productRepository;
+            this.hubContext = hubContext;
         }
 
         public void OnGet()
@@ -90,6 +98,7 @@ namespace KoiFarmRazorPage.Pages.Staff
                     }
                 }
             }
+            hubContext.Clients.All.SendAsync("RefreshData");
 
             return Page();
         }
