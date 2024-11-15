@@ -9,6 +9,7 @@ namespace Repository.IRepository
 {
     public interface IWalletRepository
     {
+        void Refund(Wallet wallet);
         Task<Wallet?> GetWalletById(long id);
         Task<Wallet> GetWalletByUserId(long userId);
         Task<Wallet> GetWalletByUserEmail(string userEmail);

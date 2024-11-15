@@ -24,5 +24,9 @@ namespace Repository.IRepository
         List<Order> GetOrdersByShipStatus(string shipStatus);
         
         bool SetShipStatusOrder(long orderId, string shipStatus);
+        
+        Order GetOrderByIdNotAsync(long orderId);
+        
+        void UpdateOrderByCancel(Order order);
     }
 }

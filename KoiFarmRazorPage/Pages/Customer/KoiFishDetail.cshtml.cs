@@ -55,7 +55,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             var cartItems = _cartRepository.GetCartItems();
             if (cartItems.Any(item => item.Id == KoiFishId && item.ItemType == "KoiFish"))
             {
-                TempData["Message"] = "This Koi fish is already in your cart!";
+                TempData["Message"] = "Cá Koi này đã ở trong giỏ hàng của bạn rồi!";
                 return RedirectToPage("/Customer/KoiFishDetail", new { id = KoiFishId });
             }
 
@@ -64,11 +64,11 @@ namespace KoiFarmRazorPage.Pages.Customer
             if (koiFish != null)
             {
                 _cartRepository.AddKoiFish(koiFish, 1);
-                TempData["Message"] = "Add to Cart Successfully! Please check your cart!";
+                TempData["Message"] = "Thêm vào giỏ hàng thành công!";
             }
             else
             {
-                TempData["Message"] = "Unable to add Koi fish to cart. Please try again.";
+                TempData["Message"] = "Không thể thêm cá Koi vào giỏ hàng, hãy thử lại sau.";
             }
 
             return RedirectToPage("/Customer/KoiFishDetail", new { id = KoiFishId });

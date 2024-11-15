@@ -14,22 +14,6 @@ D:\Kì 7\PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.d
 D:\Kì 7\PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\refint\DataAccessObject.dll
 D:\Kì 7\PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.pdb
 D:\Kì 7\PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\ref\DataAccessObject.dll
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.deps.json
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.dll
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.pdb
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\BusinessObject.dll
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\BusinessObject.pdb
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.csproj.AssemblyReference.cache
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.GeneratedMSBuildEditorConfig.editorconfig
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.AssemblyInfoInputs.cache
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.AssemblyInfo.cs
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.csproj.CoreCompileInputs.cache
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.sourcelink.json
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAcce.FCD2CC32.Up2Date
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.dll
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\refint\DataAccessObject.dll
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.pdb
-D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\ref\DataAccessObject.dll
 D:\git\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.deps.json
 D:\git\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.dll
 D:\git\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.pdb
@@ -62,3 +46,19 @@ C:\Users\nguye\OneDrive\Desktop\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\Da
 C:\Users\nguye\OneDrive\Desktop\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\refint\DataAccessObject.dll
 C:\Users\nguye\OneDrive\Desktop\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.pdb
 C:\Users\nguye\OneDrive\Desktop\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\ref\DataAccessObject.dll
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.deps.json
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.dll
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\DataAccessObject.pdb
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\BusinessObject.dll
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\bin\Debug\net8.0\BusinessObject.pdb
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.csproj.AssemblyReference.cache
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.AssemblyInfoInputs.cache
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.AssemblyInfo.cs
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.csproj.CoreCompileInputs.cache
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.sourcelink.json
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAcce.FCD2CC32.Up2Date
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.dll
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\refint\DataAccessObject.dll
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\DataAccessObject.pdb
+D:\Project_PRN221\KoiFarmShop\DataAccessObject\obj\Debug\net8.0\ref\DataAccessObject.dll

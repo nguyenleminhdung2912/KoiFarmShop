@@ -38,14 +38,14 @@ public class KoiFishManagement : PageModel
         {
             if (string.IsNullOrEmpty(Request.Form["koiName"]))
             {
-                TempData["SearchFail"] = "Koi fish doesn't exist with this nane!!!";
+                TempData["SearchFail"] = "Không có cá koi nào tồn tại với tên này!!!";
                 KoiFishes = _repository.GetkoiFishes();
             }
             else
             {
                 if (_repository.GetKoiFishByName(Request.Form["koiName"]).IsNullOrEmpty())
                 {
-                    TempData["SearchFail"] = "Koi fish doesn't exist with this name!!!";
+                    TempData["SearchFail"] = "Không có cá koi nào tồn tại với tên này!!!";
                     KoiFishes = _repository.GetKoiFishByName(Request.Form["koiName"]);
                 }
                 else
@@ -63,7 +63,7 @@ public class KoiFishManagement : PageModel
         {
             if (string.IsNullOrEmpty(Request.Form["selectedKoiFishId"]))
             {
-                Message = "Please choose specific koi fish to delete";
+                Message = "Chọn một cá koi cụ thể để xoá";
                 KoiFishes = _repository.GetkoiFishes();
             }
             else
@@ -71,13 +71,13 @@ public class KoiFishManagement : PageModel
                 long koiFishId = long.Parse(Request.Form["selectedKoiFishId"]);
                 if (_repository.DeleteKoiFishById(koiFishId))
                 {
-                    TempData["KoiFishSuccess"] = "Koi fish deleted successfully";
+                    TempData["KoiFishSuccess"] = "Xoá cá koi thành công";
                     KoiFishes = _repository.GetkoiFishes();
                     return Page();
                 }
                 else
                 {
-                    Message = "Koi fish delete failed";
+                    Message = "Xoá cá koi thất bại";
                     KoiFishes = _repository.GetkoiFishes();
                     return Page();
                 }
@@ -88,7 +88,7 @@ public class KoiFishManagement : PageModel
         {
             if (string.IsNullOrEmpty(Request.Form["selectedKoiFishId"]))
             {
-                Message = "Please choose specific koi fish to update";
+                Message = "Chọn một cá koi cụ thể để cập nhật ";
                 KoiFishes = _repository.GetkoiFishes();
             }
             else

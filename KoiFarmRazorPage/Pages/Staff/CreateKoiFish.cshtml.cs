@@ -34,31 +34,31 @@ public class CreateKoiFish : PageModel
         var koiImage = Request.Form.Files["koiImage"];
         if (string.IsNullOrEmpty(Request.Form["koiName"]))
         {
-            ValidateErrors["KoiName"] = "KoiName is required";
+            ValidateErrors["KoiName"] = "Tên cá koi không được để trống";
         }else if (koiImage == null)
         {
-            ValidateErrors["KoiImage"] = "KoiImage is required";
+            ValidateErrors["KoiImage"] = "Hình ảnh không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["koiOrigin"]))
         {
-            ValidateErrors["KoiOrigin"] = "Origin is required";
+            ValidateErrors["KoiOrigin"] = "Nguồn gốc cá koi không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["koiGender"]))
         {
-            ValidateErrors["KoiGender"] = "Koi Gender is required";
+            ValidateErrors["KoiGender"] = "Giới tinh cá koi không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["koiAge"]))
         {
-            ValidateErrors["KoiAge"] = "Koi Age is required";
+            ValidateErrors["KoiAge"] = "Tuổi cá koi không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["koiSize"]))
         {
-            ValidateErrors["KoiSize"] = "Koi Size is required";
+            ValidateErrors["KoiSize"] = "Kích thước cá koi không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["koiBreed"]))
         {
-            ValidateErrors["Breed"] = "Koi Breed is required";
+            ValidateErrors["Breed"] = "Giống loài cá koi không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["filterRatio"]))
         {
-            ValidateErrors["FilterRatio"] = "Filter Ratio is required";
+            ValidateErrors["FilterRatio"] = "Tỉ lệ sàn lọc cá koi không được để trống";
         }else if (string.IsNullOrEmpty(Request.Form["koiPrice"]))
         {
-            ValidateErrors["KoiPrice"] = "Koi Price is required";
+            ValidateErrors["KoiPrice"] = "Giá cá koi không được để trống";
         }
         // else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
         // {
@@ -66,25 +66,29 @@ public class CreateKoiFish : PageModel
         // }
         else if (string.IsNullOrEmpty(Request.Form["koiColor"]))
         {
-            ValidateErrors["KoiColor"] = "Color is required";
-        }else if (string.IsNullOrEmpty(Request.Form["koiQuantity"]))
+            ValidateErrors["KoiColor"] = "Màu cá koi không được để trống";
+        }
+        // else if (string.IsNullOrEmpty(Request.Form["koiQuantity"]))
+        // {
+        //     ValidateErrors["KoiQuantity"] = "Quantity is required";
+        // }
+        else if (int.Parse(Request.Form["koiAge"]) <= 0)
         {
-            ValidateErrors["KoiQuantity"] = "Quantity is required";
-        }else if (int.Parse(Request.Form["koiAge"]) <= 0)
-        {
-            ValidateErrors["KoiAge"] = "KoiFish Age must be > 0";
+            ValidateErrors["KoiAge"] = "Tuổi cá koi phải lớn hơn 0";
         }else if (int.Parse(Request.Form["koiSize"]) <= 0)
         {
-            ValidateErrors["KoiSize"] = "KoiFish Size must be > 0";
-        }else if (int.Parse(Request.Form["koiQuantity"]) <= 0)
+            ValidateErrors["KoiSize"] = "Kích thước cá koi phải lớn hơn 0";
+        }
+        // else if (int.Parse(Request.Form["koiQuantity"]) <= 0)
+        // {
+        //     ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be > 0";
+        // }
+        else if (double.Parse(Request.Form["koiPrice"]) <= 0)
         {
-            ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be > 0";
-        }else if (double.Parse(Request.Form["koiPrice"]) <= 0)
-        {
-            ValidateErrors["KoiPrice"] = "KoiFish Price must be > 0";
+            ValidateErrors["KoiPrice"] = "Kích thước cá koi lớn hơn  0";
         }else if (double.Parse(Request.Form["filterRatio"]) <= 0)
         {
-            ValidateErrors["FilterRatio"] = "KoiFish Filter Ratio Must be > 0";
+            ValidateErrors["FilterRatio"] = "Tỷ lẹ sàn lọc cá koi lớn hơn  0";
         }
         else
         {
@@ -106,7 +110,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                ValidateErrors["KoiAge"] = "KoiFish Age must be an integer number.";
+                ValidateErrors["KoiAge"] = "Tuổi cá koi phải là số nguyên";
             }
             
             try
@@ -115,7 +119,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                ValidateErrors["KoiSize"] = "Koi Size Age must be an integer number.";
+                ValidateErrors["KoiSize"] = "Kích thước cá koi phải là số nguyên";
             }
             koiFish.Breed = Request.Form["koiBreed"];
             try
@@ -124,7 +128,7 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                ValidateErrors["FilterRatio"] = "KoiFish Filter Ratio Must be a number.";
+                ValidateErrors["FilterRatio"] = "Tỷ lệ sàn lọc cá koi phải là số nguyên";
             }
             
             try
@@ -133,32 +137,33 @@ public class CreateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                ValidateErrors["KoiPrice"] = "KoiFish price Must be a number.";
+                ValidateErrors["KoiPrice"] = "Giá cá koi phải là số nguyên.";
             }
             
             koiFish.Status = "Available";
             koiFish.CreateAt = DateTime.Now;
             koiFish.IsDeleted = false;
             koiFish.Color = Request.Form["koiColor"];
-            try
-            {
-                koiFish.Quantity = int.Parse(Request.Form["koiQuantity"]);
-            }
-            catch (Exception ex)
-            {
-                ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be an integer number.";
-            }
+            koiFish.Quantity = 1;
+            // try
+            // {
+            //     koiFish.Quantity = int.Parse(Request.Form["koiQuantity"]);
+            // }
+            // catch (Exception ex)
+            // {
+            //     ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be an integer number.";
+            // }
 
             if (_koiFishRepository.CreateKoiFish(koiFish))
             {
-                TempData["KoiFishSuccess"] = "Create Koi Fish sucessfully";
+                TempData["KoiFishSuccess"] = "Tạo cá koi thành công";
                 hubContext.Clients.All.SendAsync("RefreshData");
 
                 return RedirectToPage("/Staff/KoiFishManagement");
             }
             else
             {
-                Message = "Create Koi Fish Failed";
+                Message = "Tạo cá koi không thành công";
                 return Page();
             }
         }

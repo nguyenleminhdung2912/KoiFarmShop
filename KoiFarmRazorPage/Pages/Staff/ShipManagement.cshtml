@@ -1,4 +1,5 @@
 @page
+@using Microsoft.EntityFrameworkCore
 @model KoiFarmRazorPage.Pages.Staff.ShipManagement
 
 @{
@@ -47,84 +48,152 @@
     </form>
 </div>
 
-<form method="post">
-    @Html.AntiForgeryToken()
+@* <form method="post"> *@
+@*     @Html.AntiForgeryToken() *@
     <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 5px; overflow: hidden;">
-	    <thead>
-	    <tr>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Select</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Order Id</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">User Name</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Total Quantity</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Total Price</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Address</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Shipment Status</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Products</th>
-		    <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">KoiFishes</th>
-	    </tr>
-	    </thead>
-	    <tbody>
-	    @foreach (var order in Model.Orders)
-	    {
-		    <tr>
-			    <td style="padding: 10px; border: 1px solid #ddd;">
-				    <input type="radio" name="selectedOrderId" value="@order.OrderId"/>
-			    </td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.OrderId</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.User.Name</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.Quantity</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.TotalPrice</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.Status</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.Address</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">@order.ShipmentStatus</td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">
-				    <ul>
-					    @foreach (var product in order.ProductList)
-					    {
-						    <li>Name: @product.Name</li>
-						    <li>Price: @String.Format("{0:C}", product.Price)</li>
-					    }
-				    </ul>
-			    </td>
-			    <td style="padding: 10px; border: 1px solid #ddd;">
-				    <ul>
-					    @foreach (var koiFish in order.KoiFishList)
-					    {
-						    <li>Name: @koiFish.Name</li>
-						    <li>Price: @String.Format("{0:C}", koiFish.Price)</li>
-					    }
-				    </ul>
-			    </td>
-		    </tr>
-	    }
-	    </tbody>
+        <thead>
+        <tr>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Select</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Order Id</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">User Name</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Total Quantity</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Total Price</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Address</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Shipment Status</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">Products</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;">KoiFishes</th>
+            <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;"></th>
+            @if (Model.SelectedStatus == "NOTYET" || Model.SelectedStatus == "PREPARING" || Model.SelectedStatus == "ALL" || string.IsNullOrEmpty(Model.SelectedStatus))
+            {
+                <th style="padding: 10px; background-color: #f2f2f2; color: #333; font-weight: bold; border: 1px solid #ddd;"></th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                    <input type="radio" name="selectedOrderId" value="@order.OrderId"/>
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.OrderId</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.User.Name</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.Quantity</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.TotalPrice</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.Status</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.Address</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@order.ShipmentStatus</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                    <ul>
+                        @foreach (var product in order.ProductList)
+                        {
+                            <li>Name: @product.Name</li>
+                            <li>Price: @String.Format("{0:C}", product.Price)</li>
+                        }
+                    </ul>
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                    <ul>
+                        @foreach (var koiFish in order.KoiFishList)
+                        {
+                            <li>Name: @koiFish.Name</li>
+                            <li>Price: @String.Format("{0:C}", koiFish.Price)</li>
+                        }
+                    </ul>
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                    @* <input type="hidden" name="orderId" value="@order.OrderId"/> *@
+                    @if (Model.SelectedStatus == "NOTYET" || Model.SelectedStatus == "PREPARING" || string.IsNullOrEmpty(Model.SelectedStatus) || Model.SelectedStatus == "ALL")
+                    {
+                        <form method="post">
+                            <input type="hidden" name="orderId" value="@order.OrderId"/>
+                            <div class="pending-buttons" style="margin-top: 20px;">
+                                <button type="submit" name="handler" value="CANCEL"
+                                        style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    }
+                    @if (Model.SelectedStatus == "ONGOING")
+                    {
+                        <form method="post">
+                            <input type="hidden" name="orderId" value="@order.OrderId"/>
+                            <div class="pending-buttons" style="margin-top: 20px;">
+                                <button type="submit" name="handler" value="Success"
+                                        style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Finish
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </td>
+
+                @if (Model.SelectedStatus == "NOTYET")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="orderId" value="@order.OrderId"/>
+                            <div class="pending-buttons" style="margin-top: 20px;">
+                                <button type="submit" name="handler" value="Prepare"
+                                        style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Prepare
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                }
+
+                @if (Model.SelectedStatus == "PREPARING")
+                {
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="orderId" value="@order.OrderId"/>
+                            <div class="pending-buttons" style="margin-top: 20px;">
+                                <button type="submit" name="handler" value="OnGoing"
+                                        style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    On Going
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
     </table>
-	@* @if (Model.SelectedStatus == "ALL") *@
-	@* { *@
-	@* <div class="pending-buttons" style="margin-top: 20px;"> *@
-	@* 	<button type="submit" name="handler" value="NotYet" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Prepare</button> *@
-	@* </div> *@
-	@* } *@
-    @if (Model.SelectedStatus == "NOTYET")
-    {
-        <div class="pending-buttons" style="margin-top: 20px;">
-            <button type="submit" name="handler" value="Prepare" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Prepare</button>
-        </div>
-    }
-    @if (Model.SelectedStatus == "PREPARING")
-    {
-        <div class="pending-buttons" style="margin-top: 20px;">
-            <button type="submit" name="handler" value="OnGoing" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">On Going</button>
-        </div>
-    }
-    @if (Model.SelectedStatus == "ONGOING")
-    {
-        <div class="pending-buttons" style="margin-top: 20px;">
-            <button type="submit" name="handler" value="Success" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Finish</button>
-        </div>
-    }
-</form>
+    @* @if (Model.SelectedStatus == "ALL") *@
+    @* { *@
+    @* <div class="pending-buttons" style="margin-top: 20px;"> *@
+    @* 	<button type="submit" name="handler" value="NotYet" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Prepare</button> *@
+    @* </div> *@
+    @* } *@
+    @* @if (Model.SelectedStatus == "NOTYET") *@
+    @* { *@
+    @*     <div class="pending-buttons" style="margin-top: 20px;"> *@
+    @*         <button type="submit" name="handler" value="Prepare" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Prepare</button> *@
+    @*     </div> *@
+    @* } *@
+    @* @if (Model.SelectedStatus == "PREPARING") *@
+    @* { *@
+    @*     <div class="pending-buttons" style="margin-top: 20px;"> *@
+    @*         <button type="submit" name="handler" value="OnGoing" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">On Going</button> *@
+    @*     </div> *@
+    @* } *@
+    @* @if (Model.SelectedStatus == "ONGOING") *@
+    @* { *@
+    @*     <div class="pending-buttons" style="margin-top: 20px;"> *@
+    @*         <button type="submit" name="handler" value="Success" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Finish</button> *@
+    @*     </div> *@
+    @* } *@
+    @* @if (Model.SelectedStatus == "ALL") *@
+    @* { *@
+    @*  <div class="pending-buttons" style="margin-top: 20px;"> *@
+    @*   <button type="submit" name="handler" value="Cancel" style="padding: 10px 15px; margin-right: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button> *@
+    @*  </div> *@
+    @* } *@
+@* </form> *@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
 

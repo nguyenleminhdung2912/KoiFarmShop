@@ -36,6 +36,11 @@ public class ProductDetail : PageModel
         if (product != null)
         {
             _cartRepository.AddProduct(product, 1);
+            TempData["Message"] = "Thêm vào giỏ hàng thành công!";
+        }
+        else
+        {
+            TempData["Message"] = "Không thể thêm sản phẩm vào giỏ hàng, hãy thử lại sau.";
         }
        
         return RedirectToPage("/Customer/ProductDetail", new {id = productId});

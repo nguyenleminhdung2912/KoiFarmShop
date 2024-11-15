@@ -15,7 +15,7 @@
         @Html.AntiForgeryToken()
         <input type="hidden" name="koiFishId" value="@Model.Koifish.KoiFishId" />
         <div class="form-group">
-            <label for="koiName" class="form-label">Koi Fish Name</label>
+            <label for="koiName" class="form-label">Tên cá koi</label>
             <input type="text" name="koiName" id="koiName" class="form-input" value="@Model.Koifish.Name"/>
             @if (Model.ValidateErrors.ContainsKey("KoiName"))
             {
@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            <label for="KoiImage" class="form-label">Koi Image</label>
+            <label for="KoiImage" class="form-label">Hình ảnh</label>
             <input type="file" name="koiImage" id="KoiImage" class="form-input"/>
             @if (Model.Koifish.ImageData != null)
             {
@@ -41,7 +41,7 @@
             }
         </div>
         <div class="form-group">
-            <label for="koiOrigin" class="form-label">Origin</label>
+            <label for="koiOrigin" class="form-label">Nguồn Gốc</label>
             <input type="text" name="koiOrigin" id="koiOrigin" class="form-input" value="@Model.Koifish.Origin"/>
             @if (Model.ValidateErrors.ContainsKey("KoiOrigin"))
             {
@@ -49,7 +49,7 @@
             }
         </div>
         <div class="form-group">
-            <label for="koiGender" class="form-label">Gender</label>
+            <label for="koiGender" class="form-label">Giới tính</label>
             <select name="koiGender" id="koiGender" class="form-select">
                 <option value="">Select Gender </option>
                 <option value="Male" selected="@(Model.Koifish.Gender == "Male" ? "selected" : "")">Male</option>
@@ -61,7 +61,7 @@
             }
         </div>
         <div class="form-group">
-            <label for="koiAge" class="form-label">Age</label>
+            <label for="koiAge" class="form-label">Tuổi</label>
             <input type="text" name="koiAge" id="koiAge" class="form-input" value="@Model.Koifish.Age"/>
             @if (Model.ValidateErrors.ContainsKey("KoiAge"))
             {
@@ -70,7 +70,7 @@
         </div>
 
         <div class="form-group">
-            <label for="koiSize" class="form-label">Size</label>
+            <label for="koiSize" class="form-label">Kích Thước</label>
             <input type="text" name="koiSize" id="koiSize" class="form-input" value="@Model.Koifish.Size"/>
             @if (Model.ValidateErrors.ContainsKey("KoiSize"))
             {
@@ -79,7 +79,7 @@
         </div>
 
         <div class="form-group">
-            <label for="koiBreed" class="form-label">Breed</label>
+            <label for="koiBreed" class="form-label">Giống Loài</label>
             <input type="text" name="koiBreed" id="koiBreed" class="form-input" value="@Model.Koifish.Breed"/>
             @if (Model.ValidateErrors.ContainsKey("Breed"))
             {
@@ -88,7 +88,7 @@
         </div>
 
         <div class="form-group">
-            <label for="filterRatio" class="form-label">Filter Ratio</label>
+            <label for="filterRatio" class="form-label">Tỷ lệ sàn lọc</label>
             <input type="text" name="filterRatio" id="filterRatio" class="form-input" value="@Model.Koifish.FilterRatio"/>
             @if (Model.ValidateErrors.ContainsKey("FilterRatio"))
             {
@@ -97,7 +97,7 @@
         </div>
 
         <div class="form-group">
-            <label for="koiPrice" class="form-label">Price</label>
+            <label for="koiPrice" class="form-label">Giá</label>
             <input type="text" name="koiPrice" id="koiPrice" class="form-input" value="@Model.Koifish.Price"/>
             @if (Model.ValidateErrors.ContainsKey("KoiPrice"))
             {
@@ -117,7 +117,7 @@
         @*     } *@
         @* </div> *@
             <div class="form-group">
-                <label for="koiColor" class="form-label">Color</label>
+                <label for="koiColor" class="form-label">Màu</label>
                 <input type="text" name="koiColor" id="koiColor" class="form-input" value="@Model.Koifish.Color"/>
                 @if (Model.ValidateErrors.ContainsKey("KoiColor"))
                 {
@@ -126,14 +126,14 @@
             </div>
 
 
-            <div class="form-group">
-                <label for="koiQuantity" class="form-label">Quantity</label>
-                <input type="text" name="koiQuantity" id="koiQuantity" class="form-input" value="@Model.Koifish.Quantity"/>
-                @if (Model.ValidateErrors.ContainsKey("KoiQuantity"))
-                {
-                    @Model.ValidateErrors["KoiQuantity"]
-                }
-            </div>
+            @* <div class="form-group"> *@
+            @*     <label for="koiQuantity" class="form-label">Quantity</label> *@
+            @*     <input type="text" name="koiQuantity" id="koiQuantity" class="form-input" value="@Model.Koifish.Quantity"/> *@
+            @*     @if (Model.ValidateErrors.ContainsKey("KoiQuantity")) *@
+            @*     { *@
+            @*         @Model.ValidateErrors["KoiQuantity"] *@
+            @*     } *@
+            @* </div> *@
             <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>

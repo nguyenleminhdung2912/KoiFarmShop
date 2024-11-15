@@ -39,10 +39,10 @@ public class UpdateBlog : PageModel
         byte[] imageBytes = null;
         if (string.IsNullOrEmpty(Blog.Title))
         {
-            ValidateErrors["BlogTitle"] = "Title khong duoc de trong";
+            ValidateErrors["BlogTitle"] = "Tiêu đề không được để trônống";
         }else if (string.IsNullOrEmpty(Blog.Description))
         {
-            ValidateErrors["BlogDescription"] = "Description khong duoc de trong";
+            ValidateErrors["BlogDescription"] = "Nội dung không được để trống";
         }
         else
         {
