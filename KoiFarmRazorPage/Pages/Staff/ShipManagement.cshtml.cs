@@ -72,10 +72,39 @@ public class ShipManagement : PageModel
         }
     }
 
+    private void LoadData()
+    {
+        Orders = _orderRepository.GetAllOrders();
+        foreach (var order in Orders)
+        {
+            // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
+            //
+            // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
+            var koiFishIdList = ParseIdString(order.KoiFishId);
+            var productIdList = ParseIdString(order.ProductId);
+            foreach (var koiFishId in koiFishIdList)
+            {
+                if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
+                {
+                    order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
+                }
+            }
+
+            foreach (var productId in koiFishIdList)
+            {
+                if (_productRepository.GetProductById(productId) != null)
+                {
+                    order.ProductList.Add(_productRepository.GetProductById(productId));
+                }
+            }
+        }
+    }
+
     public void OnPost()
     {
         SelectedStatus = Request.Form["shipStatus"];
         string handler = Request.Form["handler"];
+
         if (handler == "Search")
         {
             Orders = _orderRepository.GetOrdersByShipStatus(SelectedStatus);
@@ -234,19 +263,32 @@ public class ShipManagement : PageModel
             }
         }
 
-        if (handler == "Cancel")
+        if (handler == "CANCEL")
         {
+            // if (string.IsNullOrEmpty(Request.Form["selectedOrderId"]))
+            // {
+            //     TempData["Fail"] = "Chọn một đơn hàng cụ thể để huỷ!!!";
+            //     LoadData();
+            // }
+            // else
+            // {
+            //    
+            // }
+
             Order order = _orderRepository.GetOrderByIdNotAsync(long.Parse(Request.Form["orderId"]));
-            if (order.Status == "SUCCESSFUL")
+            if (order.ShipmentStatus == "SUCCESSFUL")
             {
+                LoadData();
                 TempData["Fail"] = "Không thể huỷ đơn hàng vì đơn hàng đã hoàn tất!!!";
             }
             else if (order.Status == "CANCELLED")
             {
+                LoadData();
                 TempData["Fail"] = "Đơn hàng này đã huỷ rồi!!!";
             }
             else if (order.Status == "ONGOING")
             {
+                LoadData();
                 TempData["Fail"] = "Không thể huỷ đơn hàng vì đơn hàng đang giao!!!";
             }
             else
@@ -260,15 +302,21 @@ public class ShipManagement : PageModel
                         _walletRepository.Refund(wallet);
                     }
 
+                    TempData["Success"] = "Huỷ đơn hàng thành công";
+
                     order.Status = "CANCELLED";
                     order.ShipmentStatus = "CANCELLED";
                     _orderRepository.UpdateOrderByCancel(order);
+                    LoadData();
                 }
                 else
                 {
+                    TempData["Success"] = "Huỷ đơn hàng thành công";
+
                     order.Status = "CANCELLED";
                     order.ShipmentStatus = "CANCELLED";
                     _orderRepository.UpdateOrderByCancel(order);
+                    LoadData();
                 }
             }
         }
