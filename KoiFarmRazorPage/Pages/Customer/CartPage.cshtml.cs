@@ -1,3 +1,4 @@
+// CartPageModel.cs
 using BusinessObject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +47,11 @@ namespace KoiFarmRazorPage.Pages.Customer
 
         public IActionResult OnPostUpdateQuantity(long id, string itemType, int quantity)
         {
-            _cartRepository.UpdateQuantity(id, itemType, quantity);
+            // Only allow quantity updates for products, not for koi fish
+            if (itemType == "Product")
+            {
+                _cartRepository.UpdateQuantity(id, itemType, quantity);
+            }
             return RedirectToPage();
         }
 
@@ -87,19 +92,20 @@ namespace KoiFarmRazorPage.Pages.Customer
                 return Page();
             }
 
-            // Check product and koi fish availability
+            // Check koi fish availability by status
             bool isAvailable = true;
             foreach (var item in Cart.KoiFishItems)
             {
                 var koiFish = await _koiFishRepository.GetKoiFishById(item.Id);
-                if (koiFish == null || koiFish.Quantity < item.Quantity)
+                if (koiFish == null || koiFish.Status != "Available")
                 {
-                    ErrorMessage = $"Not enough {koiFish?.Name} in stock. Only {koiFish?.Quantity ?? 0} available.";
+                    ErrorMessage = $"The koi fish {koiFish?.Name ?? "Unknown"} is no longer available for purchase.";
                     isAvailable = false;
                     break;
                 }
             }
 
+            // Check product availability
             foreach (var item in Cart.ProductItems)
             {
                 var product = _productRepository.GetProductById(item.Id);
@@ -113,19 +119,13 @@ namespace KoiFarmRazorPage.Pages.Customer
 
             if (!isAvailable)
             {
-                TempData["OutOfStock"] = ErrorMessage;
                 return Page();
             }
 
             try
             {
                 // Create order
-                // Get the KoiFish IDs with their quantities
-                var koiFishIds = Cart.KoiFishItems.SelectMany(item =>
-                    Enumerable.Repeat(item.Id.ToString(), item.Quantity)
-                ).ToList();
-
-                // Get the Product IDs with their quantities
+                var koiFishIds = Cart.KoiFishItems.Select(item => item.Id.ToString()).ToList();
                 var productIds = Cart.ProductItems.SelectMany(item =>
                     Enumerable.Repeat(item.Id.ToString(), item.Quantity)
                 ).ToList();
@@ -149,21 +149,13 @@ namespace KoiFarmRazorPage.Pages.Customer
                 wallet.Total -= Cart.TotalPrice;
                 wallet.UpdateAt = DateTime.Now;
 
-                // Save changes
-                _walletRepository.Update(wallet);
-                _orderRepository.SaveOrder(order);
-
-                // Update product and koi fish quantities
+                // Update koi fish status to SOLD
                 foreach (var item in Cart.KoiFishItems)
                 {
-                    var koiFish = await _koiFishRepository.GetKoiFishById(item.Id);
-                    if (koiFish != null)
-                    {
-                        koiFish.Quantity -= item.Quantity;
-                        _koiFishRepository.UpdateKoiFish(koiFish);
-                    }
+                     _koiFishRepository.UpdateKoiFishStatus(item.Id, "Sold Out");
                 }
 
+                // Update product quantities
                 foreach (var item in Cart.ProductItems)
                 {
                     var product = _productRepository.GetProductById(item.Id);
@@ -174,6 +166,10 @@ namespace KoiFarmRazorPage.Pages.Customer
                     }
                 }
 
+                // Save changes
+                _walletRepository.Update(wallet);
+                _orderRepository.SaveOrder(order);
+
                 // Clear cart
                 _cartRepository.ClearCart();
 
@@ -183,7 +179,6 @@ namespace KoiFarmRazorPage.Pages.Customer
             catch (Exception ex)
             {
                 ErrorMessage = "An error occurred while processing your order. Please try again.";
-                // Log the exception
                 return Page();
             }
         }

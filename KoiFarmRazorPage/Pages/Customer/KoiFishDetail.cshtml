@@ -54,7 +54,18 @@
                     <div class="mt-5" style="position: relative; height: 100%;">
                         <form method="post" asp-page-handler="AddToCart">
                             <input type="hidden" name="KoiFishId" value="@Model.KoiFish.KoiFishId"/>
-                            <button type="submit" class="btn btn-success position-absolute bottom-0 end-0">Thêm vào giỏ hàng</button>
+                            @if (Model.IsInCart)
+                            {
+                            <button type="button" class="btn btn-secondary position-absolute bottom-0 end-0" disabled>
+                                Đã có trong giỏ hàng
+                            </button>
+                            }
+                            else
+                            {
+                            <button type="submit" class="btn btn-success position-absolute bottom-0 end-0">
+                                Thêm vào giỏ hàng
+                            </button>
+                            }
                         </form>
                     </div>
                 </div>

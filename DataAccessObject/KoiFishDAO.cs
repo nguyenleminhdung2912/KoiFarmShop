@@ -183,6 +183,33 @@ namespace DataAccessObject
 
             return false;
         }
+        
+        public static bool UpdateKoiFishStatus(long koiFishId, string newStatus)
+        {
+            using (var db = new KoiFarmShopDatabaseContext())
+            {
+                var existKoiFish = db.KoiFishes.Find(koiFishId);
+                if (existKoiFish != null)
+                {
+                    try
+                    {
+                        existKoiFish.Status = newStatus;
+                        existKoiFish.UpdateAt = DateTime.Now; // Update the timestamp if needed
+                        db.KoiFishes.Update(existKoiFish);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the exception if necessary
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+        }
+
 
         public static List<KoiFish> SearchKoiFishByName(string koiName)
         {

@@ -19,8 +19,10 @@ namespace KoiFarmRazorPage.Pages.Customer
             _cartRepository = cartRepository;
         }
 
-        [BindProperty] public string? Message { get; set; }
+        [BindProperty] 
+        public string? Message { get; set; }
         public KoiFish KoiFish { get; set; }
+        public bool IsInCart { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long id, string message)
         {
@@ -31,6 +33,12 @@ namespace KoiFarmRazorPage.Pages.Customer
             if (KoiFish == null)
             {
                 return NotFound();
+            }
+            
+            if (User.Identity.IsAuthenticated)
+            {
+                var cartItems = _cartRepository.GetCartItems();
+                IsInCart = cartItems.Any(item => item.Id == id && item.ItemType == "KoiFish");
             }
 
             return Page();
@@ -43,14 +51,25 @@ namespace KoiFarmRazorPage.Pages.Customer
                 return RedirectToPage("/Auth/Login");
             }
 
+            // Check if the Koi fish is already in the cart
+            var cartItems = _cartRepository.GetCartItems();
+            if (cartItems.Any(item => item.Id == KoiFishId && item.ItemType == "KoiFish"))
+            {
+                TempData["Message"] = "This Koi fish is already in your cart!";
+                return RedirectToPage("/Customer/KoiFishDetail", new { id = KoiFishId });
+            }
+
             KoiFish koiFish = await koiFishRepository.GetKoiFishById(KoiFishId);
 
             if (koiFish != null)
             {
                 _cartRepository.AddKoiFish(koiFish, 1);
+                TempData["Message"] = "Add to Cart Successfully! Please check your cart!";
             }
-
-            TempData["Message"] = "Add to Cart Successfully! Please check your cart!";
+            else
+            {
+                TempData["Message"] = "Unable to add Koi fish to cart. Please try again.";
+            }
 
             return RedirectToPage("/Customer/KoiFishDetail", new { id = KoiFishId });
         }

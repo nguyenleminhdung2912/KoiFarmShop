@@ -7,67 +7,59 @@
 
 
 
+
 <div class="container">
     <h1>Shopping Cart</h1>
 
     @if (Model.Cart.TotalQuantity == 0)
     {
-        <p>Your cart is empty.</p>
+    <p>Your cart is empty.</p>
     }
     else
     {
-        <div class="cart-section">
-            <h2>Koi Fish</h2>
-            @if (Model.Cart.KoiFishItems.Any())
+    <div class="cart-section">
+        <h2>Koi Fish</h2>
+        @if (Model.Cart.KoiFishItems.Any())
+        {
+        <table class="cart-table">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Cart.KoiFishItems)
             {
-                <table class="cart-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Cart.KoiFishItems)
-                        {
-                            <tr>
-                                <td>
-                                    @if (item.Image != null)
-                                    {
-                                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" alt="@item.Name" />
-                                    }
-                                </td>
-                                <td>@item.Name</td>
-                                <td>@item.Price.ToString("C")</td>
-                                <td>
-                                    <form method="post" asp-page-handler="UpdateQuantity" class="quantity-form">
-                                        <input type="hidden" name="id" value="@item.Id" />
-                                        <input type="hidden" name="itemType" value="KoiFish" />
-                                        <input type="number" name="quantity" value="@item.Quantity" min="1" onchange="this.form.submit()" />
-                                    </form>
-                                </td>
-                                <td>@((item.Price * item.Quantity).ToString("C"))</td>
-                                <td>
-                                    <form method="post" asp-page-handler="RemoveItem" class="remove-form">
-                                        <input type="hidden" name="id" value="@item.Id" />
-                                        <input type="hidden" name="itemType" value="KoiFish" />
-                                        <button type="submit">Remove</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <tr>
+                <td>
+                    @if (item.Image != null)
+                    {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" alt="@item.Name" />
+                    }
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>
+                    <form method="post" asp-page-handler="RemoveItem" class="remove-form">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="itemType" value="KoiFish" />
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
             }
-            else
-            {
-                <p>No Koi Fish in cart.</p>
-            }
-        </div>
+            </tbody>
+        </table>
+        }
+        else
+        {
+        <p>No Koi Fish in cart.</p>
+        }
+    </div>
+
 
         <div class="cart-section">
             <h2>Products</h2>
