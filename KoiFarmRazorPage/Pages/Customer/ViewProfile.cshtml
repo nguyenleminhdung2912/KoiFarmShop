@@ -7,14 +7,14 @@
 }
 
 <div class="container mt-5">
-    <h2 class="text-center" style="color: #f3a683;">Your Profile</h2>
+    <h2 class="text-center" style="color: #f3a683;">Thông Tin Cá Nhân</h2>
     <!-- Tab Navigation -->
     <ul class="nav nav-tabs" id="profileTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Thông tin cá nhân</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="order-history-tab" data-bs-toggle="tab" href="#order-history" role="tab" aria-controls="order-history" aria-selected="false">Order History</a>
+            <a class="nav-link" id="order-history-tab" data-bs-toggle="tab" href="#order-history" role="tab" aria-controls="order-history" aria-selected="false">Lịch sử đơn hàng</a>
         </li>
     </ul>
 
@@ -32,7 +32,7 @@
             <!-- User Information Card -->
             <div class="card shadow-sm mt-4">
                 <div class="card-header" style="background-color: #f3a683; color: #fff;">
-                    <h4 class="mb-0">User Information</h4>
+                    <h4 class="mb-0">Thông tin</h4>
                 </div>
                 <div class="card-body">
                     <div class="row align-items-center">
@@ -49,7 +49,7 @@
                             <!-- Edit Profile Form -->
                             <form method="post">
                                 <div class="mb-3">
-                                    <label for="Name" class="form-label">Name</label>
+                                    <label for="Name" class="form-label">Tên</label>
                                     <input type="text" class="form-control" id="Name" name="Name" value="@Model.UserProfile.Name" required/>
                                 </div>
                                 <div class="mb-3">
@@ -57,12 +57,12 @@
                                     <input type="email" class="form-control" id="Email" name="Email" value="@Model.UserProfile.Email" readonly/>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="Phone" class="form-label">Phone</label>
+                                    <label for="Phone" class="form-label">SĐT</label>
                                     <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.UserProfile.Phone" required/>
                                 </div>
 
                                 <button type="submit" class="btn btn-lg" style="background-color: #f3a683; color: white;">
-                                    Save Changes
+                                    Lưu thay đổi
                                 </button>
                             </form>
                         </div>
@@ -74,14 +74,11 @@
             <div class="card shadow-sm mt-4">
                 <div class="card-header d-flex align-items-center" style="background-color: #f3a683; color: #fff;">
                     <img src="https://www.freeiconspng.com/uploads/wallet-icon-1.png" alt="Wallet Icon" style="width: 24px; height: 24px; margin-right: 8px;">
-                    <h4 class="mb-0">Your Wallet</h4>
+                    <h4 class="mb-0">Ví tiền</h4>
                 </div>
                 <div class="card-body">
                     <p>
-                        <strong>Total Balance:</strong> @Model.UserWallet.Total.ToString("N0") VNĐ
-                    </p>
-                    <p>
-                        <strong>Loyalty Points:</strong> @Model.UserWallet.LoyaltyPoint Points
+                        <strong>Số dư:</strong> @Model.UserWallet.Total.ToString("N0") VNĐ
                     </p>
                     <button class="btn btn-primary mt-3" style="background-color: #f3a683; border-color: #f3a683;" data-bs-toggle="modal" data-bs-target="#paymentModal">
                         Nạp Tiền
@@ -92,7 +89,7 @@
             <!-- Wallet Log Card -->
             <div class="card shadow-sm mt-4">
                 <div class="card-header" style="background-color: #f3a683; color: #fff;">
-                    <h4 class="mb-0">Wallet Logs</h4>
+                    <h4 class="mb-0">Lịch sử giao dịch</h4>
                 </div>
                 <div class="card-body">
                     @if (Model.WalletLogs != null && Model.WalletLogs.Count > 0)
@@ -100,9 +97,9 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Transaction Date</th>
-                                <th>Amount (VNĐ)</th>
-                                <th>Type</th>
+                                <th>Ngày giao dịch</th>
+                                <th>Số lượng (VNĐ)</th>
+                                <th>Loại giao dịch</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -111,7 +108,13 @@
                                 <tr>
                                     <td>@log.CreateAt?.ToString("dd-MM-yyyy HH:mm")</td>
                                     <td>@log.Amount?.ToString("N0")</td>
-                                    <td>@log.Type.Split(' ')[0]</td>
+                                    @if (log.Type.Split(' ')[0] == "Deposit")
+                                    {
+                                        <td>Nạp tiền</td>
+                                    } else if (log.Type.Split(' ')[0] == "Refund")
+                                    {
+                                        <td>Hoàn tiền</td>
+                                    }
                                 </tr>
                             }
                             </tbody>
@@ -127,7 +130,7 @@
                     }
                     else
                     {
-                        <p>No transaction history available.</p>
+                        <p>Bạn chưa có giao dịch nào.</p>
                     }
                 </div>
             </div>
@@ -137,7 +140,7 @@
         <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
             <div class="card shadow-lg mt-4">
                 <div class="card-header" style="background-color: #f3a683; color: #fff;">
-                    <h4 class="mb-0">Order History</h4>
+                    <h4 class="mb-0">Lịch sử đơn hàng</h4>
                 </div>
                 <div class="card-body">
                     @if (Model.Orders != null && Model.Orders.Count > 0)
@@ -145,12 +148,12 @@
                         <table class="table table-hover table-striped table-bordered">
                             <thead class="thead-light">
                             <tr>
-                                <th>Order Date</th>
-                                <th>Total Price</th>
-                                <th>Status</th>
-                                <th>Shipment Status</th>
-                                <th>Address</th>
-                                <th>Action</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng giá</th>
+                                <th>Trạng thái</th>
+                                <th>Trạng thái giao hàng</th>
+                                <th>Địa chỉ</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -158,13 +161,13 @@
                             {
                                 <tr>
                                     <td>@order.CreateAt?.ToString("dd-MM-yyyy")</td>
-                                    <td>@order.TotalPrice</td>
+                                    <td>@($"{order.TotalPrice:N0} VNĐ")</td>
                                     <td>@order.Status</td>
                                     <td>@order.ShipmentStatus</td>
                                     <td>@order.Address</td>
                                     <td>
                                         <button class="btn btn-info btn-sm toggle-collapse" type="button" data-target="#orderDetails_@order.OrderId" aria-expanded="false" aria-controls="orderDetails_@order.OrderId">
-                                            <i class="fas fa-eye"></i> View Details
+                                            <i class="fas fa-eye"></i> Xem chi tiết
                                         </button>
                                         @if (
                                             (order.Status == "PAID" && order.ShipmentStatus == "NOTYET") ||
@@ -173,7 +176,7 @@
                                         {
                                             <form method="post" asp-page-handler="CancelOrder" asp-route-orderId="@order.OrderId" class="d-inline">
                                                 <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-times"></i> Cancel
+                                                    <i class="fas fa-times"></i> Huỷ đơn hàng
                                                 </button>
                                             </form>
                                         }
@@ -182,7 +185,7 @@
                                 <tr id="orderDetails_@order.OrderId" class="collapse">
                                     <td colspan="6">
                                         <div class="px-3 py-2 bg-light">
-                                            <h5 class="mb-3">Koi Fish List</h5>
+                                            <h5 class="mb-3">Koi Fish</h5>
                                             <ul class="list-unstyled">
                                                 @foreach (var group in order.KoiFishList
                                                               .GroupBy(k => new { k.Name, k.Price })
@@ -193,7 +196,7 @@
                                                     </li>
                                                 }
                                             </ul>
-                                            <h5 class="mb-3">Product List</h5>
+                                            <h5 class="mb-3">Sản phẩm</h5>
                                             <ul class="list-unstyled">
                                                 @foreach (var product in order.ProductList
                                                               .GroupBy(p => new { p.Name, p.Price })
@@ -213,7 +216,7 @@
                     }
                     else
                     {
-                        <p>No orders found.</p>
+                        <p>Bạn chưa mua đơn hàng nào.</p>
                     }
                 </div>
             </div>

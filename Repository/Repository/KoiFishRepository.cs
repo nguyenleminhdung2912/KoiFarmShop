@@ -28,10 +28,15 @@ namespace Repository.Repository
         }
 
         public long GetKoiFishId() => KoiFishDAO.GetNextKoiFishId();
+        
         public bool DeleteKoiFishById(long koiFishId) => KoiFishDAO.DeleteKoiFishById(koiFishId);
+        
         public List<KoiFish> GetKoiFishByCustomerOrGuest() => KoiFishDAO.GetKoiFishByCustomerOrGuest();
+        
         public KoiFish GetKoiFishByIdByStaff(long koiFishId) => KoiFishDAO.GetKoiFishByIdByStaff(koiFishId);
+        
         public bool UpdateKoiFish(KoiFish koiFish) => KoiFishDAO.UpdateKoiFish(koiFish);
+        
         public List<KoiFish> GetKoiFishByName(string koiName)
         {
             return KoiFishDAO.SearchKoiFishByName(koiName);
@@ -39,5 +44,12 @@ namespace Repository.Repository
 
         public List<KoiFish> GetKoiFishsByListString(string listString)
         => KoiFishDAO.GetKoiFishsByListString(listString);
+        
+
+            public bool UpdateKoiFishStatus(long koiFishId, string newStatus)
+            {
+                return KoiFishDAO.UpdateKoiFishStatus(koiFishId, newStatus);
+            }
+        
     }
 }

@@ -28,5 +28,8 @@ namespace Repository.IRepository
         bool UpdateKoiFish(KoiFish koiFish);
         
         List<KoiFish> GetKoiFishByName(string koiName);
+        
+        bool UpdateKoiFishStatus(long koiFishId, string newStatus);
+    
     }
 }

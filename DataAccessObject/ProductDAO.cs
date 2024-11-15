@@ -12,9 +12,12 @@ namespace DataAccessObject
     {
         private static KoiFarmShopDatabaseContext _context = new KoiFarmShopDatabaseContext();
 
-        public static List<Product> GetProductsForCustomer()
+        public static async Task<List<Product>> GetProductsForCustomer()
         {
-            return _context.Products.Where(c => c.Status == "Available" && c.IsDeleted == false).OrderByDescending(p => p.CreateAt).ToList();
+            List<Product> products = new List<Product>();
+            var context = new KoiFarmShopDatabaseContext();
+            products = await context.Products.Where(c => c.Status == "Available" && c.IsDeleted == false).ToListAsync();
+            return products;
         }
 
         public static List<Product> GetProductsByListString(string listString)

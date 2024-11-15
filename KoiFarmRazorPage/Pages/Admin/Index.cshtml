@@ -1,4 +1,6 @@
 ﻿@page
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model KoiFarmRazorPage.Pages.Admin.IndexModel
 @{
     ViewData["Title"] = "Admin Dashboard";
@@ -6,72 +8,70 @@
 }
 
 <div class="admin-container">
-<div class="sidebar">
-    <h3>Management</h3>
-    <ul>
-        <li>
-            <a href="#" onclick="showContent('user')" id="user-tab">Manage User</a>
-        </li>
-        <li>
-            <a href="#" onclick="showContent('booking')" id="booking-tab">Manage Booking</a>
-        </li>
-        <li>
-            <a href="#" onclick="showContent('revenue')" id="revenue-tab">Manage Revenue</a>
-        </li>
-    </ul>
-</div>
+    <div class="sidebar">
+        <h3>Management</h3>
+        <ul>
+            <li>
+                <a href="#" onclick="showContent('user')" id="user-tab">Manage User</a>
+            </li>
+            <li>
+                <a href="#" onclick="showContent('booking')" id="booking-tab">Manage Booking</a>
+            </li>
+            <li>
+                <a href="#" onclick="showContent('revenue')" id="revenue-tab">Manage Revenue</a>
+            </li>
+        </ul>
+    </div>
 
     <div class="content">
         <!-- User Management Section -->
         <div id="user-content" class="tab-content">
-            <h2>User Management</h2>
+            <h2>Quản lí người dùng</h2>
             @if (TempData["DeleteMessage"] != null)
             {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>@TempData["DeleteMessage"]</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@TempData["DeleteMessage"]</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             }
-            <p><a asp-page="CreateUser" class="btn btn-success">Create New</a></p>
+            <p>
+                <a asp-page="CreateUser" class="btn btn-success">Tạo mới</a>
+            </p>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.User[0].Name)</th>
-                        <th>@Html.DisplayNameFor(model => model.User[0].Email)</th>
-                        <th>@Html.DisplayNameFor(model => model.User[0].Password)</th>
-                        <th>@Html.DisplayNameFor(model => model.User[0].Phone)</th>
+                        <th>Email</th>
+                        <th>Mật khẩu</th>
                         <th>@Html.DisplayNameFor(model => model.User[0].Role)</th>
-                        <th>Is Deleted</th>
-                        <th>Actions</th>
+                        <th>Đã bị xoá</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var item in Model.User)
                     {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Password)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Phone)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Role)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
-                        <td>
-                            <a asp-page="./EditUser" asp-route-id="@item.UserId" class="btn btn-primary btn-sm">Edit</a>
-                            <a asp-page="./DetailsUser" asp-route-id="@item.UserId" class="btn btn-info btn-sm">Details</a>
-                            @if (item.IsDeleted == true)
-                            {
-                            <form method="post" asp-page-handler="ReActivate" class="d-inline">
-                                <input type="hidden" name="UserId" value="@item.UserId"/>
-                                <button type="submit" class="btn btn-warning btn-sm">Re-activate</button>
-                            </form>
-                            }
-                            else
-                            {
-                            <a asp-page="./DeleteUser" asp-route-id="@item.UserId" class="btn btn-danger btn-sm">Delete</a>
-                            }
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>********************</td>
+                            <td>@Html.DisplayFor(modelItem => item.Role)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
+                            <td>
+                                <a asp-page="./EditUser" asp-route-id="@item.UserId" class="btn btn-primary btn-sm">Edit</a>
+                                @* <a asp-page="./DetailsUser" asp-route-id="@item.UserId" class="btn btn-info btn-sm">Details</a> *@
+                                @if (item.IsDeleted == true)
+                                {
+                                    <form method="post" asp-page-handler="ReActivate" class="d-inline">
+                                        <input type="hidden" name="UserId" value="@item.UserId"/>
+                                        <button type="submit" class="btn btn-warning btn-sm">Re-activate</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a asp-page="./DeleteUser" asp-route-id="@item.UserId" class="btn btn-danger btn-sm">Delete</a>
+                                }
+                            </td>
+                        </tr>
                     }
                     </tbody>
                 </table>
@@ -80,38 +80,38 @@
 
         <!-- Booking Management Section -->
         <div id="booking-content" class="tab-content" style="display: none;">
-            <h2>Booking Management</h2>
+            <h2>Quản lí đơn hàng</h2>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th>KoiFish Names</th>
-                        <th>Product Names</th>
-                        <th>@Html.DisplayNameFor(model => model.Order[0].Quantity)</th>
-                        <th>Total Price</th>
-                        <th>@Html.DisplayNameFor(model => model.Order[0].Status)</th>
-                        <th>Shipment Status</th>
-                        <th>Create At</th>
-                        <th>Is Deleted</th>
-                        <th>Buyer</th>
-                        <th>Action</th>
+                        <th>Cá Koi</th>
+                        <th>Sản Phẩm</th>
+                        <th>Số Lượng</th>
+                        <th>Tổng Giá</th>
+                        <th>Trạng Thái Đơn hàng</th>
+                        <th>Trạng Thái Ship</th>
+                        <th>Ngày mua</th>
+                        <th>Người mua</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var item in Model.Order)
                     {
-                    <tr>
-                        <td>@string.Join(", ", item.KoiFishList.Select(kf => kf.Name))</td>
-                        <td>@string.Join(", ", item.ProductList.Select(pd => pd.Name))</td>
-                        <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
-                        <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ShipmentStatus)</td>
-                        <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
-                        <td>@Html.DisplayFor(modelItem => item.User.Name)</td>
-                        <td><a asp-page="./OrderManagement/Details" asp-route-id="@item.OrderId" class="btn btn-secondary btn-sm">Details</a></td>
-                    </tr>
+                        <tr>
+                            <td>@string.Join(", ", item.KoiFishList.Select(kf => kf.Name))</td>
+                            <td>@string.Join(", ", item.ProductList.Select(pd => pd.Name))</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>@($"{item.TotalPrice:N0} VNĐ")</td>
+                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ShipmentStatus)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
+                            <td>@Html.DisplayFor(modelItem => item.User.Name)</td>
+                            <td>
+                                <a asp-page="./OrderManagement/Details" asp-route-id="@item.OrderId" class="btn btn-secondary btn-sm">Chi tiết</a>
+                            </td>
+                        </tr>
                     }
                     </tbody>
                 </table>
@@ -120,13 +120,19 @@
 
         <!-- Revenue Management Section -->
         <div id="revenue-content" class="tab-content" style="display: none;">
-            <h2>Revenue Management</h2>
+            <h2>Quản lí doanh t hu</h2>
             <div class="container">
                 <div class="row text-center mb-4">
                     <div class="col-md-4">
                         <div class="card bg-primary text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Today's Revenue</h5>
+                                @{
+                                    var today = DateTime.Now;
+                                    CultureInfo vietnameseCulture = new CultureInfo("vi-VN");
+                                    string dayOfWeek = today.ToString("dddd", vietnameseCulture);
+                                }
+                                <h5 class="card-title">Doanh thu hôm nay</h5>
+                                <h5 class="card-title">@dayOfWeek @DateTime.Now.Date.ToString("dd/MM/yyyy")</h5>
                                 <p class="card-text display-6">@string.Format("{0:N0}", Model.TodayRevenue) VNĐ</p>
                             </div>
                         </div>
@@ -134,7 +140,8 @@
                     <div class="col-md-4">
                         <div class="card bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">This Month's Revenue</h5>
+                                <h5 class="card-title">Doanh thu tháng này</h5>
+                                <h5 class="card-title">@DateTime.Now.Month/@DateTime.Now.Year</h5>
                                 <p class="card-text display-6">@string.Format("{0:N0}", Model.MonthRevenue) VNĐ</p>
                             </div>
                         </div>
@@ -142,7 +149,8 @@
                     <div class="col-md-4">
                         <div class="card bg-info text-white">
                             <div class="card-body">
-                                <h5 class="card-title">This Year's Revenue</h5>
+                                <h5 class="card-title">Doanh thu năm nay</h5>
+                                <h5 class="card-title">Năm @DateTime.Now.Year</h5>
                                 <p class="card-text display-6">@string.Format("{0:N0}", Model.YearRevenue) VNĐ</p>
                             </div>
                         </div>
@@ -152,15 +160,12 @@
                 <!-- Revenue Charts Section -->
                 <div class="row">
                     <div class="col-md-4">
-                        <h5>Revenue by Day</h5>
                         <canvas id="dailyRevenueChart"></canvas>
                     </div>
                     <div class="col-md-4">
-                        <h5>Revenue by Month</h5>
                         <canvas id="monthlyRevenueChart"></canvas>
                     </div>
                     <div class="col-md-4">
-                        <h5>Revenue by Year</h5>
                         <canvas id="yearlyRevenueChart"></canvas>
                     </div>
                 </div>

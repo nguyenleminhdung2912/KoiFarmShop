@@ -101,6 +101,8 @@ namespace DataAccessObject
                 using var context = new KoiFarmShopDatabaseContext();
                 Wallet? curentWallet = context.Wallets.FirstOrDefault(w => w.WalletId.Equals(wallet.WalletId));
                 curentWallet.Total = wallet.Total;
+                context.Wallets.Update(curentWallet);
+
                 context.SaveChangesAsync();
             }
             catch (Exception ex)

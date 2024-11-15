@@ -1,7 +1,5 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using System.Security.Policy;
-using Azure.Core;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Service;

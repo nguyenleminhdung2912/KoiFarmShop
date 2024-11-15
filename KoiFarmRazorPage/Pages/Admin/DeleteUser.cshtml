@@ -7,7 +7,7 @@
 }
 
 <div class="container mt-5">
-    <h1 class="text-danger"><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h1>
+    <h1 class="text-danger"><i class="fas fa-exclamation-triangle"></i> Xác nhận xoá tài khoản</h1>
     @if (TempData["DeleteMessage"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,27 +17,15 @@
     }
     <div class="card my-4 shadow-sm">
         <div class="card-header bg-danger text-white">
-            <h4>User Details</h4>
+            <h4>Thông tin người dùng</h4>
         </div>
         <div class="card-body">
             <dl class="row">
-                <dt class="col-sm-3 font-weight-bold">
-                    @Html.DisplayNameFor(model => model.User.Name)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.User.Name)
-                </dd>
                 <dt class="col-sm-3 font-weight-bold">
                     @Html.DisplayNameFor(model => model.User.Email)
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.User.Email)
-                </dd>
-                <dt class="col-sm-3 font-weight-bold">
-                    @Html.DisplayNameFor(model => model.User.Phone)
-                </dt>
-                <dd class="col-sm-9">
-                    @Html.DisplayFor(model => model.User.Phone)
                 </dd>
                 <dt class="col-sm-3 font-weight-bold">
                     @Html.DisplayNameFor(model => model.User.Role)
@@ -53,11 +41,11 @@
         <form method="post">
             <input type="hidden" asp-for="User.UserId"/>
             <button type="submit" class="btn btn-danger btn-lg">
-                <i class="fas fa-trash-alt"></i> Delete
+                <i class="fas fa-trash-alt"></i> Xoá
             </button>
         </form>
         <a asp-page="./Index" class="btn btn-secondary btn-lg">
-            <i class="fas fa-arrow-left"></i> Back to List
+            <i class="fas fa-arrow-left"></i> Quay lại danh sách
         </a>
     </div>
 </div>
