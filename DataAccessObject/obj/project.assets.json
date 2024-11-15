@@ -3074,11 +3074,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+      "projectUniqueName": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
       "projectName": "DataAccessObject",
-      "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+      "projectPath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\obj\\",
+      "outputPath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\DataAccessObject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3096,8 +3096,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
-              "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
+            "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj": {
+              "projectPath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj"
             }
           }
         }

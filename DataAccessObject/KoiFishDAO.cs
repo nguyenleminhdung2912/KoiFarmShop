@@ -21,7 +21,7 @@ namespace DataAccessObject
                 using var context = new KoiFarmShopDatabaseContext();
                 list = context.KoiFishes
                     .Include(kf => kf.KoiFishRatings)
-                    .Where(kf => kf.IsDeleted == false)
+                    .Where(kf => kf.IsDeleted == false && kf.Status.Equals("Available"))
                     .ToList();
             }
             catch (Exception ex)
@@ -183,6 +183,33 @@ namespace DataAccessObject
 
             return false;
         }
+        
+        public static bool UpdateKoiFishStatus(long koiFishId, string newStatus)
+        {
+            using (var db = new KoiFarmShopDatabaseContext())
+            {
+                var existKoiFish = db.KoiFishes.Find(koiFishId);
+                if (existKoiFish != null)
+                {
+                    try
+                    {
+                        existKoiFish.Status = newStatus;
+                        existKoiFish.UpdateAt = DateTime.Now; // Update the timestamp if needed
+                        db.KoiFishes.Update(existKoiFish);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the exception if necessary
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+        }
+
 
         public static List<KoiFish> SearchKoiFishByName(string koiName)
         {

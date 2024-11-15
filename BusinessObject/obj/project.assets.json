@@ -4347,11 +4347,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+      "projectUniqueName": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
       "projectName": "BusinessObject",
-      "projectPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+      "projectPath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\obj\\",
+      "outputPath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\BusinessObject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,3 +1,5 @@
+// CartPageModel.cs
+
 using BusinessObject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +8,7 @@ using Repository.IRepository;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using KoiFarmRazorPage.Service;
 
 namespace KoiFarmRazorPage.Pages.Customer
 {
@@ -18,14 +21,15 @@ namespace KoiFarmRazorPage.Pages.Customer
         private readonly IUserRepository _userRepository;
         private readonly IKoiFishRepository _koiFishRepository;
         private readonly IProductRepository _productRepository;
-
+        private readonly EmailService _emailService;
         public CartPageModel(
             ICartRepository cartRepository,
             IWalletRepository walletRepository,
             IOrderRepository orderRepository,
             IUserRepository userRepository,
             IKoiFishRepository koiFishRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            EmailService emailService)
         {
             _cartRepository = cartRepository;
             _walletRepository = walletRepository;
@@ -33,6 +37,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             _userRepository = userRepository;
             _koiFishRepository = koiFishRepository;
             _productRepository = productRepository;
+            _emailService = emailService;
         }
 
         public Cart Cart { get; set; }
@@ -46,7 +51,12 @@ namespace KoiFarmRazorPage.Pages.Customer
 
         public IActionResult OnPostUpdateQuantity(long id, string itemType, int quantity)
         {
-            _cartRepository.UpdateQuantity(id, itemType, quantity);
+            // Only allow quantity updates for products, not for koi fish
+            if (itemType == "Product")
+            {
+                _cartRepository.UpdateQuantity(id, itemType, quantity);
+            }
+
             return RedirectToPage();
         }
 
@@ -83,23 +93,24 @@ namespace KoiFarmRazorPage.Pages.Customer
 
             if (wallet.Total < Cart.TotalPrice)
             {
-                ErrorMessage = $"Insufficient funds. Please add {(Cart.TotalPrice - wallet.Total):C} to your wallet";
+                ErrorMessage = $"Số tiền trong ví không đủ. Nãy nạp {(Cart.TotalPrice - wallet.Total):N0} VND vào ví để thanh toán.";
                 return Page();
             }
 
-            // Check product and koi fish availability
+            // Check koi fish availability by status
             bool isAvailable = true;
             foreach (var item in Cart.KoiFishItems)
             {
                 var koiFish = await _koiFishRepository.GetKoiFishById(item.Id);
-                if (koiFish == null || koiFish.Quantity < item.Quantity)
+                if (koiFish == null || koiFish.Status != "Available")
                 {
-                    ErrorMessage = $"Not enough {koiFish?.Name} in stock. Only {koiFish?.Quantity ?? 0} available.";
+                    ErrorMessage = $"The koi fish {koiFish?.Name ?? "Unknown"} is no longer available for purchase.";
                     isAvailable = false;
                     break;
                 }
             }
 
+            // Check product availability
             foreach (var item in Cart.ProductItems)
             {
                 var product = _productRepository.GetProductById(item.Id);
@@ -113,19 +124,13 @@ namespace KoiFarmRazorPage.Pages.Customer
 
             if (!isAvailable)
             {
-                TempData["OutOfStock"] = ErrorMessage;
                 return Page();
             }
 
             try
             {
                 // Create order
-                // Get the KoiFish IDs with their quantities
-                var koiFishIds = Cart.KoiFishItems.SelectMany(item =>
-                    Enumerable.Repeat(item.Id.ToString(), item.Quantity)
-                ).ToList();
-
-                // Get the Product IDs with their quantities
+                var koiFishIds = Cart.KoiFishItems.Select(item => item.Id.ToString()).ToList();
                 var productIds = Cart.ProductItems.SelectMany(item =>
                     Enumerable.Repeat(item.Id.ToString(), item.Quantity)
                 ).ToList();
@@ -149,41 +154,52 @@ namespace KoiFarmRazorPage.Pages.Customer
                 wallet.Total -= Cart.TotalPrice;
                 wallet.UpdateAt = DateTime.Now;
 
-                // Save changes
-                _walletRepository.Update(wallet);
-                _orderRepository.SaveOrder(order);
-
-                // Update product and koi fish quantities
+                // Update koi fish status to SOLD
                 foreach (var item in Cart.KoiFishItems)
                 {
-                    var koiFish = await _koiFishRepository.GetKoiFishById(item.Id);
-                    if (koiFish != null)
-                    {
-                        koiFish.Quantity -= item.Quantity;
-                        _koiFishRepository.UpdateKoiFish(koiFish);
-                    }
+                    _koiFishRepository.UpdateKoiFishStatus(item.Id, "Sold Out");
                 }
 
+                // Update product quantities
                 foreach (var item in Cart.ProductItems)
                 {
                     var product = _productRepository.GetProductById(item.Id);
                     if (product != null)
                     {
                         product.Quantity -= item.Quantity;
+                        if (product.Quantity == 0)
+                        {
+                            product.Status = "Sold Out";
+                            product.Quantity = 0;
+                        }
+
                         _productRepository.UpdateProduct(product);
                     }
                 }
+
+                // Save changes
+                _walletRepository.Update(wallet);
+                _orderRepository.SaveOrder(order);
 
                 // Clear cart
                 _cartRepository.ClearCart();
 
                 SuccessMessage = "Order placed successfully!";
+                var user = _userRepository.GetUserByEmail(userEmail);
+                var subject = "Đơn hàng đã được đặt thành công!";
+                var body = $@"
+            <p>Chào {user.Name},</p>
+            <p>Chúc mừng đơn hàng của bạn đã được đặt thành công.</p>
+            <p>Chúc bạn có một trải nghiệm tuyệt vời tại KoiFarm!</p>
+            <p>Trân trọng,<br/>Đội ngũ Koi Farm Shop</p>
+        ";
+
+                await _emailService.SendEmailAsync(user.Email, subject, body);
                 return RedirectToPage("/Customer/Index");
             }
             catch (Exception ex)
             {
                 ErrorMessage = "An error occurred while processing your order. Please try again.";
-                // Log the exception
                 return Page();
             }
         }

@@ -43,20 +43,16 @@ public class CompareKoiFishes : PageModel
     {
         var differences = new Dictionary<string, (object? KoiFish1Value, object? KoiFish2Value)>();
 
-        differences.Add("Name", (koiFish1.Name, koiFish2.Name));
-        differences.Add("Origin", (koiFish1.Origin, koiFish2.Origin));
-        differences.Add("Gender", (koiFish1.Gender, koiFish2.Gender));
-        differences.Add("Color", (koiFish1.Color, koiFish2.Color));
-        differences.Add("Age", (koiFish1.Age, koiFish2.Age));
-        differences.Add("Size", (koiFish1.Size, koiFish2.Size));
-        differences.Add("Breed", (koiFish1.Breed, koiFish2.Breed));
-        differences.Add("Quantity", (koiFish1.Quantity, koiFish2.Quantity));
-        differences.Add("FilterRatio", (koiFish1.FilterRatio, koiFish2.FilterRatio));
-        differences.Add("Price", (koiFish1.Price, koiFish2.Price));
-        differences.Add("Status", (koiFish1.Status, koiFish2.Status));
-        differences.Add("CreateAt", (koiFish1.CreateAt, koiFish2.CreateAt));
-        differences.Add("UpdateAt", (koiFish1.UpdateAt, koiFish2.UpdateAt));
-        differences.Add("IsDeleted", (koiFish1.IsDeleted, koiFish2.IsDeleted));
+        differences.Add("Tên", (koiFish1.Name, koiFish2.Name));
+        differences.Add("Nguồn gốc", (koiFish1.Origin, koiFish2.Origin));
+        differences.Add("Giới tính", (koiFish1.Gender.Equals("Female") ? "Cái" : "Đực", koiFish1.Gender.Equals("Female") ? "Cái" : "Đực"));
+        differences.Add("Màu sắc", (koiFish1.Color, koiFish2.Color));
+        differences.Add("Tuổi", (koiFish1.Age, koiFish2.Age));
+        differences.Add("Kích thước", (koiFish1.Size, koiFish2.Size));
+        differences.Add("Giống loài", (koiFish1.Breed, koiFish2.Breed));
+        differences.Add("Tỉ lệ sàng lọc", (koiFish1.FilterRatio, koiFish2.FilterRatio));
+        differences.Add("Giá", (koiFish1.Price, koiFish2.Price));
+        differences.Add("Trạng thái", (koiFish1.Status, koiFish2.Status));
 
         return differences;
     }

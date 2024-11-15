@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +22,18 @@ namespace KoiFarmRazorPage.Pages.Admin
         {
             userRepository = new UserRepository();
             this.hubContext = hubContext;
-
         }
 
         [BindProperty] public User User { get; set; } = default!;
+
+
+        [BindProperty]
+        [Required(ErrorMessage = "Password is required")]
+        public string? Password { get; set; }
+
+        [BindProperty]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        public string? ConfirmPassword { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -49,6 +56,11 @@ namespace KoiFarmRazorPage.Pages.Admin
         {
             if (!ModelState.IsValid)
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage); // Xem chi tiết lỗi trong log
+                }
+
                 return Page();
             }
 
@@ -58,6 +70,11 @@ namespace KoiFarmRazorPage.Pages.Admin
                 if (existingUser == null)
                 {
                     return NotFound();
+                }
+
+                if (Password != null)
+                {
+                    User.Password = Password;
                 }
 
                 User.UpdateAt = DateTime.Now;
@@ -80,6 +97,8 @@ namespace KoiFarmRazorPage.Pages.Admin
             }
 
             hubContext.Clients.All.SendAsync("RefreshData");
+            
+            TempData["UpdateSuccess"] = "Update account successfully.";
 
             return RedirectToPage("./Index");
         }

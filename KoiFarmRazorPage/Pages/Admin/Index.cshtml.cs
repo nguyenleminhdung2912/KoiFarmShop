@@ -180,8 +180,8 @@ namespace KoiFarmRazorPage.Pages.Admin
             {
                 Labels = new List<string>
                 {
-                    "Sunday", "Monday", "Tuesday", "Wednesday",
-                    "Thursday", "Friday", "Saturday"
+                    "CN", "T2", "T3", "T4",
+                    "T5", "T6", "T7"
                 },
                 Values = new List<double>()
             };

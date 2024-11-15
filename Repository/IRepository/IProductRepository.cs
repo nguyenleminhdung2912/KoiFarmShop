@@ -11,7 +11,7 @@ namespace Repository.IRepository
     {
         List<Product> GetProductsByListString(string listString);
 
-        List<Product> GetProductForCustomer();
+        Task<List<Product>> GetProductForCustomer();
         
         Product GetProductById(int id);
         

@@ -14,9 +14,9 @@ namespace Repository.Repository
         public List<Product> GetProductsByListString(string listString)
         => ProductDAO.GetProductsByListString(listString);
 
-        public List<Product> GetProductForCustomer()
+        public async Task<List<Product>> GetProductForCustomer()
         {
-	        return ProductDAO.GetProductsForCustomer();
+	        return await ProductDAO.GetProductsForCustomer();
         }
 
         public Product GetProductById(int id)

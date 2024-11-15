@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z3u+rBaiFD0=",
+  "dgSpecHash": "5kXG2Zr1+F0=",
   "success": true,
-  "projectFilePath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
+  "projectFilePath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\BusinessObject\\BusinessObject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

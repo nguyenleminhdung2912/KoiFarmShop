@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z1xrcj03vsY=",
+  "dgSpecHash": "LOrASudSrAI=",
   "success": true,
-  "projectFilePath": "D:\\Kì 7\\PRN221\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
+  "projectFilePath": "C:\\Users\\nguye\\OneDrive\\Desktop\\KoiFarmShop\\DataAccessObject\\DataAccessObject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

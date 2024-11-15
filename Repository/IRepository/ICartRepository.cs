@@ -11,6 +11,7 @@ namespace Repository.IRepository
     {
         Cart GetCart();
         void SaveCart(Cart cart);
+        List<CartItem> GetCartItems();
         void AddKoiFish(KoiFish koiFish, int quantity);
         void AddProduct(Product product, int quantity);
         void UpdateQuantity(long id, string itemType, int quantity);

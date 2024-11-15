@@ -17,7 +17,7 @@ namespace Repository.IRepository
 
         List<Order> GetOrdersByFromDateToDate(DateTime fromDate, DateTime toDate);
         Task<bool> UpdateOrder(Order order);
-        Task<bool> CancelOrder(Order order, long userId);
+        Task<bool> CancelOrder(Order order, long userId, List<KoiFish> koiFishes, List<Product> products);
         void DeleteOrder(Order order);
         void SaveOrder(Order order);
         

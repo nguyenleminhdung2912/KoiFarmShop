@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Scripting;
 using Repository.IRepository;
 using Repository.Repository;
 using System.ComponentModel.DataAnnotations;
+using KoiFarmRazorPage.Service;
 
 namespace KoiFarmRazorPage.Pages.Auth
 {
@@ -12,11 +13,13 @@ namespace KoiFarmRazorPage.Pages.Auth
     {
         private readonly IUserRepository userRepository;
         private readonly IWalletRepository walletRepository;
+        public readonly EmailService _emailService;
 
-        public RegisterModel()
+        public RegisterModel(EmailService emailService)
         {
             userRepository = new UserRepository();
             walletRepository = new WalletRepository();
+            _emailService = emailService;
         }
 
         [BindProperty]
@@ -91,6 +94,19 @@ namespace KoiFarmRazorPage.Pages.Auth
                 IsDeleted = false,
             };
             walletRepository.CreateWallet(wallet);
+
+            var subject = "Chào mừng bạn đến với Koi Farm Shop!";
+            var loginUrl = Url.Page("/Auth/Login", new { area = "" }.ToString(), null, Request.Scheme);
+            var body = $@"
+            <p>Chào {user.Name},</p>
+            <p>Cảm ơn bạn đã đăng ký tài khoản tại Koi Farm Shop. Tài khoản của bạn đã được tạo thành công.</p>
+            <p>Để bắt đầu trải nghiệm, hãy bấm vào nút bên dưới để đăng nhập vào hệ thống của chúng tôi.</p>
+            <p><a href='{loginUrl}' style='display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;'>Bấm vào đây để đăng nhập</a></p>
+            <p>Chúc bạn có một trải nghiệm tuyệt vời tại KoiFarm!</p>
+            <p>Trân trọng,<br/>Đội ngũ KoiFarm</p>
+        ";
+
+            await _emailService.SendEmailAsync(user.Email, subject, body);
 
             // Đăng nhập người dùng hoặc chuyển hướng đến trang đăng ký thành công
             return RedirectToPage("/Auth/RegisterSuccess");

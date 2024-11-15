@@ -43,18 +43,37 @@
                         <div class="text-end" style="margin-left: 20px">
                             <p class="text-muted"><strong>Tỉ lệ lọc:</strong> @Model.KoiFish.FilterRatio %</p>
                             <p class="text-danger">
-                                <strong>Giá:</strong> @Model.KoiFish.Price?.ToString("C0")
+                                <strong>Giá:</strong> @Model.KoiFish.Price?.ToString("N0") VNĐ
                             </p>
                             <p class="text-muted"><strong>Kích thước:</strong> @Model.KoiFish.Size cm</p>
-                            <p class="badge bg-success">
-                                <strong>Trạng thái:</strong> @Model.KoiFish.Status
-                            </p>
+                            @if (Model.KoiFish.Status.Equals("Available"))
+                            {
+                                <p class="badge bg-success">
+                                    <strong>Trạng thái:</strong> @Model.KoiFish.Status
+                                </p>
+                            } else if (Model.KoiFish.Status.Equals("Sold Out"))
+                            {
+                                <p class="badge bg-danger">
+                                    <strong>Trạng thái:</strong> @Model.KoiFish.Status
+                                </p>
+                            }
                         </div>
                     </div>
                     <div class="mt-5" style="position: relative; height: 100%;">
                         <form method="post" asp-page-handler="AddToCart">
                             <input type="hidden" name="KoiFishId" value="@Model.KoiFish.KoiFishId"/>
-                            <button type="submit" class="btn btn-success position-absolute bottom-0 end-0">Thêm vào giỏ hàng</button>
+                            @if (Model.IsInCart)
+                            {
+                            <button type="button" class="btn btn-secondary position-absolute bottom-0 end-0" disabled>
+                                Đã có trong giỏ hàng
+                            </button>
+                            }
+                            else
+                            {
+                            <button type="submit" class="btn btn-success position-absolute bottom-0 end-0">
+                                Thêm vào giỏ hàng
+                            </button>
+                            }
                         </form>
                     </div>
                 </div>

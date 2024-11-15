@@ -102,7 +102,7 @@ namespace DataAccessObject
             }
         }
 
-        public static async Task<bool> CancelOrder(Order order, long userId)
+        public static async Task<bool> CancelOrder(Order order, long userId, List<KoiFish> koiFishes, List<Product> products)
         {
             try
             {
@@ -144,6 +144,20 @@ namespace DataAccessObject
                 wallet.Total += refundAmount;
                 order.Status = "CANCELLED";
                 order.ShipmentStatus = "CANCELLED";
+
+                foreach (var product in products)
+                {
+                    product.Quantity = 1;
+                    product.Status = "Available";
+                    context.Products.Update(product);
+                }
+
+                foreach (var koiFish in koiFishes)
+                {
+                    koiFish.Quantity = 1;
+                    koiFish.Status = "Available";
+                    context.KoiFishes.Update(koiFish);
+                }
 
                 // Tạo wallet log
                 var maxId = context.WalletLogs.Max(a => (int?)a.WalletLogId) ?? 0;
