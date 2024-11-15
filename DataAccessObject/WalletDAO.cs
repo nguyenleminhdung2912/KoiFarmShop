@@ -13,7 +13,17 @@ namespace DataAccessObject
         public static void Refund(Wallet wallet)
         {
             using var context = new KoiFarmShopDatabaseContext();
+            // create wallet log
             var existWallet = context.Wallets.Include(w => w.User).FirstOrDefault(w => w.WalletId == wallet.WalletId);
+            WalletLog walletLog = new WalletLog();
+            var maxId = context.WalletLogs.Max(a => (int?)a.WalletLogId) ?? 0;
+            walletLog.WalletLogId = (short)(maxId + 1);
+            walletLog.WalletId = wallet.WalletId;
+            walletLog.Amount = wallet.Total - existWallet.Total;
+            walletLog.Type = "Refund";
+            walletLog.CreateAt = DateTime.Now;
+            walletLog.IsDeleted = false;
+            context.WalletLogs.Add(walletLog);
             if (existWallet != null)
             {
                 existWallet.Total = wallet.Total;

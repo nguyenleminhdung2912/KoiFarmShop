@@ -100,7 +100,7 @@ public class ShipManagement : PageModel
         }
     }
 
-    public void OnPost()
+    public async Task OnPost()
     {
         SelectedStatus = Request.Form["shipStatus"];
         string handler = Request.Form["handler"];
@@ -293,14 +293,12 @@ public class ShipManagement : PageModel
             }
             else
             {
-                User user = _userRepository.GetUserById(long.Parse(User.FindFirst("userId").Value));
+                User user = _userRepository.GetUserById(order.UserId);
                 if (order.Status == "PAID")
                 {
-                    foreach (var wallet in user.Wallets)
-                    {
-                        wallet.Total += order.TotalPrice.GetValueOrDefault();
-                        _walletRepository.Refund(wallet);
-                    }
+                    Wallet userWallet = await _walletRepository.GetWalletByUserEmail(user.Email);
+                    userWallet.Total += order.TotalPrice.GetValueOrDefault();
+                    _walletRepository.Refund(userWallet);
 
                     TempData["Success"] = "Huỷ đơn hàng thành công";
 
