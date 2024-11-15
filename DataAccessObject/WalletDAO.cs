@@ -10,6 +10,17 @@ namespace DataAccessObject
 {
     public class WalletDAO
     {
+        public static void Refund(Wallet wallet)
+        {
+            using var context = new KoiFarmShopDatabaseContext();
+            var existWallet = context.Wallets.Include(w => w.User).FirstOrDefault(w => w.WalletId == wallet.WalletId);
+            if (existWallet != null)
+            {
+                existWallet.Total = wallet.Total;
+                context.Wallets.Update(existWallet);
+                context.SaveChanges();
+            }
+        }
         public static async Task<Wallet?> GetWalletById(long id)
         {
             using var db = new KoiFarmShopDatabaseContext();

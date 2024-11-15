@@ -11,6 +11,11 @@ namespace Repository.Repository
 {
     public class WalletRepository : IWalletRepository
     {
+        public void Refund(Wallet wallet)
+        {
+            WalletDAO.Refund(wallet);
+        }
+
         public async Task<Wallet?> GetWalletById(long id)
             => await WalletDAO.GetWalletById(id);
 

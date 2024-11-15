@@ -364,5 +364,23 @@ namespace DataAccessObject
 
             return false;
         }
+
+        public static void UpdateOrderByCancel(Order order)
+        {
+            using var context = new KoiFarmShopDatabaseContext();
+            var existingOrder = context.Orders.Find(order.OrderId);
+            if (existingOrder != null)
+            {
+                existingOrder.Status = order.Status;
+                existingOrder.ShipmentStatus = order.ShipmentStatus;
+                context.Orders.Update(existingOrder);
+                context.SaveChanges();
+            }
+        }
+        public static Order GetOrderByIdNotAsync(long orderId)
+        {
+            using var _context = new KoiFarmShopDatabaseContext();
+            return _context.Orders.Include(o => o.User).FirstOrDefault(o => o.OrderId == orderId);
+        }
     }
 }

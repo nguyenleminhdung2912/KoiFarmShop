@@ -113,7 +113,7 @@ namespace KoiFarmRazorPage.Pages.Staff
                 product.UpdateAt = DateTime.Now;
                 if (product.Quantity == 0)
                 {
-                    product.Status = "Out of Stock";
+                    product.Status = "Sold Out";
                 }
                 else
                 {

@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
+using Repository.Repository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
-[Authorize(Roles = "Staff")]
 
+[Authorize(Roles = "Staff")]
 public class ShipManagement : PageModel
 {
     public string SelectedStatus { get; set; }
@@ -17,15 +18,23 @@ public class ShipManagement : PageModel
     private readonly IProductRepository _productRepository;
 
     private readonly IKoiFishRepository _koiFishRepository;
+
+    private readonly IUserRepository _userRepository;
+
+    private readonly IWalletRepository _walletRepository;
+
     private readonly IHubContext<SignalRHub> hubContext;
 
 
     public ShipManagement(IOrderRepository orderRepository, IProductRepository productRepository,
-        IKoiFishRepository koiFishRepository, IHubContext<SignalRHub> hubContext)
+        IKoiFishRepository koiFishRepository, IHubContext<SignalRHub> hubContext, IUserRepository userRepository,
+        IWalletRepository walletRepository)
     {
         this._orderRepository = orderRepository;
         this._productRepository = productRepository;
         this._koiFishRepository = koiFishRepository;
+        this._userRepository = userRepository;
+        this._walletRepository = walletRepository;
         this.hubContext = hubContext;
     }
 
@@ -95,12 +104,14 @@ public class ShipManagement : PageModel
             }
         }
 
+
         if (handler == "Prepare")
         {
-            SelectedStatus = "NOTYET";
-            if (string.IsNullOrEmpty(Request.Form["selectedOrderId"]))
+            // SelectedStatus = "NOTYET";
+            SelectedStatus = "PREPARING";
+            if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["orderId"]), SelectedStatus))
             {
-                Orders = _orderRepository.GetOrdersByShipStatus(SelectedStatus);
+                Orders = _orderRepository.GetAllOrders();
                 foreach (var order in Orders)
                 {
                     // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
@@ -124,176 +135,48 @@ public class ShipManagement : PageModel
                         }
                     }
                 }
-                TempData["Fail"] = "Please select specific order to prepare ";
+
+
+                TempData["Success"] = "Cập nhật trạng thái chuẩn bị đơn hàng thành công ";
             }
             else
             {
-                SelectedStatus = "PREPARING";
-                if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["selectedOrderId"]), SelectedStatus))
+                Orders = _orderRepository.GetAllOrders();
+                foreach (var order in Orders)
                 {
-                    Orders = _orderRepository.GetAllOrders();
-                    foreach (var order in Orders)
+                    // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
+                    //
+                    // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
+                    var koiFishIdList = ParseIdString(order.KoiFishId);
+                    var productIdList = ParseIdString(order.ProductId);
+                    foreach (var koiFishId in koiFishIdList)
                     {
-                        // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                        //
-                        // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                        var koiFishIdList = ParseIdString(order.KoiFishId);
-                        var productIdList = ParseIdString(order.ProductId);
-                        foreach (var koiFishId in koiFishIdList)
+                        if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
                         {
-                            if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                            {
-                                order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                            }
-                        }
-
-                        foreach (var productId in koiFishIdList)
-                        {
-                            if (_productRepository.GetProductById(productId) != null)
-                            {
-                                order.ProductList.Add(_productRepository.GetProductById(productId));
-                            }
-                        }
-                    }
-                    hubContext.Clients.All.SendAsync("RefreshData");
-
-                    TempData["Success"] = "Ship prepared status updated sucessfully";
-                }
-                else
-                {
-                    Orders = _orderRepository.GetAllOrders();
-                    foreach (var order in Orders)
-                    {
-                        // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                        //
-                        // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                        var koiFishIdList = ParseIdString(order.KoiFishId);
-                        var productIdList = ParseIdString(order.ProductId);
-                        foreach (var koiFishId in koiFishIdList)
-                        {
-                            if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                            {
-                                order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                            }
-                        }
-
-                        foreach (var productId in koiFishIdList)
-                        {
-                            if (_productRepository.GetProductById(productId) != null)
-                            {
-                                order.ProductList.Add(_productRepository.GetProductById(productId));
-                            }
+                            order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
                         }
                     }
 
-                    TempData["Fail"] = "Ship prepared status updated failed";
+                    foreach (var productId in koiFishIdList)
+                    {
+                        if (_productRepository.GetProductById(productId) != null)
+                        {
+                            order.ProductList.Add(_productRepository.GetProductById(productId));
+                        }
+                    }
                 }
+
+                TempData["Fail"] = "Cập nhật trạng thái chuẩn bị đơn hàng không thành công";
             }
         }
-        
+
         if (handler == "OnGoing")
         {
-            SelectedStatus = "PREPARING";
-            if (string.IsNullOrEmpty(Request.Form["selectedOrderId"]))
-            {
-                Orders = _orderRepository.GetOrdersByShipStatus(SelectedStatus);
-                foreach (var order in Orders)
-                {
-                    // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                    //
-                    // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                    var koiFishIdList = ParseIdString(order.KoiFishId);
-                    var productIdList = ParseIdString(order.ProductId);
-                    foreach (var koiFishId in koiFishIdList)
-                    {
-                        if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                        {
-                            order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                        }
-                    }
-
-                    foreach (var productId in koiFishIdList)
-                    {
-                        if (_productRepository.GetProductById(productId) != null)
-                        {
-                            order.ProductList.Add(_productRepository.GetProductById(productId));
-                        }
-                    }
-                }
-                TempData["Fail"] = "Please select specific order to set ship status on going ";
-            }
-            else
-            {
-                SelectedStatus = "ONGOING";
-                if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["selectedOrderId"]), SelectedStatus))
-                {
-                    Orders = _orderRepository.GetAllOrders();
-                    foreach (var order in Orders)
-                    {
-                        // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                        //
-                        // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                        var koiFishIdList = ParseIdString(order.KoiFishId);
-                        var productIdList = ParseIdString(order.ProductId);
-                        foreach (var koiFishId in koiFishIdList)
-                        {
-                            if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                            {
-                                order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                            }
-                        }
-
-                        foreach (var productId in koiFishIdList)
-                        {
-                            if (_productRepository.GetProductById(productId) != null)
-                            {
-                                order.ProductList.Add(_productRepository.GetProductById(productId));
-                            }
-                        }
-                    }
-                    hubContext.Clients.All.SendAsync("RefreshData");
-
-                    TempData["Success"] = "Ship on going status updated sucessfully";
-                }
-                else
-                {
-                    Orders = _orderRepository.GetAllOrders();
-                    foreach (var order in Orders)
-                    {
-                        // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                        //
-                        // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                        var koiFishIdList = ParseIdString(order.KoiFishId);
-                        var productIdList = ParseIdString(order.ProductId);
-                        foreach (var koiFishId in koiFishIdList)
-                        {
-                            if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                            {
-                                order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                            }
-                        }
-
-                        foreach (var productId in koiFishIdList)
-                        {
-                            if (_productRepository.GetProductById(productId) != null)
-                            {
-                                order.ProductList.Add(_productRepository.GetProductById(productId));
-                            }
-                        }
-                    }
-
-                    TempData["Fail"] = "Ship on going status updated failed";
-                }
-            }
-        }
-        
-        
-         if (handler == "Success")
-        {
+            string orderId = Request.Form["orderId"];
             SelectedStatus = "ONGOING";
-            if (string.IsNullOrEmpty(Request.Form["selectedOrderId"]))
+            if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["orderId"]), SelectedStatus))
             {
-                Orders = _orderRepository.GetOrdersByShipStatus(SelectedStatus);
+                Orders = _orderRepository.GetAllOrders();
                 foreach (var order in Orders)
                 {
                     // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
@@ -317,73 +200,141 @@ public class ShipManagement : PageModel
                         }
                     }
                 }
-                TempData["Fail"] = "Please select specific order to set ship status success";
+
+                TempData["Success"] = "Cập nhật trạng thái đang giao đơn hàng thành công";
             }
             else
             {
-                SelectedStatus = "SUCCESSFUL";
-                if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["selectedOrderId"]), SelectedStatus))
+                Orders = _orderRepository.GetAllOrders();
+                foreach (var order in Orders)
                 {
-                    Orders = _orderRepository.GetAllOrders();
-                    foreach (var order in Orders)
+                    // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
+                    //
+                    // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
+                    var koiFishIdList = ParseIdString(order.KoiFishId);
+                    var productIdList = ParseIdString(order.ProductId);
+                    foreach (var koiFishId in koiFishIdList)
                     {
-                        // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                        //
-                        // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                        var koiFishIdList = ParseIdString(order.KoiFishId);
-                        var productIdList = ParseIdString(order.ProductId);
-                        foreach (var koiFishId in koiFishIdList)
+                        if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
                         {
-                            if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                            {
-                                order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                            }
-                        }
-
-                        foreach (var productId in koiFishIdList)
-                        {
-                            if (_productRepository.GetProductById(productId) != null)
-                            {
-                                order.ProductList.Add(_productRepository.GetProductById(productId));
-                            }
+                            order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
                         }
                     }
-                    hubContext.Clients.All.SendAsync("RefreshData");
 
-                    TempData["Success"] = "Ship sucesss status updated sucessfully";
+                    foreach (var productId in koiFishIdList)
+                    {
+                        if (_productRepository.GetProductById(productId) != null)
+                        {
+                            order.ProductList.Add(_productRepository.GetProductById(productId));
+                        }
+                    }
+                }
+
+                TempData["Fail"] = "Cập nhật trạng thái đang giao đơn hàng thất bại";
+            }
+        }
+
+        if (handler == "Cancel")
+        {
+            Order order = _orderRepository.GetOrderByIdNotAsync(long.Parse(Request.Form["orderId"]));
+            if (order.Status == "SUCCESSFUL")
+            {
+                TempData["Fail"] = "Không thể huỷ đơn hàng vì đơn hàng đã hoàn tất!!!";
+            }
+            else if (order.Status == "CANCELLED")
+            {
+                TempData["Fail"] = "Đơn hàng này đã huỷ rồi!!!";
+            }
+            else if (order.Status == "ONGOING")
+            {
+                TempData["Fail"] = "Không thể huỷ đơn hàng vì đơn hàng đang giao!!!";
+            }
+            else
+            {
+                User user = _userRepository.GetUserById(long.Parse(User.FindFirst("userId").Value));
+                if (order.Status == "PAID")
+                {
+                    foreach (var wallet in user.Wallets)
+                    {
+                        wallet.Total += order.TotalPrice.GetValueOrDefault();
+                        _walletRepository.Refund(wallet);
+                    }
+
+                    order.Status = "CANCELLED";
+                    order.ShipmentStatus = "CANCELLED";
+                    _orderRepository.UpdateOrderByCancel(order);
                 }
                 else
                 {
-                    Orders = _orderRepository.GetAllOrders();
-                    foreach (var order in Orders)
-                    {
-                        // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
-                        //
-                        // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
-                        var koiFishIdList = ParseIdString(order.KoiFishId);
-                        var productIdList = ParseIdString(order.ProductId);
-                        foreach (var koiFishId in koiFishIdList)
-                        {
-                            if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
-                            {
-                                order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
-                            }
-                        }
-
-                        foreach (var productId in koiFishIdList)
-                        {
-                            if (_productRepository.GetProductById(productId) != null)
-                            {
-                                order.ProductList.Add(_productRepository.GetProductById(productId));
-                            }
-                        }
-                    }
-
-                    TempData["Fail"] = "Ship sucess status updated failed";
+                    order.Status = "CANCELLED";
+                    order.ShipmentStatus = "CANCELLED";
+                    _orderRepository.UpdateOrderByCancel(order);
                 }
             }
         }
 
+        if (handler == "Success")
+        {
+            SelectedStatus = "SUCCESSFUL";
+            if (_orderRepository.SetShipStatusOrder(long.Parse(Request.Form["orderId"]), SelectedStatus))
+            {
+                Orders = _orderRepository.GetAllOrders();
+                foreach (var order in Orders)
+                {
+                    // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
+                    //
+                    // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
+                    var koiFishIdList = ParseIdString(order.KoiFishId);
+                    var productIdList = ParseIdString(order.ProductId);
+                    foreach (var koiFishId in koiFishIdList)
+                    {
+                        if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
+                        {
+                            order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
+                        }
+                    }
+
+                    foreach (var productId in koiFishIdList)
+                    {
+                        if (_productRepository.GetProductById(productId) != null)
+                        {
+                            order.ProductList.Add(_productRepository.GetProductById(productId));
+                        }
+                    }
+                }
+
+                TempData["Success"] = "Cập nhật trạng thái đã giao thành công đơn hàng thành công";
+            }
+            else
+            {
+                Orders = _orderRepository.GetAllOrders();
+                foreach (var order in Orders)
+                {
+                    // KoiFishIdsByOrder[order.OrderId] = ParseIdString(order.KoiFishId);
+                    //
+                    // ProductIdsByOrder[order.OrderId] = ParseIdString(order.ProductId);
+                    var koiFishIdList = ParseIdString(order.KoiFishId);
+                    var productIdList = ParseIdString(order.ProductId);
+                    foreach (var koiFishId in koiFishIdList)
+                    {
+                        if (_koiFishRepository.GetKoiFishByIdByStaff(koiFishId) != null)
+                        {
+                            order.KoiFishList.Add(_koiFishRepository.GetKoiFishByIdByStaff(koiFishId));
+                        }
+                    }
+
+                    foreach (var productId in koiFishIdList)
+                    {
+                        if (_productRepository.GetProductById(productId) != null)
+                        {
+                            order.ProductList.Add(_productRepository.GetProductById(productId));
+                        }
+                    }
+                }
+
+                TempData["Fail"] = "Cập nhật trạng thái đã giao thành công đơn hàng thất bại";
+            }
+        }
     }
 
     private List<long> ParseIdString(string? idString)

@@ -17,7 +17,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-group">
-            <label for="blogTitle" class="form-label">Title</label>
+            <label for="blogTitle" class="form-label">Tiêu đề</label>
             <input type="text" asp-for="Blog.Title" id="blogTitle" class="form-input"/>
             @if (Model.ValidateErrors.ContainsKey("BlogTitle"))
             {
@@ -26,7 +26,7 @@
         </div>
         
         <div class="form-group">
-            <label for="blogDescription" class="form-label">Description</label>
+            <label for="blogDescription" class="form-label">Mô tả</label>
             <input type="text" asp-for="Blog.Description" id="blogDescription" class="form-input"/>
             @if (Model.ValidateErrors.ContainsKey("BlogDescription"))
             {

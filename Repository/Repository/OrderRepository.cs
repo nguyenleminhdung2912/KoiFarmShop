@@ -39,6 +39,16 @@ namespace Repository.Repository
             return OrderDAO.SetShipStatusOrder(orderId, shipStatus);
         }
 
+        public Order GetOrderByIdNotAsync(long orderId)
+        {
+            return OrderDAO.GetOrderByIdNotAsync(orderId);
+        }
+
+        public void UpdateOrderByCancel(Order order)
+        {
+            OrderDAO.UpdateOrderByCancel(order);
+        }
+
         public async Task<bool> UpdateOrder(Order order)
         => await OrderDAO.UpdateOrder(order);
         

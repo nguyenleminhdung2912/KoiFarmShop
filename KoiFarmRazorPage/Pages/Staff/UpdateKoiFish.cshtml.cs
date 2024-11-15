@@ -7,8 +7,8 @@ using NguyenLeMinhDungFall2024RazorPages;
 using Repository.IRepository;
 
 namespace KoiFarmRazorPage.Pages.Staff;
-[Authorize(Roles = "Staff")]
 
+[Authorize(Roles = "Staff")]
 public class UpdateKoiFish : PageModel
 {
     private readonly IKoiFishRepository _koiFishRepository;
@@ -36,71 +36,63 @@ public class UpdateKoiFish : PageModel
         var koiImage = Request.Form.Files["koiImage"];
         if (string.IsNullOrEmpty(Request.Form["koiName"]))
         {
-            ValidateErrors["KoiName"] = "KoiName is required";
+            ValidateErrors["KoiName"] = "Tên cá Koi là bắt buộc";
         }
-        // else if (koiImage == null)
-        // {
-        //     ValidateErrors["KoiImage"] = "KoiImage is required";
-        // }
+// else if (koiImage == null)
+// {
+//     ValidateErrors["KoiImage"] = "Hình ảnh cá Koi là bắt buộc";
+// }
         else if (string.IsNullOrEmpty(Request.Form["koiOrigin"]))
         {
-            ValidateErrors["KoiOrigin"] = "Origin is required";
+            ValidateErrors["KoiOrigin"] = "Nguồn gốc là bắt buộc";
         }
         else if (string.IsNullOrEmpty(Request.Form["koiGender"]))
         {
-            ValidateErrors["KoiGender"] = "Koi Gender is required";
+            ValidateErrors["KoiGender"] = "Giới tính cá Koi là bắt buộc";
         }
         else if (string.IsNullOrEmpty(Request.Form["koiAge"]))
         {
-            ValidateErrors["KoiAge"] = "Koi Age is required";
+            ValidateErrors["KoiAge"] = "Tuổi cá Koi là bắt buộc";
         }
         else if (string.IsNullOrEmpty(Request.Form["koiSize"]))
         {
-            ValidateErrors["KoiSize"] = "Koi Size is required";
+            ValidateErrors["KoiSize"] = "Kích thước cá Koi là bắt buộc";
         }
         else if (string.IsNullOrEmpty(Request.Form["koiBreed"]))
         {
-            ValidateErrors["Breed"] = "Koi Breed is required";
+            ValidateErrors["Breed"] = "Giống cá Koi là bắt buộc";
         }
         else if (string.IsNullOrEmpty(Request.Form["filterRatio"]))
         {
-            ValidateErrors["FilterRatio"] = "Filter Ratio is required";
+            ValidateErrors["FilterRatio"] = "Tỷ lệ lọc là bắt buộc";
         }
         else if (string.IsNullOrEmpty(Request.Form["koiPrice"]))
         {
-            ValidateErrors["KoiPrice"] = "Koi Price is required";
+            ValidateErrors["KoiPrice"] = "Giá cá Koi là bắt buộc";
         }
-        // else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
-        // {
-        //     ValidateErrors["KoiStatus"] = "Status is required";
-        // }
+// else if (string.IsNullOrEmpty(Request.Form["koiStatus"]))
+// {
+//     ValidateErrors["KoiStatus"] = "Trạng thái là bắt buộc";
+// }
         else if (string.IsNullOrEmpty(Request.Form["koiColor"]))
         {
-            ValidateErrors["KoiColor"] = "Color is required";
-        }
-        else if (string.IsNullOrEmpty(Request.Form["koiQuantity"]))
-        {
-            ValidateErrors["KoiQuantity"] = "Quantity is required";
+            ValidateErrors["KoiColor"] = "Màu sắc là bắt buộc";
         }
         else if (int.Parse(Request.Form["koiAge"]) <= 0)
         {
-            ValidateErrors["KoiAge"] = "KoiFish Age must be > 0";
+            ValidateErrors["KoiAge"] = "Tuổi cá Koi phải lớn hơn 0";
         }
         else if (int.Parse(Request.Form["koiSize"]) <= 0)
         {
-            ValidateErrors["KoiSize"] = "KoiFish Size must be > 0";
-        }
-        else if (int.Parse(Request.Form["koiQuantity"]) < 0)
-        {
-            ValidateErrors["KoiQuantity"] = "KoiFish Quantity must be >= 0";
+            ValidateErrors["KoiSize"] = "Kích thước cá Koi phải lớn hơn 0";
         }
         else if (double.Parse(Request.Form["koiPrice"]) <= 0)
         {
-            ValidateErrors["KoiPrice"] = "KoiFish Price must be > 0";
+            ValidateErrors["KoiPrice"] = "Giá cá Koi phải lớn hơn 0";
         }
         else if (double.Parse(Request.Form["filterRatio"]) <= 0)
         {
-            ValidateErrors["FilterRatio"] = "KoiFish Filter Ratio Must be > 0";
+            ValidateErrors["FilterRatio"] = "Tỷ lệ lọc cá Koi phải lớn hơn 0";
         }
         else
         {
@@ -126,7 +118,7 @@ public class UpdateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish Age must be an integer number.";
+                TempData["KoiFishFail"] = "Tuổi cá Koi phải là số nguyên.";
             }
 
             try
@@ -135,7 +127,7 @@ public class UpdateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "Koi Size Age must be an integer number.";
+                TempData["KoiFishFail"] = "Kích thước cá Koi phải là số nguyên.";
             }
 
             koiFish.Breed = Request.Form["koiBreed"];
@@ -145,7 +137,7 @@ public class UpdateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish Filter Ratio Must be a number.";
+                TempData["KoiFishFail"] = "Tỷ lệ lọc cá Koi phải là số.";
             }
 
             try
@@ -154,36 +146,21 @@ public class UpdateKoiFish : PageModel
             }
             catch (Exception ex)
             {
-                TempData["KoiFishFail"] = "KoiFish price Must be a number.";
+                TempData["KoiFishFail"] = "Giá cá Koi phải là số.";
             }
-
-            if (koiFish.Quantity == 0)
-            {
-                koiFish.Status = "Out of Stock";
-            }
-
-            koiFish.Status = "Available";
+            
             koiFish.UpdateAt = DateTime.Now;
             koiFish.IsDeleted = false;
             koiFish.Color = Request.Form["koiColor"];
-            try
-            {
-                koiFish.Quantity = int.Parse(Request.Form["koiQuantity"]);
-            }
-            catch (Exception ex)
-            {
-                TempData["KoiFishFail"] = "KoiFish Quantity must be an integer number.";
-            }
-
             if (_koiFishRepository.UpdateKoiFish(koiFish))
             {
-                TempData["KoiFishSuccess"] = "Update Koi Fish sucessfully";
+                TempData["KoiFishSuccess"] = "Cập nhật cá Koi thành công";
 
                 return RedirectToPage("/Staff/KoiFishManagement");
             }
             else
             {
-                Message = "Update Koi Fish Failed";
+                Message = "Cập nhật cá Koi thất bại";
                 return Page();
             }
         }

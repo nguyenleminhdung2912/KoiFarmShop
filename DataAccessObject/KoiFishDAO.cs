@@ -162,7 +162,6 @@ namespace DataAccessObject
                     existKoifish.Breed = koiFish.Breed;
                     existKoifish.FilterRatio = koiFish.FilterRatio;
                     existKoifish.Price = koiFish.Price;
-                    existKoifish.Status = koiFish.Status;
                     existKoifish.UpdateAt = koiFish.UpdateAt;
                     existKoifish.IsDeleted = koiFish.IsDeleted;
                     if (koiFish.ImageData != null)
@@ -170,7 +169,6 @@ namespace DataAccessObject
                         existKoifish.ImageData = koiFish.ImageData;
                     }
                     existKoifish.Color = koiFish.Color;
-                    existKoifish.Quantity = koiFish.Quantity;
                     db.KoiFishes.Update(existKoifish);
                     db.SaveChanges();
                     return true;
