@@ -38,7 +38,7 @@ namespace KoiFarmRazorPage.Pages.Customer
 
         public async Task<IActionResult> OnPostAddToCart(long KoiFishId)
         {
-            if (User.Identity.IsAuthenticated)
+            if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("/Auth/Login");
             }

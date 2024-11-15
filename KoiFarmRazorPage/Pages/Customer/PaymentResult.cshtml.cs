@@ -9,7 +9,6 @@ using Service.Models;
 
 namespace KoiFarmRazorPage.Pages.Customer;
 
-[Authorize(Roles = "Customer")]
 
 public class PaymentResult : PageModel
 {
