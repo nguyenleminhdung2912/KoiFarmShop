@@ -1,4 +1,5 @@
 using BusinessObject;
+using KoiFarmRazorPage.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -24,11 +25,13 @@ public class ShipManagement : PageModel
     private readonly IWalletRepository _walletRepository;
 
     private readonly IHubContext<SignalRHub> hubContext;
+    
+    private readonly EmailService _emailService;
 
 
     public ShipManagement(IOrderRepository orderRepository, IProductRepository productRepository,
         IKoiFishRepository koiFishRepository, IHubContext<SignalRHub> hubContext, IUserRepository userRepository,
-        IWalletRepository walletRepository)
+        IWalletRepository walletRepository, EmailService emailService)
     {
         this._orderRepository = orderRepository;
         this._productRepository = productRepository;
@@ -36,6 +39,7 @@ public class ShipManagement : PageModel
         this._userRepository = userRepository;
         this._walletRepository = walletRepository;
         this.hubContext = hubContext;
+        _emailService = emailService;
     }
 
     public List<Order> Orders { get; set; } = new List<Order>();
@@ -305,6 +309,18 @@ public class ShipManagement : PageModel
                     order.Status = "CANCELLED";
                     order.ShipmentStatus = "CANCELLED";
                     _orderRepository.UpdateOrderByCancel(order);
+                    
+                    var subject = "Thông báo về việc huỷ đơn hàng!";
+                    var body = $@"
+            <p>Chào {user.Name},</p>
+            <p>Chúng tôi rất xin lỗi vì đơn hàng của bạn không thể đuợc hoàn thành.</p>
+            <p>Chúng tôi đã có những nhầm lẫn trong việc cung cấp sản phẩm lên nền tảng.</p>
+            <p>Một lần nữa, chúng tôi xin lỗi bạn vì sự bất tiện này!</p>
+            <p>Chúc bạn có một trải nghiệm tuyệt vời tại KoiFarm!</p>
+            <p>Trân trọng,<br/>Đội ngũ Koi Farm Shop</p>
+        ";
+
+                    await _emailService.SendEmailAsync(user.Email, subject, body);
                     LoadData();
                 }
                 else

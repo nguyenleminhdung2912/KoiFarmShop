@@ -7,6 +7,12 @@
 }
 
 <h2>Chi tiết Product</h2>
+@if (TempData["Message"] != null)
+{
+<div style="margin: 0 40vw 0 0.5vw" class="alert alert-success" role="alert">
+    @TempData["Message"]
+</div>
+}
 <div class="container mt-4">
     <div class="card mb-3">
         <div class="card-body">
