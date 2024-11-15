@@ -2,12 +2,19 @@
 @model KoiFarmRazorPage.Pages.Admin.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "Shared/_AdminLayout";
+ViewData["Title"] = "Edit User";
+Layout = "Shared/_AdminLayout";
 }
 
 <div class="container mt-5">
     <div class="card shadow-lg" style="border-radius: 12px;">
+        @if (TempData["UpdateSuccess"] != null)
+        {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@TempData["UpdateSuccess"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        }
         <div class="card-header text-white" style="background-color: #1f618d;">
             <h2 class="text-center">Edit User's Information</h2>
         </div>
@@ -16,33 +23,24 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="User.UserId"/>
 
+                <!-- Password -->
                 <div class="form-group mb-3">
-                    <label asp-for="User.Name" class="form-label font-weight-bold"></label>
-                    <input asp-for="User.Name" class="form-control" placeholder="Nhập tên người dùng" required="required"/>
-                    <span asp-validation-for="User.Name" class="text-danger"></span>
+                    <label asp-for="Password" class="form-label font-weight-bold"></label>
+                    <input asp-for="Password" type="password" class="form-control" id="passwordField" placeholder="Enter new password"/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
+                <!-- Confirm Password -->
                 <div class="form-group mb-3">
-                    <label asp-for="User.Email" class="form-label font-weight-bold"></label>
-                    <input asp-for="User.Email" class="form-control" placeholder="Nhập email" required="required"/>
-                    <span asp-validation-for="User.Email" class="text-danger"></span>
+                    <label asp-for="ConfirmPassword" class="form-label font-weight-bold"></label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPasswordField" placeholder="Confirm new password"/>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="User.Password" class="form-label font-weight-bold"></label>
-                    <input asp-for="User.Password" class="form-control" placeholder="Nhập mật khẩu" required="required"/>
-                    <span asp-validation-for="User.Password" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label asp-for="User.Phone" class="form-label font-weight-bold"></label>
-                    <input asp-for="User.Phone" class="form-control" placeholder="Nhập số điện thoại"/>
-                    <span asp-validation-for="User.Phone" class="text-danger"></span>
-                </div>
-
+                <!-- Role -->
                 <div class="form-group mb-3">
                     <label asp-for="User.Role" class="form-label font-weight-bold"></label>
-                    <select asp-for="User.Role" class="form-control" required="required">
+                    <select asp-for="User.Role" class="form-control">
                         <option value="">--Select role--</option>
                         <option value="Staff">Staff</option>
                         <option value="Customer">Customer</option>
@@ -51,10 +49,22 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-success" style="font-weight: bold; width: 100px;">Lưu</button>
-                    <a asp-page="./Index" class="btn btn-secondary ms-2" style="font-weight: bold; width: 100px;">Quay lại</a>
+                    <button type="submit" class="btn btn-success" style="font-weight: bold; width: 100px;">Save</button>
+                    <a asp-page="./Index" class="btn btn-secondary ms-2" style="font-weight: bold; width: 100px;">Back</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function (event) {
+        const passwordField = document.getElementById('passwordField');
+        const confirmPasswordField = document.getElementById('confirmPasswordField');
+
+        if (passwordField.value !== confirmPasswordField.value) {
+            event.preventDefault();
+            alert('Passwords do not match!');
+        }
+    });
+</script>

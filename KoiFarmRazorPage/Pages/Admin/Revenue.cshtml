@@ -14,6 +14,7 @@
             <div class="card bg-primary text-white shadow-sm hover-shadow">
                 <div class="card-body">
                     <h5 class="card-title">Doanh thu hôm nay</h5>
+                    <h5 class="card-title">@DateTime.Now.Date</h5>
                     <!-- Doanh thu hôm nay -->
                     <p class="card-text display-4">@string.Format("{0:N0}", Model.TodayRevenue) VNĐ</p>>
                 </div>
@@ -23,6 +24,7 @@
             <div class="card bg-success text-white shadow-sm hover-shadow">
                 <div class="card-body">
                     <h5 class="card-title">Doanh thu tháng này</h5>
+                    <h5 class="card-title">@DateTime.Now.Month / @DateTime.Now.Year</h5>
                     <p class="card-text display-4">@string.Format("{0:N0}", Model.MonthRevenue) VNĐ</p>
                 </div>
             </div>
@@ -31,6 +33,7 @@
             <div class="card bg-info text-white shadow-sm hover-shadow">
                 <div class="card-body">
                     <h5 class="card-title">Doanh thu năm nay</h5>
+                    <h5 class="card-title">@DateTime.Now.Year</h5>
                     <p class="card-text display-4">@string.Format("{0:N0}", Model.YearRevenue) VNĐ</p>
                 </div>
             </div>

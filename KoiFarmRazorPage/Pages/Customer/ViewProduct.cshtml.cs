@@ -12,11 +12,11 @@ public class ViewProduct : PageModel
 
     public ViewProduct(IProductRepository productRepository)
     {
-        this._productRepository = productRepository;
+        _productRepository = productRepository;
     }
     
-    public void OnGet()
+    public async Task OnGet()
     {
-        Products = _productRepository.GetProductForCustomer();
+        Products = await _productRepository.GetProductForCustomer();
     }
 }

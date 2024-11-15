@@ -21,7 +21,7 @@ namespace DataAccessObject
                 using var context = new KoiFarmShopDatabaseContext();
                 list = context.KoiFishes
                     .Include(kf => kf.KoiFishRatings)
-                    .Where(kf => kf.IsDeleted == false)
+                    .Where(kf => kf.IsDeleted == false && kf.Status.Equals("Available"))
                     .ToList();
             }
             catch (Exception ex)

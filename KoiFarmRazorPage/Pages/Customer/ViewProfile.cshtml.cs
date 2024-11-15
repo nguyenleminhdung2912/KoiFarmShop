@@ -22,8 +22,9 @@ namespace KoiFarmRazorPage.Pages.Customer
         private readonly IKoiFishRepository koiFishRepository;
         private readonly IProductRepository productRepository;
         private readonly IHubContext<SignalRHub> hubContext;
+        private readonly EmailService _emailService;
 
-        public ViewProfileModel(IVnPayService vnPayService, IHubContext<SignalRHub> hubContext)
+        public ViewProfileModel(IVnPayService vnPayService, IHubContext<SignalRHub> hubContext, EmailService emailService)
         {
             userRepository = new UserRepository();
             walletRepository = new WalletRepository();
@@ -33,6 +34,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             koiFishRepository = new KoiFishRepository();
             productRepository = new ProductRepository();
             this.hubContext = hubContext;
+            _emailService = emailService;
         }
 
         [BindProperty] public User UserProfile { get; set; }
@@ -123,12 +125,24 @@ namespace KoiFarmRazorPage.Pages.Customer
                 return NotFound();
             }
             
+            List<KoiFish> koiFishes= koiFishRepository.GetKoiFishsByListString(order.KoiFishId);
+            List<Product> products= productRepository.GetProductsByListString(order.KoiFishId);
             
             // Huỷ đơn hàng
-            await orderRepository.CancelOrder(order, user.UserId);
+            await orderRepository.CancelOrder(order, user.UserId, koiFishes, products);
             
             TempData["SuccessMessage"] = "Order has been successfully cancelled.";
             
+            var subject = "Đơn hàng đã được huỷ thành công!";
+            var body = $@"
+            <p>Chào {user.Name},</p>
+            <p>Đơn hàng của bạn đã được huỷ thành công.</p>
+            <p>Chúng tôi rất tiếc khi bạn không còn hứng thú với sản phẩm, nếu có vấn đề gì xin hãy liên hệ với chúng tôi.</p>
+            <p>Chúc bạn có một trải nghiệm tuyệt vời tại KoiFarm!</p>
+            <p>Trân trọng,<br/>Đội ngũ Koi Farm Shop</p>
+        ";
+
+            await _emailService.SendEmailAsync(user.Email, subject, body);
             await hubContext.Clients.All.SendAsync("RefreshData");
             
             return RedirectToPage(); // Quay lại trang sau khi hủy

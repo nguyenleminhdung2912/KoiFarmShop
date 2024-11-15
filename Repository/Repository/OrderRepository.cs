@@ -42,7 +42,7 @@ namespace Repository.Repository
         public async Task<bool> UpdateOrder(Order order)
         => await OrderDAO.UpdateOrder(order);
         
-        public async Task<bool> CancelOrder(Order order, long userId)
-            => await OrderDAO.CancelOrder(order, userId);
+        public async Task<bool> CancelOrder(Order order, long userId, List<KoiFish> koiFishes, List<Product> products)
+            => await OrderDAO.CancelOrder(order, userId, koiFishes, products);
     }
 }

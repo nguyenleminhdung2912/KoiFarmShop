@@ -118,6 +118,8 @@ namespace DataAccessObject
                         currentUser.Phone = user.Phone;
                     if (!user.Role.IsNullOrEmpty())
                         currentUser.Role = user.Role;
+                    if (!user.Password.IsNullOrEmpty())
+                        currentUser.Password = user.Password;
                     currentUser.IsDeleted = user.IsDeleted;
                     context.Users.Update(currentUser);
                     context.SaveChanges();

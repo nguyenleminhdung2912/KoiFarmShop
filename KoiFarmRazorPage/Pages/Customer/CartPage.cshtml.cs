@@ -1,4 +1,5 @@
 // CartPageModel.cs
+
 using BusinessObject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Repository.IRepository;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using KoiFarmRazorPage.Service;
 
 namespace KoiFarmRazorPage.Pages.Customer
 {
@@ -19,14 +21,15 @@ namespace KoiFarmRazorPage.Pages.Customer
         private readonly IUserRepository _userRepository;
         private readonly IKoiFishRepository _koiFishRepository;
         private readonly IProductRepository _productRepository;
-
+        private readonly EmailService _emailService;
         public CartPageModel(
             ICartRepository cartRepository,
             IWalletRepository walletRepository,
             IOrderRepository orderRepository,
             IUserRepository userRepository,
             IKoiFishRepository koiFishRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            EmailService emailService)
         {
             _cartRepository = cartRepository;
             _walletRepository = walletRepository;
@@ -34,6 +37,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             _userRepository = userRepository;
             _koiFishRepository = koiFishRepository;
             _productRepository = productRepository;
+            _emailService = emailService;
         }
 
         public Cart Cart { get; set; }
@@ -52,6 +56,7 @@ namespace KoiFarmRazorPage.Pages.Customer
             {
                 _cartRepository.UpdateQuantity(id, itemType, quantity);
             }
+
             return RedirectToPage();
         }
 
@@ -88,7 +93,7 @@ namespace KoiFarmRazorPage.Pages.Customer
 
             if (wallet.Total < Cart.TotalPrice)
             {
-                ErrorMessage = $"Insufficient funds. Please add {(Cart.TotalPrice - wallet.Total):C} to your wallet";
+                ErrorMessage = $"Số tiền trong ví không đủ. Nãy nạp {(Cart.TotalPrice - wallet.Total):N0} VND vào ví để thanh toán.";
                 return Page();
             }
 
@@ -152,7 +157,7 @@ namespace KoiFarmRazorPage.Pages.Customer
                 // Update koi fish status to SOLD
                 foreach (var item in Cart.KoiFishItems)
                 {
-                     _koiFishRepository.UpdateKoiFishStatus(item.Id, "Sold Out");
+                    _koiFishRepository.UpdateKoiFishStatus(item.Id, "Sold Out");
                 }
 
                 // Update product quantities
@@ -162,6 +167,12 @@ namespace KoiFarmRazorPage.Pages.Customer
                     if (product != null)
                     {
                         product.Quantity -= item.Quantity;
+                        if (product.Quantity == 0)
+                        {
+                            product.Status = "Sold Out";
+                            product.Quantity = 0;
+                        }
+
                         _productRepository.UpdateProduct(product);
                     }
                 }
@@ -174,6 +185,16 @@ namespace KoiFarmRazorPage.Pages.Customer
                 _cartRepository.ClearCart();
 
                 SuccessMessage = "Order placed successfully!";
+                var user = _userRepository.GetUserByEmail(userEmail);
+                var subject = "Đơn hàng đã được đặt thành công!";
+                var body = $@"
+            <p>Chào {user.Name},</p>
+            <p>Chúc mừng đơn hàng của bạn đã được đặt thành công.</p>
+            <p>Chúc bạn có một trải nghiệm tuyệt vời tại KoiFarm!</p>
+            <p>Trân trọng,<br/>Đội ngũ Koi Farm Shop</p>
+        ";
+
+                await _emailService.SendEmailAsync(user.Email, subject, body);
                 return RedirectToPage("/Customer/Index");
             }
             catch (Exception ex)
