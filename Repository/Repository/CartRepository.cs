@@ -31,6 +31,17 @@ namespace Repository.Repository
             }
             return cart;
         }
+        
+        public List<CartItem> GetCartItems()
+        {
+            var cart = GetCart();
+            // Combine both KoiFish and Product items into a single list
+            var allItems = new List<CartItem>();
+            allItems.AddRange(cart.KoiFishItems);
+            allItems.AddRange(cart.ProductItems);
+            return allItems;
+        }
+
 
         public void SaveCart(Cart cart)
         {
