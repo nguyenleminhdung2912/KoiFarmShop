@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KoiFarmRazorPage")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+684b7c3b5dc5f786e735ac037c75160e3434b784")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+edd55a7cbed78fb4c54e69d121e5c0581535cee8")]
 [assembly: System.Reflection.AssemblyProductAttribute("KoiFarmRazorPage")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KoiFarmRazorPage")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

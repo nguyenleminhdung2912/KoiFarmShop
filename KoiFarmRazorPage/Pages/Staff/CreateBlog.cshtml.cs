@@ -59,7 +59,6 @@ public class CreateBlog : PageModel
             if (_blogRepository.AddBlog(Blog))
             {
                 TempData["SuccessMessage"] = "Tao blog thành công!!!";
-                hubContext.Clients.All.SendAsync("RefreshData");
 
                 return RedirectToPage("/Staff/BlogManagement");
             }

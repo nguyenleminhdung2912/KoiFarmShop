@@ -98,7 +98,7 @@ namespace KoiFarmRazorPage.Pages.Staff
                     }
                 }
             }
-            hubContext.Clients.All.SendAsync("RefreshData");
+            // hubContext.Clients.All.SendAsync("RefreshData");
 
             return Page();
         }

@@ -157,7 +157,6 @@ public class CreateKoiFish : PageModel
             if (_koiFishRepository.CreateKoiFish(koiFish))
             {
                 TempData["KoiFishSuccess"] = "Tạo cá koi thành công";
-                hubContext.Clients.All.SendAsync("RefreshData");
 
                 return RedirectToPage("/Staff/KoiFishManagement");
             }
