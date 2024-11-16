@@ -81,7 +81,7 @@ public class ConsignmentManagement : PageModel
             }
         }
         
-        hubContext.Clients.All.SendAsync("RefreshData");
+        // hubContext.Clients.All.SendAsync("RefreshData");
 
         return Page();
     }

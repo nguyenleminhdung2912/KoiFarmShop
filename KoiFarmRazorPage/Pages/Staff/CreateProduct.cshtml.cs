@@ -123,7 +123,6 @@ namespace KoiFarmRazorPage.Pages.Staff
 				product.IsDeleted = false;
 				productRepository.AddProduct(product);
 				TempData["SuccessMessage"] = "Tao product thành công!!!";
-				hubContext.Clients.All.SendAsync("RefreshData");
 
 				return RedirectToPage("/Staff/ProductManagement");
 			}

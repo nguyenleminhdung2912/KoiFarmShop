@@ -48,7 +48,7 @@ public class ApproveConsignment : PageModel
             {
                 TempData["SuccessMessage"] = "Approve consignment thành công!!!";
                 
-                hubContext.Clients.All.SendAsync("RefreshData");
+              
 
                 return RedirectToPage("/Staff/ConsignmentManagement");
             }

@@ -96,7 +96,7 @@ public class KoiFishManagement : PageModel
                return RedirectToPage("/Staff/UpdateKoiFish", new { id = long.Parse(Request.Form["selectedKoiFishId"]) });
             }
         }
-        hubContext.Clients.All.SendAsync("RefreshData");
+        // hubContext.Clients.All.SendAsync("RefreshData");
 
         return Page();
     }
